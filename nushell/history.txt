@@ -1,0 +1,29 @@
+clear
+ls
+l
+ls -a
+z .config
+cd .config
+ls -a
+ls
+clear
+ls -a
+clear
+tree .
+tree
+clear
+ls
+ls -a
+du -h /path/to/directory | sort -rh
+z
+ls -a
+z .git
+l
+cd .git
+ls -a
+cd
+dev
+cd dev
+ls -a
+z
+clear

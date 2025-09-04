@@ -1,0 +1,44 @@
+sw_volume: 70
+audio_device_state:1:pulse audio
+state: pause
+current: 28
+time: 23.085
+random: 0
+repeat: 0
+single: 0
+consume: 0
+crossfade: 0
+mixrampdb: 0
+mixrampdelay: -1
+lastloadedplaylist: 
+playlist_begin
+0:dq-paranoiafreestyle.mp3
+1:lucki-callingyou.mp3
+2:lucki-cupid.mp3
+3:lucki-dollaflip.mp3
+4:veeze.mp3
+5:savv4x-shoot&drive.mp3
+6:lucki-hitech.mp3
+7:lucki-1way.mp3
+8:lucki-1way.mp3
+9:lucki-goharder.mp3
+10:lucki-findme.mp3
+11:lucki-findme.mp3
+12:lucki-goharder.mp3
+13:dq-paranoiafreestyle.mp3
+14:dq-backinblood.mp3
+15:lucki-notrust.mp3
+16:lucki-notrust.mp3
+17:lucki-maybfanta.mp3
+18:yeat-juscamein.mp3
+19:savv4x-shoot&drive.mp3
+20:mandown.mp3
+21:mandown.mp3
+22:savv4x-boysdontcry.mp3
+23:lucki-hitech.mp3
+24:lucki-letmebe.mp3
+25:lucki-samedrugs.mp3
+26:lucki-samedrugs.mp3
+27:lucki-hitech.mp3
+28:dq-backinblood.mp3
+playlist_end
