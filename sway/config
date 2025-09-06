@@ -1,3 +1,6 @@
+bindsym --locked Home exec mpc next
+bindsym --locked Delete exec mpc prev
+bindsym --locked Insert exec mpc toggle
 set $mod Mod4
 font pango:Jet Brains Mono: 15px
 default_border pixel 2
@@ -50,9 +53,9 @@ bindsym $mod+r mode "r"
 input type:keyboard {
 				xkb_options ctrl:swapcaps
 }
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% && notify-send "Volume Up" 
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% && notify-send "Volume Down" 
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && notify-send "Volume Muted/Unmuted"
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% 
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% 
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle 
 
 bar {
 				status_command ~/dev/scripts/status.sh 
@@ -73,9 +76,10 @@ bar {
 # bindsym $mod+b exec qutebrowser
 # exec_always "killall waybar; waybar"
 exec_always "killall swaybg; swaybg --m fill -i ~/Downloads/papers/mac3.jpg"
+exec_always "killall mpd; mpd"
 bindsym $mod+Return exec foot 
 bindsym $mod+b exec firefox
-bindsym $mod+m exec spotify
+bindsym $mod+m exec foot -e rmpc
 bindsym $mod+space exec dmenu_run -i -b
 bindsym $mod+d exec grim -g "$(slurp)" - | wl-copy
 bindsym $mod+c exec ~/dev/scripts/rec.sh
