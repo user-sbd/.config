@@ -1,8 +1,8 @@
 sw_volume: 100
 audio_device_state:1:pulse audio
-state: pause
-current: 21
-time: 0.775
+state: play
+current: 75
+time: 88.236
 random: 0
 repeat: 0
 single: 0
@@ -34,4 +34,58 @@ playlist_begin
 19:lucki-bossbitch.mp3
 20:lucki-blueperc.mp3
 21:lucki-nobap.mp3
+22:100otd.mp3
+23:yabi-weeeeee.mp3
+24:yabi-goatthings.mp3
+25:lucki-timers.mp3
+26:lucki-staywitme.mp3
+27:politics-lucki.mp3
+28:lucki-whenyoutalk.mp3
+29:lucki-roleplay.m4a
+30:pololucki.mp3
+31:lucki-itsbool.mp3
+32:lucki-inmyeye.mp3
+33:lucki-hustlermuzik.mp3
+34:lucki-nobap.mp3
+35:lucki-neededme.mp3
+36:lucki-nascardashcar.mp3
+37:lucki-neededme.mp3
+38:beat.mp3
+39:Victim.mp3
+40:tallup-mandown.mp3
+41:savv4x-shoot&drive.mp3
+42:lucki-whogotme.mp3
+43:lucki-whoyoureallykidding.m4a
+44:lucki-world2me.mp3
+45:lucki-noid.mp3
+46:beat.mp3
+47:100otd.mp3
+48:comeup.mp3
+49:dababy-today.mp3
+50:comeup.mp3
+51:dababy-today.mp3
+52:duvy-may17th.mp3
+53:lucki-goharder.mp3
+54:lucki-deadwrong.mp3
+55:lucki-dialtone.mp3
+56:lucki-diddatshiiii.mp3
+57:lucki-dontgetcomfortable.mp3
+58:lucki-emptypockets.mp3
+59:lucki-diddatshiiii.mp3
+60:savv4x-letsplayagame.mp3
+61:lucki-1way.mp3
+62:lucki-4everybody.mp3
+63:lucki-callingyou.mp3
+64:lucki-cupid.mp3
+65:lucki-dollaflip.mp3
+66:lucki-dollaflip.mp3
+67:lucki-done.mp3
+68:lucki-donyouloveme.mp3
+69:lucki-doyouworry.mp3
+70:lucki-driveslow.mp3
+71:lucki-floorseats.mp3
+72:lucki-driveslow.mp3
+73:lucki-goharder.mp3
+74:lucki-bbygoat.mp3
+75:lucki-beans.mp3
 playlist_end
