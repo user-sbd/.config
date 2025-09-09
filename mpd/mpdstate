@@ -1,6 +1,8 @@
-sw_volume: 75
+sw_volume: 85
 audio_device_state:1:pulse audio
-state: stop
+state: pause
+current: 200
+time: 1.323
 random: 0
 repeat: 0
 single: 0
@@ -142,4 +144,73 @@ playlist_begin
 129:lucki-timers.mp3
 130:bunnaBCF-mind.mp3
 131:bunnaBCF-ManDown.mp3
+132:lucki-doyouworry.mp3
+133:lucki-invitation.mp3
+134:lucki-nobap.mp3
+135:lucki-neededme.mp3
+136:lucki-nascardashcar.mp3
+137:lucki-moneycantbuy.mp3
+138:lucki-maybfanta.mp3
+139:pololucki.mp3
+140:savv4x-organizedcrime.mp3
+141:savv4x-nopretend.mp3
+142:Victim.mp3
+143:yabi-goatthings.mp3
+144:bunnaBCF-NEWLEAKS.mp3
+145:bunnaBCF-whywhy.mp3
+146:ksbvndz-legman.mp3
+147:jaaybo-5k.mp3
+148:Gunna-WeSomeToughShottas.mp3
+149:comeup.mp3
+150:dababy-today.mp3
+151:lucki-amg.mp3
+152:yabi-goatthings.mp3
+153:yabi-weeeeee.mp3
+154:yabi-goatthings.mp3
+155:yabi-weeeeee.mp3
+156:lucki-goku.mp3
+157:lucki-maybfanta.mp3
+158:lucki-pinkroses.mp3
+159:lucki-pedel.mp3
+160:lucki-outmybody.mp3
+161:politics-lucki.mp3
+162:bunnaBCF-ManDown.mp3
+163:beat.mp3
+164:liljhola-twerk.mp3
+165:Gunna-Sticky.mp3
+166:jaaybo-5k.mp3
+167:yabi-goatthings.mp3
+168:bunnaBCF-purging.mp3
+169:bunnaBCF-Package.mp3
+170:bunnaBCF-onpoint.mp3
+171:bunnaBCF-NEWLEAKS.mp3
+172:xotourlife.mp3
+173:Victim.mp3
+174:tallup-mandown.mp3
+175:yabi-goatthings.mp3
+176:yabi-weeeeee.mp3
+177:yabi-weeeeee.mp3
+178:lucki-doyouworry.mp3
+179:lucki-lastyear.mp3
+180:jaaybo-5k.mp3
+181:DQ-paranoiafreestyle.mp3
+182:bhanmuji.mp3
+183:beat.mp3
+184:yabi-weeeeee.mp3
+185:lucki-staywitme.mp3
+186:lucki-hush-skit.mp3
+187:lucki-maybfanta.mp3
+188:lucki-pumpfakin.mp3
+189:lucki-pinkroses.mp3
+190:lucki-pumpfakin.mp3
+191:lucki-hitech.mp3
+192:DQ-paranoiafreestyle.mp3
+193:DQ-backinblood.mp3
+194:duvy-may17th.mp3
+195:duvy-may17th.mp3
+196:DQ-paranoiafreestyle.mp3
+197:lucki-geekmonster.mp3
+198:lucki-go2damoon.mp3
+199:lucki-maybfanta.mp3
+200:lucki-losttime.mp3
 playlist_end

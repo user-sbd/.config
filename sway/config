@@ -3,10 +3,9 @@ bindsym --locked Delete exec mpc prev
 bindsym --locked Insert exec mpc toggle
 set $mod Mod4
 font pango:Jet Brains Mono: 15px
-default_border pixel 2
-default_floating_border pixel 2
-gaps inner 2
-gaps outer 3
+default_border pixel 1
+gaps inner 0
+gaps outer 0
 client.focused        #313c66 #313c66 #313c66
 for_window [class=".*"] border #313c66 
 floating_modifier $mod
@@ -84,6 +83,6 @@ bindsym $mod+space exec dmenu_run -i -b
 bindsym $mod+d exec grim -g "$(slurp)" - | wl-copy
 bindsym $mod+c exec ~/dev/scripts/rec.sh
 bindsym $mod+p exec ~/dev/scripts/latestvid.sh
-bindsym $mod+w exec "cd dev/wifey && feh"
+bindsym $mod+w exec "feh ~/dev/wifey/"
 bindsym $mod+shift+period exec "hyprlock"
 bindsym $mod+shift+c exec "swaymsg reload"

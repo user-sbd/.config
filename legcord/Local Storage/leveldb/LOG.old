@@ -1,2 +1,6 @@
-2025/09/04-21:39:58.675 12f02f Creating DB /home/user/.config/legcord/Local Storage/leveldb since it was missing.
-2025/09/04-21:39:59.258 12f02f Reusing MANIFEST /home/user/.config/legcord/Local Storage/leveldb/MANIFEST-000001
+2025/09/09-11:18:27.191 177aa6 Reusing MANIFEST /home/user/.config/legcord/Local Storage/leveldb/MANIFEST-000001
+2025/09/09-11:18:27.196 177aa6 Recovering log #4
+2025/09/09-11:18:27.304 177aa6 Reusing old log /home/user/.config/legcord/Local Storage/leveldb/000004.log 
+2025/09/09-11:20:31.480 177aa7 Level-0 table #8: started
+2025/09/09-11:20:31.537 177aa7 Level-0 table #8: 42474 bytes OK
+2025/09/09-11:20:31.604 177aa7 Delete type=0 #4
