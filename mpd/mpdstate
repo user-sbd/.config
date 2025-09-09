@@ -1,8 +1,6 @@
-sw_volume: 100
+sw_volume: 75
 audio_device_state:1:pulse audio
-state: play
-current: 75
-time: 88.236
+state: stop
 random: 0
 repeat: 0
 single: 0
@@ -88,4 +86,60 @@ playlist_begin
 73:lucki-goharder.mp3
 74:lucki-bbygoat.mp3
 75:lucki-beans.mp3
+76:lucki-beans.mp3
+77:lucki-hitech.mp3
+78:DQ-paranoiafreestyle.mp3
+79:lucki-geekmonster.mp3
+80:lucki-geekmonster.mp3
+81:lucki-1way.mp3
+82:lucki-4everybody.mp3
+83:lucki-callingyou.mp3
+84:lucki-cupid.mp3
+85:lucki-dollaflip.mp3
+86:lucki-done.mp3
+87:lucki-donyouloveme.mp3
+88:lucki-done.mp3
+89:lucki-donyouloveme.mp3
+90:lucki-doyouworry.mp3
+91:lucki-driveslow.mp3
+92:lucki-floorseats.mp3
+93:lucki-go2damoon.mp3
+94:lucki-goku.mp3
+95:lucki-higherthanpluto.mp3
+96:lucki-highoffyou.mp3
+97:lucki-hitme.mp3
+98:bunnaBCF-whywhy.mp3
+99:bunnaBCF-unreleased.mp3
+100:bunnaBCF-toooffended.mp3
+101:100otd.mp3
+102:lucki-onthelow.mp3
+103:lucki-lastyear.mp3
+104:lucki-losttime.mp3
+105:lucki-maybfanta.mp3
+106:lucki-pedel.mp3
+107:lucki-outmybody.mp3
+108:lucki-orangeleatherseats.mp3
+109:lucki-onthelow.mp3
+110:lucki-notrust.mp3
+111:lucki-stupidhoes.mp3
+112:lucki-stab.mp3
+113:lucki-rearview.mp3
+114:lucki-rearview.mp3
+115:lucki-pumpfakin.mp3
+116:lucki-pinkroses.mp3
+117:lucki-rearview.mp3
+118:lucki-pumpfakin.mp3
+119:lucki-rearview.mp3
+120:lucki-stab.mp3
+121:lucki-stupidhoes.mp3
+122:yabi-goatthings.mp3
+123:lucki-timers.mp3
+124:lucki-staywitme.mp3
+125:lucki-staywitme.mp3
+126:politics-lucki.mp3
+127:yabi-weeeeee.mp3
+128:yabi-goatthings.mp3
+129:lucki-timers.mp3
+130:bunnaBCF-mind.mp3
+131:bunnaBCF-ManDown.mp3
 playlist_end

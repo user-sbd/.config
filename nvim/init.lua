@@ -31,7 +31,10 @@ require("mini.pick").setup({
 
 local map = vim.keymap.set
 
+
+map('t', '<Esc>', '<C-\\><C-n>')
 map('n', '<leader><leader>', '<CMD>Pick files<CR>', { silent = true })
+map('n', '<leader>fc', '<CMD>e $MYVIMRC<CR>', { silent = true })
 map('n', '<leader>fh', '<CMD>Pick help<CR>', { silent = true })
 map('n', '<leader>gl', '<CMD>Pick grep_live<CR>', { silent = true })
 map('n', '<leader>tp', ':TypstPreview<CR>', { silent = true })
