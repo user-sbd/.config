@@ -1,6 +1,8 @@
-sw_volume: 100
+sw_volume: 30
 audio_device_state:1:pulse audio
-state: stop
+state: pause
+current: 13
+time: 84.23100000000001
 random: 0
 repeat: 0
 single: 0
@@ -15,4 +17,13 @@ playlist_begin
 2:lucki-hitech.mp3
 3:lucki-supersportshit.mp3
 4:lucki-hitech.mp3
+5:lucki-driveslow.mp3
+6:lucki-supersportshit.mp3
+7:lucki-doyouworry.mp3
+8:lucki-ittaketime.mp3
+9:lucki-losttime.mp3
+10:lucki-lastyear.mp3
+11:lucki-oneofone.mp3
+12:lucki-done.mp3
+13:fake/ken-LiveLeak.mp3
 playlist_end
