@@ -76,9 +76,9 @@ bar {
 # exec_always "killall waybar; waybar"
 exec_always "killall swaybg; swaybg --m fill -i ~/Downloads/papers/mac3.jpg"
 exec_always "killall mpd; mpd"
-bindsym $mod+Return exec foot 
+bindsym $mod+Return exec alacritty
 bindsym $mod+b exec firefox
-bindsym $mod+m exec foot -e rmpc
+bindsym $mod+m exec alacritty -e rmpc
 bindsym $mod+space exec dmenu_run -i -b
 bindsym $mod+d exec grim -g "$(slurp)" - | wl-copy
 bindsym $mod+c exec ~/dev/scripts/rec.sh

@@ -5,7 +5,7 @@ vim.o.tabstop = 2
 vim.o.wrap = false
 vim.o.cursorcolumn = false
 vim.o.ignorecase = true
-vim.ouicursor = ""
+vim.guicursor = ""
 vim.o.shiftwidth = 2
 vim.o.smartindent = true
 vim.o.number = true
@@ -42,9 +42,24 @@ require("oil").setup({
 	view_options = {
 		show_hidden = true,
 	},
+	keymaps = {
+		["gd"] = {
+			desc = "Toggle file detail view",
+			callback = function()
+				detail = not detail
+				if detail then
+					require("oil").set_columns({ "icon", "size", "mtime" })
+				else
+					require("oil").set_columns({ "icon" })
+				end
+			end,
+		},
+	},
+
 })
 
 map('n', '<leader><leader>', ":Pick files<CR>")
+map('n', '<leader>ff', ":Pick files<CR>")
 map('n', '<leader>fh', ":Pick help<CR>")
 map('n', '<leader>tp', ':TypstPreview<CR>', { silent = true })
 map('n', '<esc>', ':nohlsearch <CR>', { silent = true })
@@ -65,7 +80,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
 	end,
 })
 
-map('t', '', "")
 map('n', '<leader>lf', vim.lsp.buf.format)
 vim.cmd [[set completeopt+=menuone,noselect,popup]]
 

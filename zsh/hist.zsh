@@ -1,6 +1,6 @@
 sk-history-widget() {
   local selected
-  selected=$(tac ~/.zsh_history | awk '!seen[$0]++' | sk --color="bw" --margin 3%)
+  selected=$(tac ~/.zsh_history | awk '!seen[$0]++' | sk --color="bw" --margin 10%)
   if [[ -n "$selected" ]]; then
     BUFFER="$selected"
     CURSOR=${#BUFFER}

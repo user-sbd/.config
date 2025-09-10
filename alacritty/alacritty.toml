@@ -1,0 +1,20 @@
+[general]
+live_config_reload = true
+[font]
+normal = {family = "JetBrains Mono" }
+size = 18.5
+
+[colors.primary]
+background = "#1a1a1a" # Example background color
+foreground = "#d8d8d8" # Example foreground color
+
+[colors.normal]
+black = "#181818"
+red = "#ac4242"
+green = "#90a959"
+yellow = "#f4bf75"
+blue = "#6a9fb5"
+magenta = "#aa759f"
+cyan = "#75b5aa"
+white = "#d8d8d8"
+
