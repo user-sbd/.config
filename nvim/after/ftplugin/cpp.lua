@@ -1,3 +1,3 @@
 vim.cmd([[
-		set makeprg=cd\ build\ &&\ make\;
+		set makeprg=gcc\%\;
 ]])

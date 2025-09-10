@@ -3,7 +3,7 @@ bindsym --locked Delete exec mpc prev
 bindsym --locked Insert exec mpc toggle
 set $mod Mod4
 font pango:Jet Brains Mono: 15px
-default_border pixel 1
+default_border pixel 0
 gaps inner 0
 gaps outer 0
 client.focused        #313c66 #313c66 #313c66
