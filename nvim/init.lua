@@ -2,8 +2,7 @@ vim.cmd([[set mouse=]])
 vim.cmd([[set noswapfile]])
 vim.o.winborder = "rounded"
 vim.o.tabstop = 2
-vim.o.wrap = false
-vim.o.cursorcolumn = false
+vim.o.wrap = true
 vim.o.ignorecase = true
 vim.guicursor = ""
 vim.o.shiftwidth = 2

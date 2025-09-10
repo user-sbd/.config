@@ -1,3 +1,9 @@
-2025/09/09-11:34:56.023 191ca1 Reusing MANIFEST /home/user/.config/legcord/Local Storage/leveldb/MANIFEST-000001
-2025/09/09-11:34:56.037 191ca1 Recovering log #7
-2025/09/09-11:34:56.073 191ca1 Reusing old log /home/user/.config/legcord/Local Storage/leveldb/000007.log 
+2025/09/10-15:03:46.387 f811c Reusing MANIFEST /home/user/.config/legcord/Local Storage/leveldb/MANIFEST-000001
+2025/09/10-15:03:46.390 f811c Recovering log #7
+2025/09/10-15:03:46.450 f811c Reusing old log /home/user/.config/legcord/Local Storage/leveldb/000007.log 
+2025/09/10-15:05:52.892 f811c Level-0 table #11: started
+2025/09/10-15:05:52.992 f811c Level-0 table #11: 75473 bytes OK
+2025/09/10-15:05:53.069 f811c Delete type=0 #7
+2025/09/10-15:18:28.882 f811d Level-0 table #13: started
+2025/09/10-15:18:28.979 f811d Level-0 table #13: 30327 bytes OK
+2025/09/10-15:18:29.046 f811d Delete type=0 #10

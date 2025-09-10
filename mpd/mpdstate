@@ -1,4 +1,4 @@
-sw_volume: 45
+sw_volume: 60
 audio_device_state:1:pulse audio
 state: stop
 random: 0
@@ -62,4 +62,64 @@ playlist_begin
 49:lucki-world2me.mp3
 50:lucki-zeroto220.mp3
 51:lucki-world2me.mp3
+52:lucki-whogotme.mp3
+53:lucki-whatisleft.mp3
+54:lucki-waitingon.mp3
+55:lucki-toofar.mp3
+56:lucki-teacher.mp3
+57:lucki-takemeback.mp3
+58:lucki-switchlanes.mp3
+59:lucki-stoptheact.mp3
+60:lucki-static.mp3
+61:lucki-sixforty.mp3
+62:lucki-serpent.m4a
+63:lucki-seethrough.mp3
+64:lucki-samedrugs.mp3
+65:lucki-roleplay.m4a
+66:lucki-richjunkie.m4a
+67:lucki-purecodeine.mp3
+68:lucki-psychotruck.mp3
+69:lucki-pressure.mp3
+70:lucki-psychotruck.mp3
+71:lucki-pickaflaw.mp3
+72:lucki-supersportshit.mp3
+73:lucki-geekmonster.mp3
+74:lucki-4everybody.mp3
+75:lucki-callingyou.mp3
+76:lucki-cupid.mp3
+77:lucki-dollaflip.mp3
+78:lucki-done.mp3
+79:lucki-donyouloveme.mp3
+80:lucki-doyouworry.mp3
+81:lucki-driveslow.mp3
+82:lucki-floorseats.mp3
+83:lucki-floorseats.mp3
+84:lucki-go2damoon.mp3
+85:lucki-goku.mp3
+86:lucki-higherthanpluto.mp3
+87:lucki-highoffyou.mp3
+88:lucki-hush-skit.mp3
+89:lucki-invitation.mp3
+90:lucki-lastyear.mp3
+91:lucki-losttime.mp3
+92:lucki-maybfanta.mp3
+93:lucki-moneycantbuy.mp3
+94:lucki-nascardashcar.mp3
+95:lucki-neededme.mp3
+96:lucki-nobap.mp3
+97:lucki-nojoke.mp3
+98:lucki-neededme.mp3
+99:lucki-nobap.mp3
+100:lucki-neededme.mp3
+101:lucki-nascardashcar.mp3
+102:lucki-moneycantbuy.mp3
+103:lucki-maybfanta.mp3
+104:lucki-hitech.mp3
+105:lucki-done.mp3
+106:lucki-moneycantbuy.mp3
+107:lucki-moneycantbuy.mp3
+108:fake/100otd.mp3
+109:fake/beat.mp3
+110:fake/bhanmuji.mp3
+111:fake/bunnabcf-drizzy.mp3
 playlist_end
