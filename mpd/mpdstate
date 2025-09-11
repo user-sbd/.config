@@ -1,4 +1,4 @@
-sw_volume: 60
+sw_volume: 80
 audio_device_state:1:pulse audio
 state: stop
 random: 0
@@ -122,4 +122,39 @@ playlist_begin
 109:fake/beat.mp3
 110:fake/bhanmuji.mp3
 111:fake/bunnabcf-drizzy.mp3
+112:lucki-hitech.mp3
+113:lucki-done.mp3
+114:lucki-donyouloveme.mp3
+115:lucki-doyouworry.mp3
+116:lucki-driveslow.mp3
+117:lucki-goku.mp3
+118:lucki-higherthanpluto.mp3
+119:lucki-samedrugs.mp3
+120:lucki-roleplay.m4a
+121:lucki-richjunkie.m4a
+122:lucki-pressure.mp3
+123:fake/bunnabcf-vixen.mp3
+124:fake/jaaybo-5k.mp3
+125:fake/gunna-wesometoughshottas.mp3
+126:fake/dq-backinblood.mp3
+127:fake/savv4x-51deadopps.mp3
+128:fake/savv4x-hahaha.mp3
+129:fake/savv4x-formymom.mp3
+130:fake/victim.mp3
+131:fake/xotourlife.mp3
+132:fake/jaaybo-5k.mp3
+133:fake/gunna-sticky.mp3
+134:fake/dababy-today.mp3
+135:lucki-donyouloveme.mp3
+136:lucki-hitech.mp3
+137:lucki-geekmonster.mp3
+138:lucki-1way.mp3
+139:lucki-4everybody.mp3
+140:lucki-cupid.mp3
+141:lucki-dollaflip.mp3
+142:lucki-done.mp3
+143:lucki-donyouloveme.mp3
+144:lucki-doyouworry.mp3
+145:lucki-driveslow.mp3
+146:lucki-floorseats.mp3
 playlist_end

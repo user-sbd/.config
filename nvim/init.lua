@@ -41,31 +41,17 @@ require("oil").setup({
 	view_options = {
 		show_hidden = true,
 	},
-	keymaps = {
-		["gd"] = {
-			desc = "Toggle file detail view",
-			callback = function()
-				detail = not detail
-				if detail then
-					require("oil").set_columns({ "icon", "size", "mtime" })
-				else
-					require("oil").set_columns({ "icon" })
-				end
-			end,
-		},
-	},
-
 })
 
-map('n', '<leader><leader>', ":Pick files<CR>")
-map('n', '<leader>ff', ":Pick files<CR>")
-map('n', '<leader>fh', ":Pick help<CR>")
-map('n', '<leader>tp', ':TypstPreview<CR>', { silent = true })
-map('n', '<esc>', ':nohlsearch <CR>', { silent = true })
+map('n', '<leader><leader>', ":Pick files<CR>", { silent = true })
+map('n', '<leader>ff', ":Pick files<CR>", { silent = true })
+map('n', '<leader>fh', ":Pick help<CR>", { silent = true })
+map('n', '-', ":Oil<CR>", { silent = true })
 map("v", "<A-k>", ":m '<-2<CR>gv=gv", { silent = true })
+map('n', '<esc>', ':nohlsearch <CR>', { silent = true })
 map("v", "<A-j>", ":m '>+1<CR>gv=gv", { silent = true })
+map('n', '<leader>tp', ':TypstPreview<CR>', { silent = true })
 map('v', 'fj', '"+y', { silent = true })
-map('n', '-', ":Oil<CR>")
 
 vim.api.nvim_create_autocmd('LspAttach', {
 	group = vim.api.nvim_create_augroup('my.lsp', {}),

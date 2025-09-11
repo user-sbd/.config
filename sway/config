@@ -56,27 +56,27 @@ bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% 
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle 
 
-bar {
-				status_command ~/dev/scripts/status.sh 
-				font pango: Dank Mono 7
-				height 15
-								colors {
-												background #141415 
-												statusline #cdcdcd 
-												separator #252530 
-												focused_workspace #252530 #252530 #cdcdcd 
-												active_workspace #252530 #252530 #cdcdcd 
-												inactive_workspace #141415 #141415 #cdcdcd 
-								}
-}
+# bar {
+# 				status_command ~/dev/scripts/status.sh 
+# 				font pango: Dank Mono 7
+# 				height 15
+# 								colors {
+# 												background #141415 
+# 												statusline #cdcdcd 
+# 												separator #252530 
+# 												focused_workspace #252530 #252530 #cdcdcd 
+# 												active_workspace #252530 #252530 #cdcdcd 
+# 												inactive_workspace #141415 #141415 #cdcdcd 
+# 								}
+# }
 
 
 # custom keybinds
 # bindsym $mod+b exec qutebrowser
 # exec_always "killall waybar; waybar"
-exec_always "killall swaybg; swaybg --m fill -i ~/Downloads/papers/mac3.jpg"
 exec_always "killall mpd; mpd"
 bindsym $mod+Return exec alacritty
+bindsym $mod+t exec firefox /home/user/typstdocs/index.html
 bindsym $mod+b exec firefox
 bindsym $mod+m exec alacritty -e rmpc
 bindsym $mod+space exec dmenu_run -i -b
