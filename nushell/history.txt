@@ -27,3 +27,6 @@ cd dev
 ls -a
 z
 clear
+ls
+z
+clear

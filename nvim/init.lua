@@ -1,10 +1,10 @@
+dofile(vim.fn.stdpath("config") .. "/qf.lua")
 vim.cmd([[set mouse=]])
 vim.cmd([[set noswapfile]])
 vim.o.winborder = "rounded"
 vim.o.tabstop = 2
 vim.o.wrap = true
 vim.o.ignorecase = true
-vim.guicursor = ""
 vim.o.shiftwidth = 2
 vim.o.smartindent = true
 vim.o.number = true
@@ -12,14 +12,9 @@ vim.o.relativenumber = true
 vim.o.termguicolors = true
 vim.o.guicursor = ""
 vim.o.undofile = true
-vim.o.signcolumn = 'yes'
+vim.o.signcolumn = 'yes:1'
+vim.guicursor = ""
 
-local map = vim.keymap.set
-vim.g.mapleader = " "
-map('n', '<leader>v', ':e $MYVIMRC<CR>')
-map('n', '<leader>z', ':e ~/.zshrc<CR>')
-map({ 'n', 'v' }, '<leader>n', ':norm ')
-map({ 'n', 'v' }, '<leader>c', '1z=')
 
 vim.pack.add({
 	{ src = "https://github.com/vague2k/vague.nvim" },
@@ -28,8 +23,8 @@ vim.pack.add({
 	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
 	{ src = 'https://github.com/neovim/nvim-lspconfig' },
 	{ src = "https://github.com/mason-org/mason.nvim" },
+	{ src = "https://github.com/mason-org/mason-lspconfig.nvim" },
 })
-
 
 require("mini.pick").setup({
 	window = {
@@ -43,15 +38,37 @@ require("oil").setup({
 	},
 })
 
-map('n', '<leader><leader>', ":Pick files<CR>", { silent = true })
-map('n', '<leader>ff', ":Pick files<CR>", { silent = true })
+require("mason-lspconfig").setup({
+	ensure_installed = {
+		"lua_ls",
+		"svelte",
+		"tinymist",
+		"gopls",
+		"emmet_ls",
+		"rust_analyzer",
+		"clangd",
+		"bashls",
+		"ruff",
+		"glsl_analyzer"
+	},
+	automatic_enable = true,
+})
+
+local map = vim.keymap.set
+vim.g.mapleader = " "
+
+map('n', '<leader>v', ':e $MYVIMRC<CR>')
+map('n', '<leader>z', ':e ~/.zshrc<CR>')
+map({ 'n', 'v' }, '<leader>n', ':norm ')
+map('n', '<leader>fj', ":Pick files<CR>", { silent = true })
 map('n', '<leader>fh', ":Pick help<CR>", { silent = true })
 map('n', '-', ":Oil<CR>", { silent = true })
 map("v", "<A-k>", ":m '<-2<CR>gv=gv", { silent = true })
-map('n', '<esc>', ':nohlsearch <CR>', { silent = true })
 map("v", "<A-j>", ":m '>+1<CR>gv=gv", { silent = true })
+map('n', '<esc>', ':nohlsearch <CR>', { silent = true })
 map('n', '<leader>tp', ':TypstPreview<CR>', { silent = true })
 map('v', 'fj', '"+y', { silent = true })
+map("n", "<leader>cd", "<Cmd>cd %:p:h<CR>", { silent = true })
 
 vim.api.nvim_create_autocmd('LspAttach', {
 	group = vim.api.nvim_create_augroup('my.lsp', {}),
@@ -68,21 +85,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
 map('n', '<leader>lf', vim.lsp.buf.format)
 vim.cmd [[set completeopt+=menuone,noselect,popup]]
 
-vim.lsp.enable(
-	{
-		"lua_ls",
-		"svelte",
-		"tinymist",
-		"gopls",
-		"emmetls",
-		"rust_analyzer",
-		"clangd",
-		"bash-langauge-server",
-		"ruff",
-		"glsl_analyzer"
-	}
-)
-
 require "vague".setup({ transparent = true })
 vim.cmd("colorscheme vague")
 vim.cmd(":hi statusline guibg=NONE")
@@ -90,3 +92,11 @@ vim.cmd(":hi ModeMsg guifg=#cdcdcd")
 vim.api.nvim_set_hl(0, 'MiniPickPrompt', { italic = false })
 vim.api.nvim_set_hl(0, 'MiniPickBorderText', { fg = 'NONE' })
 vim.api.nvim_set_hl(0, 'MiniPickBorderBusy', { fg = 'NONE' })
+
+map('i', '<C-e>', function()
+  if vim.fn.pumvisible() == 1 then
+    return '<Down><C-y>'
+  else
+    return '<C-e>'
+  end
+end, { expr = true, silent = true })
