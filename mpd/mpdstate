@@ -1,8 +1,8 @@
 sw_volume: 65
 audio_device_state:1:pulse audio
-state: play
-current: 621
-time: 118.74900000000001
+state: pause
+current: 630
+time: 29.53
 random: 0
 repeat: 1
 single: 0
@@ -634,4 +634,13 @@ playlist_begin
 619:DigDat-AirForce.mp3
 620:DigDat-NoGimmicks.mp3
 621:DigDat-AirForce.mp3
+622:lucki-hitme.mp3
+623:lucki-invitation.mp3
+624:lucki-ittaketime.mp3
+625:lucki-losttime.mp3
+626:lucki-onthelow.mp3
+627:lucki-trustissues.mp3
+628:BABYCHIEFDOITTYPEBEAT.mp3
+629:lucki-cupid.mp3
+630:lucki-higherthanpluto.mp3
 playlist_end

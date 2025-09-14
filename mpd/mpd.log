@@ -4750,3 +4750,28 @@ Warning: Xing stream size off by more than 1%, fuzzy seeking may be even more fu
 2025-09-14T09:58:02 player: played "lucki-onthelow.mp3"
 2025-09-14T10:03:08 player: played "lucki-higherthanpluto.mp3"
 2025-09-14T10:19:35 player: played "DigDat-AirForce.mp3"
+2025-09-14T10:20:49 exception: Stored playlists are disabled
+2025-09-14T10:24:45 player: played "lucki-losttime.mp3"
+2025-09-14T10:28:02 player: played "lucki-supersportshit.mp3"
+2025-09-14T10:29:26 player: played "lucki-onthelow.mp3"
+2025-09-14T10:32:44 player: played "lucki-supersportshit.mp3"
+2025-09-14T10:34:08 player: played "lucki-donyouloveme.mp3"
+2025-09-14T10:37:16 player: played "lucki-trustissues.mp3"
+2025-09-14T10:41:47 player: played "BABYCHIEFDOITTYPEBEAT.mp3"
+2025-09-14T10:45:05 player: played "lucki-supersportshit.mp3"
+2025-09-14T10:46:30 player: played "lucki-donyouloveme.mp3"
+2025-09-14T10:48:30 player: played "lucki-done.mp3"
+2025-09-14T10:50:37 player: played "lucki-moneycantbuy.mp3"
+2025-09-14T10:52:44 player: played "lucki-moneycantbuy.mp3"
+2025-09-14T11:16:45 exception: Stored playlists are disabled
+2025-09-14T11:37:04 player: played "lucki-cupid.mp3"
+2025-09-14T12:07:24 player: played "lucki-higherthanpluto.mp3"
+2025-09-14T12:13:29 exception: Stored playlists are disabled
+2025-09-14T12:13:31 mixer: Failed to set mixer for "pulse audio": disconnected
+2025-09-14T12:13:31 exception: Failed to set mixer for "pulse audio"; disconnected
+2025-09-14T12:13:31 mixer: Failed to set mixer for "pulse audio": disconnected
+2025-09-14T12:13:31 exception: Failed to set mixer for "pulse audio"; disconnected
+2025-09-14T12:13:31 mixer: Failed to set mixer for "pulse audio": disconnected
+2025-09-14T12:13:31 exception: Failed to set mixer for "pulse audio"; disconnected
+2025-09-14T12:13:31 mixer: Failed to set mixer for "pulse audio": disconnected
+2025-09-14T12:13:31 exception: Failed to set mixer for "pulse audio"; disconnected
