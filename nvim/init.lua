@@ -1,4 +1,3 @@
-dofile(vim.fn.stdpath("config") .. "/qf.lua")
 vim.cmd([[set mouse=]])
 vim.cmd([[set noswapfile]])
 vim.o.winborder = "rounded"
@@ -15,9 +14,9 @@ vim.o.undofile = true
 vim.o.signcolumn = 'yes:1'
 vim.guicursor = ""
 
-
 vim.pack.add({
 	{ src = "https://github.com/vague2k/vague.nvim" },
+	{ src = "https://github.com/nvzone/showkeys" },
 	{ src = "https://github.com/stevearc/oil.nvim" },
 	{ src = "https://github.com/echasnovski/mini.pick" },
 	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
@@ -93,10 +92,37 @@ vim.api.nvim_set_hl(0, 'MiniPickPrompt', { italic = false })
 vim.api.nvim_set_hl(0, 'MiniPickBorderText', { fg = 'NONE' })
 vim.api.nvim_set_hl(0, 'MiniPickBorderBusy', { fg = 'NONE' })
 
-map('i', '<C-e>', function()
-  if vim.fn.pumvisible() == 1 then
-    return '<Down><C-y>'
-  else
-    return '<C-e>'
-  end
-end, { expr = true, silent = true })
+map("n", "<C-q>", ":copen<CR>", { silent = true })
+for i = 1, 9 do
+	map('n', '<leader>' .. i, ':cc ' .. i .. '<CR>', { noremap = true, silent = true })
+end
+map("n", "<leader>a",
+	function() vim.fn.setqflist({ { filename = vim.fn.expand("%"), lnum = 1, col = 1, text = vim.fn.expand("%"), } }, "a") end,
+	{ desc = "Add current file to QuickFix" })
+
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "qf",
+	callback = function()
+		local qf_list = vim.fn.getqflist()
+		local height = #qf_list
+		if height == 0 then
+			height = 1 -- Minimum height to avoid empty window issues
+		end
+		vim.api.nvim_win_set_height(0, height)
+	end,
+})
+vim.api.nvim_create_autocmd("BufWinEnter", {
+	pattern = "*",
+	group = vim.api.nvim_create_augroup("qf", { clear = true }),
+	callback = function()
+		if vim.bo.buftype == "quickfix" then
+			map("n", "<C-q>", ":ccl<cr>", { buffer = true, silent = true })
+			map("n", "dd", function()
+				local idx = vim.fn.line('.')
+				local qflist = vim.fn.getqflist()
+				table.remove(qflist, idx)
+				vim.fn.setqflist(qflist, 'r')
+			end, { buffer = true })
+		end
+	end,
+})
