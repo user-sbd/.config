@@ -60,7 +60,7 @@ map('n', '<leader>v', ':e $MYVIMRC<CR>')
 map('n', '<leader>z', ':e ~/.zshrc<CR>')
 map({ 'n', 'v' }, '<leader>n', ':norm ')
 map('n', '<leader>fj', ":Pick files<CR>", { silent = true })
-map('n', '<leader>fh', ":Pick help<CR>", { silent = true })
+map('n', '<leader>sh', ":Pick help<CR>", { silent = true })
 map('n', '-', ":Oil<CR>", { silent = true })
 map("v", "<A-k>", ":m '<-2<CR>gv=gv", { silent = true })
 map("v", "<A-j>", ":m '>+1<CR>gv=gv", { silent = true })
@@ -100,17 +100,6 @@ map("n", "<leader>a",
 	function() vim.fn.setqflist({ { filename = vim.fn.expand("%"), lnum = 1, col = 1, text = vim.fn.expand("%"), } }, "a") end,
 	{ desc = "Add current file to QuickFix" })
 
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = "qf",
-	callback = function()
-		local qf_list = vim.fn.getqflist()
-		local height = #qf_list
-		if height == 0 then
-			height = 1 -- Minimum height to avoid empty window issues
-		end
-		vim.api.nvim_win_set_height(0, height)
-	end,
-})
 vim.api.nvim_create_autocmd("BufWinEnter", {
 	pattern = "*",
 	group = vim.api.nvim_create_augroup("qf", { clear = true }),

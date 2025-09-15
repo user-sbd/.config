@@ -30,3 +30,10 @@ clear
 ls
 z
 clear
+ls -a
+dh
+du
+du .sh
+du -sh .
+du
+man du
