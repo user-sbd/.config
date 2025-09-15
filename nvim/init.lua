@@ -16,7 +16,6 @@ vim.guicursor = ""
 
 vim.pack.add({
 	{ src = "https://github.com/vague2k/vague.nvim" },
-	{ src = "https://github.com/nvzone/showkeys" },
 	{ src = "https://github.com/stevearc/oil.nvim" },
 	{ src = "https://github.com/echasnovski/mini.pick" },
 	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
@@ -30,6 +29,7 @@ require("mini.pick").setup({
 		prompt_caret = "█"
 	}
 })
+
 require "mason".setup()
 require("oil").setup({
 	view_options = {
@@ -66,7 +66,7 @@ map("v", "<A-k>", ":m '<-2<CR>gv=gv", { silent = true })
 map("v", "<A-j>", ":m '>+1<CR>gv=gv", { silent = true })
 map('n', '<esc>', ':nohlsearch <CR>', { silent = true })
 map('n', '<leader>tp', ':TypstPreview<CR>', { silent = true })
-map('v', 'fj', '"+y', { silent = true })
+map({ 'v', 'n' }, 'fj', '"+y', { silent = true })
 map("n", "<leader>cd", "<Cmd>cd %:p:h<CR>", { silent = true })
 
 vim.api.nvim_create_autocmd('LspAttach', {
