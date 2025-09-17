@@ -115,3 +115,7 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
 		end
 	end,
 })
+map("n", "<S-k>", "<cmd>resize +2<CR>")
+map("n", "<S-j>", "<cmd>resize -2<CR>")
+map("n", "<S-l>", "<cmd>vertical resize +5<CR>")
+map("n", "<S-h>", "<cmd>vertical resize -5<CR>")

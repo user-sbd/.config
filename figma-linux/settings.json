@@ -4,14 +4,14 @@
   "authedUserIDs": [],
   "app": {
     "logLevel": 1,
-    "lastTimeClearLogFile": 1757824453697,
+    "lastTimeClearLogFile": 1757990674906,
     "enableColorSpaceSrgb": false,
     "visibleNewProjectBtn": true,
     "useZenity": false,
     "disableThemes": false,
     "panelHeight": 40,
     "saveLastOpenedTabs": true,
-    "exportDir": "/home/user/Pictures/Figma",
+    "exportDir": "/home/user/Downloads",
     "commandSwitches": [
       {
         "switch": "enable-gpu-rasterization"

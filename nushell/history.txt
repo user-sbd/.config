@@ -37,3 +37,6 @@ du .sh
 du -sh .
 du
 man du
+du -sh .
+du
+v

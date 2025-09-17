@@ -1,0 +1,16 @@
+9/16/2025, 1:49:00 PM GMT+5:45 0: 
+
+----------------------------------------------
+9/16/2025, 1:49:01 PM GMT+5:45 1: Discord starting: {"releaseChannel":"stable","version":"0.0.109"}, modulepath: /home/user/.config/discord/0.0.109/modules
+9/16/2025, 1:49:01 PM GMT+5:45 2: ✅ webContents.created web1 ""
+9/16/2025, 1:49:02 PM GMT+5:45 3: ✅ window.created win1 "discord"
+9/16/2025, 1:49:04 PM GMT+5:45 4: ✅ webContents.did-finish-load web1
+9/16/2025, 1:49:53 PM GMT+5:45 5: window.close win1
+9/16/2025, 1:59:13 PM GMT+5:45 0: 
+
+----------------------------------------------
+9/16/2025, 1:59:13 PM GMT+5:45 1: Discord starting: {"releaseChannel":"stable","version":"0.0.109"}, modulepath: /home/user/.config/discord/0.0.109/modules
+9/16/2025, 1:59:13 PM GMT+5:45 2: ✅ webContents.created web1 "index.html"
+9/16/2025, 1:59:13 PM GMT+5:45 3: ✅ window.created win1 "discord"
+9/16/2025, 1:59:14 PM GMT+5:45 4: ✅ webContents.did-finish-load web1
+9/16/2025, 1:59:18 PM GMT+5:45 5: window.close win1

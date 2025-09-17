@@ -1,2 +1,3 @@
-2025/09/14-10:20:00.568 8fff0 Creating DB /home/user/.config/figma-linux/Session Storage since it was missing.
-2025/09/14-10:20:00.702 8fff0 Reusing MANIFEST /home/user/.config/figma-linux/Session Storage/MANIFEST-000001
+2025/09/16-08:29:48.450 1a667 Reusing MANIFEST /home/user/.config/figma-linux/Session Storage/MANIFEST-000001
+2025/09/16-08:29:48.450 1a667 Recovering log #3
+2025/09/16-08:29:48.451 1a667 Reusing old log /home/user/.config/figma-linux/Session Storage/000003.log 
