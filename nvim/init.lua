@@ -69,6 +69,12 @@ map('n', '<esc>', ':nohlsearch <CR>', { silent = true })
 map('n', '<leader>tp', ':TypstPreview<CR>', { silent = true })
 map({ 'v', 'n' }, 'fj', '"+y', { silent = true })
 map("n", "<leader>cd", "<Cmd>cd %:p:h<CR>", { silent = true })
+map(
+  "n",
+  "<leader>sr",
+  [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
+  { silent = false }
+)
 
 vim.api.nvim_create_autocmd('LspAttach', {
 	group = vim.api.nvim_create_augroup('my.lsp', {}),
