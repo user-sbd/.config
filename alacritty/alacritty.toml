@@ -4,7 +4,7 @@ live_config_reload = true
 [font]
 # normal = {family = "DankMono Nerd Font" }
 normal = { family = "JetBrains Mono Nerd Font"}
-size = 18.5
+size = 20
 
 [colors.primary]
 background = "#1a1a1a" # Example background color
