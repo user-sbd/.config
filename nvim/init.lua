@@ -29,14 +29,12 @@ require("mini.pick").setup({
 		prompt_caret = "█"
 	}
 })
-
 require "mason".setup()
 require("oil").setup({
 	view_options = {
 		show_hidden = true,
 	},
 })
-
 require("mason-lspconfig").setup({
 	ensure_installed = {
 		"lua_ls",
@@ -56,7 +54,6 @@ require("mason-lspconfig").setup({
 
 local map = vim.keymap.set
 vim.g.mapleader = " "
-
 map('n', '<leader>v', ':e $MYVIMRC<CR>')
 map('n', '<leader>z', ':e ~/.zshrc<CR>')
 map({ 'n', 'v' }, '<leader>n', ':norm ')
@@ -71,7 +68,7 @@ map({ 'v', 'n' }, 'fj', '"+y', { silent = true })
 map("n", "<leader>cd", "<Cmd>cd %:p:h<CR>", { silent = true })
 map(
   "n",
-  "<leader>sr",
+  "<leader>rp",
   [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
   { silent = false }
 )

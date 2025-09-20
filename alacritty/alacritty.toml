@@ -7,8 +7,8 @@ normal = { family = "JetBrains Mono Nerd Font"}
 size = 20
 
 [colors.primary]
-background = "#1a1a1a" # Example background color
-foreground = "#d8d8d8" # Example foreground color
+background = "#1a1a1a"
+foreground = "#d8d8d8"
 
 [colors.normal]
 black = "#181818"
@@ -19,4 +19,3 @@ blue = "#6a9fb5"
 magenta = "#aa759f"
 cyan = "#75b5aa"
 white = "#d8d8d8"
-
