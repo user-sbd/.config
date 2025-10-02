@@ -1,0 +1,49 @@
+# Zathura configuration file
+
+# General settings
+set pages-per-row 1
+set scroll-page-aware "true"
+set scroll-full-overlap 0.01
+set scroll-step 50
+set zoom-min 10
+set guioptions "s"  # Show status bar for error feedback
+set render-loading "true"  # Show loading indicator
+
+# Font
+
+# Colors (simplified, no alpha channels)
+set default-bg "#000000"
+set default-fg "#F7F7F6"
+set statusbar-fg "#B0B0B0"
+set statusbar-bg "#202020"
+set inputbar-bg "#151515"
+set inputbar-fg "#FFFFFF"
+set notification-error-bg "#AC4142"
+set notification-error-fg "#151515"
+set notification-warning-bg "#AC4142"
+set notification-warning-fg "#151515"
+set highlight-color "#F4BF75"
+set highlight-active-color "#6A9FB5"
+set completion-highlight-fg "#000000"
+set completion-highlight-bg "#00BCD4"
+set completion-bg "#303030"
+set completion-fg "#FFC107"
+set notification-bg "#90A959"
+set notification-fg "#151515"
+
+# Recolor (disabled to avoid rendering issues)
+set recolor "false"
+#set recolor-lightcolor "#000000"
+#set recolor-darkcolor "#E0E0E0"
+#set recolor-reverse-video "true"
+#set recolor-keephue "true"
+
+# Key mappings
+map r reload
+map p print
+map i recolor
+map J zoom out
+map K zoom in
+map R rotate
+
+set selection-clipboard clipboard

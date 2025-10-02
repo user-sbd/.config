@@ -1,0 +1,6 @@
+audio.play_bitrate_non_metered_migrated=true
+connect.dial_devices="[]"
+connect.mdns_devices="[{\"created_timestamp\":1754796891,\"device_id\":\"\",\"device_info\":{\"addresses\":[\"192.168.100.72\"],\"availability\":\"any\",\"device_type\":\"unknown\",\"get_info_json\":\"\",\"is_group\":false,\"should_send_wol\":false},\"discovery_name\":\"0fa15e34036e34ae._spotify-connect._tcp.local\",\"display_name\":\"\",\"hostname\":\"0fa15e34036e34ae.local\",\"last_seen\":1754797337,\"page_uri\":\"/zc/0\",\"port\":43671,\"public_ip\":\"103.167.229.220\",\"required_device_info\":{\"public_key\":\"\",\"remote_name\":\"\",\"version\":\"\"},\"ttl\":60,\"txt_records\":{\"CPath\":\"/zc/0\",\"Stack\":\"SP\",\"VERSION\":\"1.0\"}}]"
+ui.hide_hpto=true
+app.browser.zoom-level=-200
+app.player.volume=46508
