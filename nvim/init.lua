@@ -58,21 +58,17 @@ map('n', '<leader>v', ':e $MYVIMRC<CR>')
 map('n', '<leader>z', ':e ~/.zshrc<CR>')
 map({ 'n', 'v' }, '<leader>n', ':norm ')
 map({ "x", "n" }, "<C-s>", [[<esc>:'<,'>s/\V/]],
-	{ desc = "Enter substitue mode in election" })
-map("n", "<M-n>", "<cmd>resize +2<CR>")           -- Increase height
-map("n", "<M-e>", "<cmd>resize -2<CR>")           -- Decrease height
-map("n", "<M-i>", "<cmd>vertical resize +5<CR>")  -- Increase width
-map("n", "<M-m>", "<cmd>vertical resize -5<CR>")  -- Decrease width
+	{ desc = "Enter substitue mode in selection" })
 map('n', '<C-f>', '<Cmd>Open %<CR>')
 map('n', '<leader>fj', ":Pick files<CR>", { silent = true })
 map('n', '<leader>sh', ":Pick help<CR>", { silent = true })
+map('n', '<leader>cb', ":Pick buffers<CR>", { silent = true })
 map('n', '-', ":Oil<CR>", { silent = true })
-map('v', "<A-k>", ":m '<-2<CR>gv=gv", { silent = true })
-map('v', "<A-j>", ":m '>+1<CR>gv=gv", { silent = true })
 map('n', '<esc>', ':nohlsearch <CR>', { silent = true })
 map('n', '<leader>tp', ':TypstPreview<CR>', { silent = true })
 map({ 'v', 'n' }, 'fj', '"+y', { silent = true })
 map("n", "<leader>cd", "<Cmd>cd %:p:h<CR>", { silent = true })
+
 
 map(
 	"n",
@@ -106,6 +102,7 @@ vim.cmd [[set completeopt+=menuone,noselect,popup]]
 require "vague".setup({ transparent = true })
 vim.cmd("colorscheme vague")
 vim.cmd(":hi statusline guibg=NONE")
+vim.cmd(":hi statusline guifg=white")
 vim.cmd(":hi ModeMsg guifg=#cdcdcd")
 vim.api.nvim_set_hl(0, 'MiniPickPrompt', { italic = false })
 vim.api.nvim_set_hl(0, 'MiniPickBorderText', { fg = 'NONE' })
@@ -135,69 +132,7 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
 	end,
 })
 
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = "python",
-	callback = function()
-		vim.bo.makeprg = "python3 %"
-	end
-})
+vim.api.nvim_create_autocmd("FileType", { pattern = "typst", callback = function() map("n", "<leader>m", ":make<CR>:lua vim.fn.jobstart('zathura ' .. vim.fn.expand('%:r') .. '.pdf &')<CR><CR>", { noremap = true, buffer = true }) end })
 
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = "rust",
-	callback = function()
-		if vim.fn.filereadable("Cargo.toml") == 1 then
-			vim.bo.makeprg = "cargo run"
-		else
-			vim.bo.makeprg = "rustc % && ./%:r"
-		end
-	end
-})
-
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "cpp", "c" },
-	callback = function()
-		local extension = vim.fn.expand("%:e")
-		local compiler = extension == "cpp" and "g++" or "gcc"
-		vim.bo.makeprg = compiler .. " % -o %:r && ./%:r"
-	end
-})
-
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = "cs",
-	callback = function()
-		vim.bo.makeprg = "dotnet run"
-	end
-})
-
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = "typst",
-	callback = function()
-		vim.bo.makeprg = "typst compile % %:r.pdf"
-	end
-})
-
-map("n", "<leader>m", ":make<CR>", { noremap = true })
-
-vim.api.nvim_create_autocmd("QuickFixCmdPost", {
-	pattern = "[^l]*",
-	command = "nested cwindow"
-})
-
-vim.api.nvim_create_autocmd("QuickFixCmdPost", {
-	pattern = "l*",
-	command = "nested lwindow"
-})
-
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = "typst",
-	callback = function()
-		map("n", "<leader>m", ":make<CR>:lua vim.fn.jobstart('zathura ' .. vim.fn.expand('%:r') .. '.pdf &')<CR><CR>",
-			{ noremap = true, buffer = true })
-	end
-})
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = "lua",
-	callback = function()
-		vim.bo.makeprg = "lua %"
-	end
-})
+vim.keymap.set("n", "<leader>m", ":make<CR>", { noremap = true, silent = true })
+vim.cmd("filetype plugin on")

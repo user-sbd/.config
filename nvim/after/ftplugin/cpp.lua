@@ -1,3 +1,2 @@
-vim.cmd([[
-		set makeprg=gcc\%\;
-]])
+-- ftplugin/cpp.lua
+vim.bo.makeprg = "g++ % -o %:r && ./%:r"

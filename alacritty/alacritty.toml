@@ -1,6 +1,6 @@
 [window]
 decorations = "none"
-option_as_alt = "both"
+option_as_alt = "Both"
 
 [general]
 live_config_reload = true
@@ -24,20 +24,3 @@ magenta = "#aa759f"
 cyan = "#75b5aa"
 white = "#d8d8d8"
 
-[[keyboard.bindings]]
-chars = "\u0015"
-key = "Back"
-mods = "Option"
-
-
-[[keyboard.bindings]]
-chars = "\u001BOH"
-key = "Left"
-mode = "AppCursor"
-mods = "Option"
-
-[[keyboard.bindings]]
-chars = "\u001BOF"
-key = "Right"
-mode = "AppCursor"
-mods = "Option"

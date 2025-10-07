@@ -17,7 +17,7 @@ if [[ $sk_status -ne 0 || -z "$selected" ]]; then
     exit 0
 fi
 
-tmux set -g status-interval 1
+tmux set -g status-interval 5
 
 if [[ "$selected" == "STOP" ]]; then
     timew stop

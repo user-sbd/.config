@@ -9,12 +9,6 @@ alt-j = 'focus --boundaries-action wrap-around-the-workspace down'
 alt-k = 'focus --boundaries-action wrap-around-the-workspace up'
 alt-l = 'focus --boundaries-action wrap-around-the-workspace right'
 
-alt-shift-j = 'move left'
-alt-shift-k = 'move down'
-alt-shift-l = 'move up'
-alt-shift-semicolon = 'move right'
-
-alt-f = 'macos-native-fullscreen'
 alt-e = 'layout tiles horizontal vertical'
 alt-shift-space = 'layout floating tiling'
 
@@ -38,16 +32,10 @@ alt-shift-7 = 'move-node-to-workspace 7'
 alt-shift-8 = 'move-node-to-workspace 8'
 alt-shift-9 = 'move-node-to-workspace 9'
 
-alt-shift-c = 'reload-config'
 
-alt-r = 'mode resize'
-
-[mode.resize.binding]
-h = 'resize width -50'
-j = 'resize height +50'
-k = 'resize height -50'
-l = 'resize width +50'
-enter = 'mode main'
+alt-shift-r = 'reload-config'
+alt-shift-h = 'resize smart -50'
+alt-shift-l = 'resize smart +50'
 
 [[on-window-detected]]
 if.app-id = 'com.apple.finder'
@@ -69,3 +57,4 @@ run = ['layout floating']
 [[on-window-detected]]
 if.app-id = 'com.apple.AppStore'
 run = ['layout floating'] 
+
