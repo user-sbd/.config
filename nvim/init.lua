@@ -16,8 +16,8 @@ vim.o.wrap = false
 
 vim.pack.add({
 	{ src = "https://github.com/vague2k/vague.nvim" },
-	{ src = "https://github.com/bluz71/vim-moonfly-colors" },
 	{ src = "https://github.com/chentoast/marks.nvim" },
+	{ src = "https://github.com/bluz71/vim-moonfly-colors" },
 	{ src = "https://github.com/stevearc/oil.nvim" },
 	{ src = "https://github.com/echasnovski/mini.pick" },
 
@@ -46,18 +46,18 @@ require "marks".setup {
 }
 
 
-require'omni-preview'.setup({})
-require'live-server'.setup({})
-require'peek'.setup({
-		app = "browser"
+require 'omni-preview'.setup({})
+require 'live-server'.setup({})
+require 'peek'.setup({
+	app = "browser"
 })
 
 require("mini.pick").setup({
 	window = {
 		prompt_caret = "█",
 		config = {
-				height = "120",
-				width = "120"
+			height = "120",
+			width = "120"
 		}
 	},
 	mappings = {
@@ -128,6 +128,7 @@ local ls = require("luasnip")
 local map = vim.keymap.set
 
 vim.g.mapleader = " "
+map({ "n", "v", "x" }, "<leader>lf", vim.lsp.buf.format, { desc = "Format current buffer" })
 map('n', '<leader>v', ':e $MYVIMRC<CR>')
 map('n', '<leader>h', ':Arrow open<CR>')
 map({ "v", "x", "n" }, "<C-y>", '"+y', { desc = "System clipboard yank." })
@@ -152,7 +153,7 @@ vim.cmd(":hi ModeMsg guifg=#cdcdcd")
 vim.api.nvim_set_hl(0, 'MiniPickPrompt', { italic = false })
 vim.api.nvim_set_hl(0, 'MiniPickBorderText', { fg = 'NONE' })
 vim.api.nvim_set_hl(0, 'MiniPickBorderBusy', { fg = 'NONE' })
-vim.api.nvim_set_hl(0, 'MiniPickNormal', {  bg = '#121212' })
+vim.api.nvim_set_hl(0, 'MiniPickNormal', { bg = '#121212' })
 
 map("n", "<C-q>", ":copen<CR>", { silent = true })
 for i = 1, 9 do
