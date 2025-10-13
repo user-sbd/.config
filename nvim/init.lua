@@ -93,7 +93,7 @@ cmp.setup({
 		}),
 	},
 	mapping = cmp.mapping.preset.insert({
-		["<C-Space>"] = cmp.mapping.complete(),
+		["<Tab>"] = cmp.mapping.complete(),
 		["<CR>"] = cmp.mapping.confirm({ select = true }),
 		["<C-e>"] = cmp.mapping.abort(),
 		["<C-n>"] = cmp.mapping.select_next_item(),
@@ -107,7 +107,7 @@ cmp.setup({
 	},
 })
 
-vim.cmd("colorscheme vague")
+vim.cmd("colorscheme moonfly")
 vim.api.nvim_set_hl(0, 'NormalFloat', { bg = '#000000', fg = '#ffffff' })
 vim.api.nvim_set_hl(0, 'FloatBorder', { fg = '#5f5f5f' })
 vim.api.nvim_set_hl(0, 'PmenuSel', { bg = '#3a3a3a', fg = '#ffffff' })
@@ -150,10 +150,11 @@ vim.cmd [[set completeopt=menu,menuone,noselect]]
 vim.cmd(":hi statusline guibg=NONE")
 vim.cmd(":hi statusline guifg=white")
 vim.cmd(":hi ModeMsg guifg=#cdcdcd")
+
 vim.api.nvim_set_hl(0, 'MiniPickPrompt', { italic = false })
 vim.api.nvim_set_hl(0, 'MiniPickBorderText', { fg = 'NONE' })
 vim.api.nvim_set_hl(0, 'MiniPickBorderBusy', { fg = 'NONE' })
-vim.api.nvim_set_hl(0, 'MiniPickNormal', { bg = '#121212' })
+vim.api.nvim_set_hl(0, 'MiniPickNormal', { bg = '#080808' })
 
 map("n", "<C-q>", ":copen<CR>", { silent = true })
 for i = 1, 9 do
