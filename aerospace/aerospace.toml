@@ -8,6 +8,7 @@ alt-h = 'focus --boundaries-action wrap-around-the-workspace left'
 alt-j = 'focus --boundaries-action wrap-around-the-workspace down'
 alt-k = 'focus --boundaries-action wrap-around-the-workspace up'
 alt-l = 'focus --boundaries-action wrap-around-the-workspace right'
+alt-shift-f = 'macos-native-fullscreen'
 
 alt-e = 'layout tiles horizontal vertical'
 alt-shift-space = 'layout floating tiling'

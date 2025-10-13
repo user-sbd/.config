@@ -7,6 +7,7 @@ setopt HIST_IGNORE_DUPS
 setopt HIST_IGNORE_SPACE
 setopt HIST_REDUCE_BLANKS
 setopt HIST_NO_STORE
+
 HISTORY_IGNORE='(l|vim|v|exit|fj|ls|cd)'
 
 export EDITOR=nvim

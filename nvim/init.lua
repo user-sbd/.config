@@ -1,8 +1,8 @@
 vim.cmd([[set mouse=]])
 vim.cmd([[set noswapfile]])
 vim.o.winborder = "rounded"
+vim.o.winbar = ""
 vim.o.tabstop = 2
-vim.o.wrap = true
 vim.o.ignorecase = true
 vim.o.shiftwidth = 2
 vim.o.smartindent = true
@@ -12,109 +12,158 @@ vim.o.termguicolors = true
 vim.o.guicursor = ""
 vim.o.undofile = true
 vim.o.signcolumn = 'yes:1'
-vim.guicursor = ""
+vim.o.wrap = false
 
 vim.pack.add({
 	{ src = "https://github.com/vague2k/vague.nvim" },
+	{ src = "https://github.com/bluz71/vim-moonfly-colors" },
+	{ src = "https://github.com/chentoast/marks.nvim" },
 	{ src = "https://github.com/stevearc/oil.nvim" },
 	{ src = "https://github.com/echasnovski/mini.pick" },
-	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
-	{ src = 'https://github.com/neovim/nvim-lspconfig' },
+
+	-- Lsp config
+	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{ src = "https://github.com/mason-org/mason.nvim" },
 	{ src = "https://github.com/mason-org/mason-lspconfig.nvim" },
+	{ src = "https://github.com/hrsh7th/nvim-cmp" },
+	{ src = "https://github.com/hrsh7th/cmp-nvim-lsp" },
+	{ src = "https://github.com/L3MON4D3/LuaSnip" },
+
+	-- Previews
+	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
+	{ src = "https://github.com/barrett-ruth/live-server.nvim" },
+	{ src = "https://github.com/SylvanFranklin/omni-preview.nvim" },
+	{ src = "https://github.com/toppair/peek.nvim" },
+})
+
+require "marks".setup {
+	builtin_marks = { "<", ">", "^" },
+	refresh_interval = 250,
+	sign_priority = { lower = 10, upper = 15, builtin = 8, bookmark = 20 },
+	excluded_filetypes = {},
+	excluded_buftypes = {},
+	mappings = {}
+}
+
+
+require'omni-preview'.setup({})
+require'live-server'.setup({})
+require'peek'.setup({
+		app = "browser"
 })
 
 require("mini.pick").setup({
 	window = {
-		prompt_caret = "█"
+		prompt_caret = "█",
+		config = {
+				height = "120",
+				width = "120"
+		}
+	},
+	mappings = {
+		choose_in_vsplit = '<C-x>'
 	}
 })
-require "mason".setup()
+
+require("mason").setup()
 require("oil").setup({
 	view_options = {
 		show_hidden = true,
 	},
 })
+
+local cmp = require("cmp")
+cmp.setup({
+	snippet = {
+		expand = function(args)
+			require("luasnip").lsp_expand(args.body)
+		end,
+	},
+	window = {
+		completion = cmp.config.window.bordered({
+			border = "rounded",
+			winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
+			scrollbar = false,
+			side_padding = 1,
+			col_offset = -3,
+		}),
+		documentation = cmp.config.window.bordered({
+			border = "rounded",
+			winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder",
+		}),
+	},
+	mapping = cmp.mapping.preset.insert({
+		["<C-Space>"] = cmp.mapping.complete(),
+		["<CR>"] = cmp.mapping.confirm({ select = true }),
+		["<C-e>"] = cmp.mapping.abort(),
+		["<C-n>"] = cmp.mapping.select_next_item(),
+		["<C-p>"] = cmp.mapping.select_prev_item(),
+	}),
+	sources = cmp.config.sources({
+		{ name = "nvim_lsp" },
+	}),
+	experimental = {
+		ghost_text = true,
+	},
+})
+
+vim.cmd("colorscheme vague")
+vim.api.nvim_set_hl(0, 'NormalFloat', { bg = '#000000', fg = '#ffffff' })
+vim.api.nvim_set_hl(0, 'FloatBorder', { fg = '#5f5f5f' })
+vim.api.nvim_set_hl(0, 'PmenuSel', { bg = '#3a3a3a', fg = '#ffffff' })
+
 require("mason-lspconfig").setup({
 	ensure_installed = {
-		"lua_ls",
-		"svelte",
+		"bashls", "clangd", "emmet_ls", "glsl_analyzer", "gopls", "html",
+		"lua_ls", "marksman", "ruff", "rust_analyzer", "svelte", "tailwindcss",
 		"tinymist",
-		"gopls",
-		"emmet_ls",
-		"rust_analyzer",
-		"clangd",
-		"bashls",
-		"ruff",
-		"glsl_analyzer",
-		"marksman"
 	},
+	automatic_installation = true,
 	automatic_enable = true,
 })
 
+require("luasnip").setup({ enable_autosnippets = true })
+require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/snippets/" })
+local ls = require("luasnip")
 local map = vim.keymap.set
+
 vim.g.mapleader = " "
 map('n', '<leader>v', ':e $MYVIMRC<CR>')
+map('n', '<leader>h', ':Arrow open<CR>')
+map({ "v", "x", "n" }, "<C-y>", '"+y', { desc = "System clipboard yank." })
+map({ "i", "s" }, "<C-e>", function() ls.expand_or_jump(1) end, { silent = true })
+map({ "i", "s" }, "<C-J>", function() ls.jump(1) end, { silent = true })
+map({ "i", "s" }, "<C-K>", function() ls.jump(-1) end, { silent = true })
 map('n', '<leader>z', ':e ~/.zshrc<CR>')
 map({ 'n', 'v' }, '<leader>n', ':norm ')
-map({ "x", "n" }, "<C-s>", [[<esc>:'<,'>s/\V/]],
-	{ desc = "Enter substitue mode in selection" })
-map('n', '<C-f>', '<Cmd>Open %<CR>')
+map({ "x", "n" }, "<C-s>", [[<esc>:'<,'>s/\V/]], { desc = "Enter substitue mode in selection" })
 map('n', '<leader>fj', ":Pick files<CR>", { silent = true })
 map('n', '<leader>sh', ":Pick help<CR>", { silent = true })
-map('n', '<leader>cb', ":Pick buffers<CR>", { silent = true })
+map('n', '<leader>rg', ":Pick grep_live<CR>", { silent = true })
 map('n', '-', ":Oil<CR>", { silent = true })
 map('n', '<esc>', ':nohlsearch <CR>', { silent = true })
-map('n', '<leader>tp', ':TypstPreview<CR>', { silent = true })
-map({ 'v', 'n' }, 'fj', '"+y', { silent = true })
+map('n', '<leader>p', ':OmniPreview start<CR>', { silent = true })
 map("n", "<leader>cd", "<Cmd>cd %:p:h<CR>", { silent = true })
 
-
-map(
-	"n",
-	"<leader>rp",
-	function()
-		local current_word = vim.fn.expand("<cword>")
-		vim.ui.input({ prompt = "change '" .. current_word .. "' to > " }, function(input)
-			if input and input ~= "" then
-				vim.cmd("%s/\\<" .. current_word .. "\\>/" .. input .. "/gI")
-			end
-		end)
-	end,
-	{ silent = false }
-)
-
-vim.api.nvim_create_autocmd('LspAttach', {
-	group = vim.api.nvim_create_augroup('my.lsp', {}),
-	callback = function(args)
-		local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
-		if client:supports_method('textDocument/completion') then
-			local chars = {}; for i = 32, 126 do table.insert(chars, string.char(i)) end
-			client.server_capabilities.completionProvider.triggerCharacters = chars
-			vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
-		end
-	end,
-})
-
-map('n', '<leader>lf', vim.lsp.buf.format)
-vim.cmd [[set completeopt+=menuone,noselect,popup]]
-
-require "vague".setup({ transparent = true })
-vim.cmd("colorscheme vague")
+vim.cmd [[set completeopt=menu,menuone,noselect]]
 vim.cmd(":hi statusline guibg=NONE")
 vim.cmd(":hi statusline guifg=white")
 vim.cmd(":hi ModeMsg guifg=#cdcdcd")
 vim.api.nvim_set_hl(0, 'MiniPickPrompt', { italic = false })
 vim.api.nvim_set_hl(0, 'MiniPickBorderText', { fg = 'NONE' })
 vim.api.nvim_set_hl(0, 'MiniPickBorderBusy', { fg = 'NONE' })
+vim.api.nvim_set_hl(0, 'MiniPickNormal', {  bg = '#121212' })
 
 map("n", "<C-q>", ":copen<CR>", { silent = true })
 for i = 1, 9 do
 	map('n', '<leader>' .. i, ':cc ' .. i .. '<CR>', { noremap = true, silent = true })
 end
-map("n", "<leader>a",
-	function() vim.fn.setqflist({ { filename = vim.fn.expand("%"), lnum = 1, col = 1, text = vim.fn.expand("%"), } }, "a") end,
-	{ desc = "Add current file to QuickFix" })
+
+map("n", "<leader>a", function()
+	vim.fn.setqflist({
+		{ filename = vim.fn.expand("%"), lnum = 1, col = 1, text = vim.fn.expand("%") },
+	}, "a")
+end, { desc = "Add current file to QuickFix" })
 
 vim.api.nvim_create_autocmd("BufWinEnter", {
 	pattern = "*",
@@ -132,7 +181,13 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
 	end,
 })
 
-vim.api.nvim_create_autocmd("FileType", { pattern = "typst", callback = function() map("n", "<leader>m", ":make<CR>:lua vim.fn.jobstart('zathura ' .. vim.fn.expand('%:r') .. '.pdf &')<CR><CR>", { noremap = true, buffer = true }) end })
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "typst",
+	callback = function()
+		map("n", "<leader>m",
+			":make<CR>:lua vim.fn.jobstart('zathura ' .. vim.fn.expand('%:r') .. '.pdf &')<CR><CR>",
+			{ noremap = true, buffer = true })
+	end,
+})
 
-vim.keymap.set("n", "<leader>m", ":make<CR>", { noremap = true, silent = true })
-vim.cmd("filetype plugin on")
+map("n", "<leader>m", ":make<CR>", { noremap = true, silent = true })

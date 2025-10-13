@@ -11,7 +11,8 @@ normal = { family = "JetBrainsMono Nerd Font"}
 size = 27
 
 [colors.primary]
-background = "#1a1a1a"
+# background = "#080808"
+background = "#121212"
 foreground = "#d8d8d8"
 
 [colors.normal]
@@ -23,4 +24,15 @@ blue = "#6a9fb5"
 magenta = "#aa759f"
 cyan = "#75b5aa"
 white = "#d8d8d8"
+
+[[keyboard.bindings]]
+chars = "\u001Bw"
+key = "W"
+mods = "Option"
+
+[[keyboard.bindings]]
+chars = "\u001Bf"
+key = "F"
+mods = "Option"
+
 
