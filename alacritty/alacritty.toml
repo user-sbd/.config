@@ -8,7 +8,7 @@ live_config_reload = true
 [font]
 # normal = {family = "DankMono Nerd Font" }
 normal = { family = "JetBrainsMono Nerd Font"}
-size = 27
+size = 31
 
 [colors.primary]
 background = "#080808"
@@ -24,15 +24,4 @@ blue = "#6a9fb5"
 magenta = "#aa759f"
 cyan = "#75b5aa"
 white = "#d8d8d8"
-
-[[keyboard.bindings]]
-chars = "\u001Bw"
-key = "W"
-mods = "Option"
-
-[[keyboard.bindings]]
-chars = "\u001Bf"
-key = "F"
-mods = "Option"
-
 
