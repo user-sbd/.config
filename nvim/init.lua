@@ -50,7 +50,7 @@ require("mini.pick").setup({
 		}
 	},
 	mappings = {
-		choose_in_vsplit = '<C-x>'
+		choose_in_vsplit = '<C-v>'
 	}
 })
 
@@ -66,11 +66,21 @@ vim.api.nvim_set_hl(0, 'NormalFloat', { bg = '#000000', fg = '#ffffff' })
 vim.api.nvim_set_hl(0, 'FloatBorder', { fg = '#5f5f5f' })
 vim.api.nvim_set_hl(0, 'PmenuSel', { bg = '#3a3a3a', fg = '#ffffff' })
 
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "markdown", "text", "latex" },
+  callback = function()
+    if not vim.lsp.get_clients({ name = "ltex" })[1] then
+      vim.lsp.start(vim.lsp.config["ltex"])
+    end
+  end,
+})
+
+
 require("mason-lspconfig").setup({
 	ensure_installed = {
 		"bashls", "clangd", "emmet_ls", "glsl_analyzer", "gopls", "html",
-		"lua_ls", "marksman", "ruff", "rust_analyzer", "svelte", "tailwindcss",
-		"tinymist",
+		"lua_ls", "marksman", "ruff", "rust_analyzer", "svelte", "tailwindcss","tinymist",
 	},
 	automatic_installation = true,
 	automatic_enable = true,
@@ -78,22 +88,22 @@ require("mason-lspconfig").setup({
 
 local map = vim.keymap.set
 vim.g.mapleader = " "
-
-map({ "n", "v", "x" }, "<leader>lf", vim.lsp.buf.format, { desc = "Format current buffer" })
+map({ 'n', 'v', 'x' }, '<leader>lf', vim.lsp.buf.format, { desc = 'Format current buffer' })
 map('n', '<leader>v', ':e $MYVIMRC<CR>')
-map({ "v", "x", "n" }, "<C-y>", '"+y', { desc = "System clipboard yank." })
-map({ "i", "s" }, "<C-e>", function() ls.expand_or_jump(1) end, { silent = true })
+map({ 'v', 'x', 'n' }, '<C-y>', '"+y', { desc = 'System clipboard yank.' })
+map({ 'i', 's' }, '<C-e>', function() ls.expand_or_jump(1) end, { silent = true })
 map('n', '<leader>z', ':e ~/.zshrc<CR>')
 map({ 'n', 'v' }, '<leader>n', ':norm ')
-map({ "x", "n" }, "<C-s>", [[<esc>:'<,'>s/\V/]], { desc = "Enter substitue mode in selection" })
-map('n', '<leader>dj', ":Pick files tool='git'<CR>", { silent = true })
-map('n', '<leader>fj', ":Pick files<CR>", { silent = true })
-map('n', '<leader>sh', ":Pick help<CR>", { silent = true })
-map('n', '<leader>rg', ":Pick grep_live<CR>", { silent = true })
-map('n', '-', ":Oil<CR>", { silent = true })
+map({ 'x', 'n' }, '<C-s>', [[<esc>:'<,'>s/\V/]])
+map('n', '<leader>fj', ':Pick files<CR>', { silent = true })
+map('n', '<leader>sh', ':Pick help<CR>', { silent = true })
+map('n', '<leader>rg', ':Pick grep_live<CR>', { silent = true })
+map('n', '-', ':Oil<CR>', { silent = true })
 map('n', '<esc>', ':nohlsearch <CR>', { silent = true })
 map('n', '<leader>p', ':OmniPreview start<CR>', { silent = true })
-map("n", "<leader>cd", "<Cmd>cd %:p:h<CR>", { silent = true })
+map('n', '<leader>cd', '<Cmd>cd %:p:h<CR>', { silent = true })
+map('t', '<ESC>', '<C-\\><C-n>', { silent = true })
+
 
 vim.api.nvim_create_autocmd('LspAttach', {
 	group = vim.api.nvim_create_augroup('my.lsp', {}),
