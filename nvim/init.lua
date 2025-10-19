@@ -15,10 +15,9 @@ vim.o.signcolumn = 'yes:1'
 vim.o.wrap = false
 
 vim.pack.add({
-	{ src = "https://github.com/vague2k/vague.nvim" },
 	{ src = "https://github.com/bluz71/vim-moonfly-colors" },
 	{ src = "https://github.com/stevearc/oil.nvim" },
-	{ src = "https://github.com/echasnovski/mini.pick" },
+	{ src = "https://github.com/ibhagwan/fzf-lua" },
 
 	-- LSP CONFIG
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
@@ -33,26 +32,67 @@ vim.pack.add({
 	{ src = "https://github.com/toppair/peek.nvim" },
 })
 
-require("luasnip").setup({ enable_autosnippets = true })
+require("fzf-lua").setup({
+	fzf_colors = true,
+	winopts = {
+		height = 1,
+		width = 1,
+		row = 0,
+		col = 0,
+		border = "rounded",
+		title_pos = 'left',
+		fullscreen = true
+	},
+	preview = {
+		hidden = true,
+	},
+	file_icon_padding = "",
+	previewers = {
+		bat = true,
+	},
+	files = {
+		prompt = "> ",
+		previewer = false,
+	},
+	oldfiles = {
+		prompt = "> ",
+		previewer = false,
+	},
+	buffers = {
+		prompt = "> ",
+		previewer = false,
+	},
+	quickfix = {
+		prompt = "> ",
+	},
+	loclist = {
+		prompt = "> ",
+	},
+	grep = {
+		prompt = "> ",
+		input_prompt = "> ",
+	},
+	live_grep = {
+		prompt = "> ",
+		input_prompt = "> ",
+	},
+	tags = {
+		prompt = "> ",
+	},
+	colorschemes = {
+		prompt = "> ",
+		previewer = false,
+		live_preview = true,
+	},
+})
+
 require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/snippets/" })
+require("luasnip").setup({ enable_autosnippets = true })
 local ls = require("luasnip")
 
 require 'omni-preview'.setup({})
 require 'live-server'.setup({})
 require 'peek'.setup({ app = "browser" })
-
-require("mini.pick").setup({
-	window = {
-		prompt_caret = "█",
-		config = {
-			height = "120",
-			width = "120"
-		}
-	},
-	mappings = {
-		choose_in_vsplit = '<C-v>'
-	}
-})
 
 require("mason").setup()
 require("oil").setup({
@@ -62,31 +102,19 @@ require("oil").setup({
 })
 
 vim.cmd("colorscheme moonfly")
-vim.api.nvim_set_hl(0, 'NormalFloat', { bg = '#000000', fg = '#ffffff' })
-vim.api.nvim_set_hl(0, 'FloatBorder', { fg = '#5f5f5f' })
-vim.api.nvim_set_hl(0, 'PmenuSel', { bg = '#3a3a3a', fg = '#ffffff' })
-
-
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "markdown", "text", "latex" },
-  callback = function()
-    if not vim.lsp.get_clients({ name = "ltex" })[1] then
-      vim.lsp.start(vim.lsp.config["ltex"])
-    end
-  end,
-})
-
 
 require("mason-lspconfig").setup({
 	ensure_installed = {
 		"bashls", "clangd", "emmet_ls", "glsl_analyzer", "gopls", "html",
-		"lua_ls", "marksman", "ruff", "rust_analyzer", "svelte", "tailwindcss","tinymist",
+		"lua_ls", "marksman", "ruff", "rust_analyzer", "svelte", "tailwindcss", "tinymist",
+		"jsonls",
 	},
 	automatic_installation = true,
 	automatic_enable = true,
 })
 
 local map = vim.keymap.set
+
 vim.g.mapleader = " "
 map({ 'n', 'v', 'x' }, '<leader>lf', vim.lsp.buf.format, { desc = 'Format current buffer' })
 map('n', '<leader>v', ':e $MYVIMRC<CR>')
@@ -95,15 +123,16 @@ map({ 'i', 's' }, '<C-e>', function() ls.expand_or_jump(1) end, { silent = true 
 map('n', '<leader>z', ':e ~/.zshrc<CR>')
 map({ 'n', 'v' }, '<leader>n', ':norm ')
 map({ 'x', 'n' }, '<C-s>', [[<esc>:'<,'>s/\V/]])
-map('n', '<leader>fj', ':Pick files<CR>', { silent = true })
-map('n', '<leader>sh', ':Pick help<CR>', { silent = true })
-map('n', '<leader>rg', ':Pick grep_live<CR>', { silent = true })
+map('n', '<leader>fj', ':FzfLua files<CR>', { silent = true })
+map('n', '<leader>sh', ':FzfLua helptags<CR>', { silent = true })
+map('n', '<leader>rg', ':FzfLua live_grep<CR>', { silent = true })
+map('n', '<leader>bc', ':FzfLua buffers<CR>', { silent = true })
+map('n', '<leader>cs', ':FzfLua colorschemes<CR>', { silent = true })
+map('n', '<leader>cf', ':FzfLua files cwd=~/.config<CR>', { silent = true })
 map('n', '-', ':Oil<CR>', { silent = true })
 map('n', '<esc>', ':nohlsearch <CR>', { silent = true })
 map('n', '<leader>p', ':OmniPreview start<CR>', { silent = true })
 map('n', '<leader>cd', '<Cmd>cd %:p:h<CR>', { silent = true })
-map('t', '<ESC>', '<C-\\><C-n>', { silent = true })
-
 
 vim.api.nvim_create_autocmd('LspAttach', {
 	group = vim.api.nvim_create_augroup('my.lsp', {}),
@@ -118,14 +147,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
 })
 
 vim.cmd [[set completeopt=menu,menuone,noselect]]
+
 vim.cmd(":hi statusline guibg=NONE")
 vim.cmd(":hi statusline guifg=white")
 vim.cmd(":hi ModeMsg guifg=#cdcdcd")
-
-vim.api.nvim_set_hl(0, 'MiniPickPrompt', { italic = false })
-vim.api.nvim_set_hl(0, 'MiniPickBorderText', { fg = 'NONE' })
-vim.api.nvim_set_hl(0, 'MiniPickBorderBusy', { fg = 'NONE' })
-vim.api.nvim_set_hl(0, 'MiniPickNormal', { bg = '#080808' })
 
 map("n", "<C-q>", ":copen<CR>", { silent = true })
 for i = 1, 9 do
@@ -134,7 +159,7 @@ end
 
 map("n", "<leader>a", function()
 	vim.fn.setqflist({ { filename = vim.fn.expand("%"), lnum = 1, col = 1, text = vim.fn.expand("%") }, }, "a")
-end, { desc = "Add current file to QuickFix" })
+end)
 
 vim.api.nvim_create_autocmd("BufWinEnter", {
 	pattern = "*",

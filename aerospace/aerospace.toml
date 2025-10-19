@@ -37,15 +37,6 @@ alt-shift-7 = 'move-node-to-workspace 7'
 alt-shift-8 = 'move-node-to-workspace 8'
 alt-shift-9 = 'move-node-to-workspace 9'
 
-cmd-enter = 'exec-and-forget open -a Alacritty'     # Terminal
-alt-b = 'exec-and-forget open -a Firefox'       # Browser
-alt-s = 'exec-and-forget open -a Spotify'       # Music
-alt-o = 'exec-and-forget open -a Discord'       # Chat / Community
-alt-f = 'exec-and-forget open -a Finder'        # File manager
-alt-m = 'exec-and-forget open -a Messages'      # iMessage
-alt-p = 'exec-and-forget open -a "System Settings"' # Quick access
-alt-d = 'exec-and-forget open -a "Mail"'        # Mail client
-
 [[on-window-detected]]
 if.app-id = 'com.apple.finder'
 run = ['layout floating']
@@ -61,4 +52,3 @@ run = ['layout floating']
 [[on-window-detected]]
 if.app-id = 'com.apple.AppStore'
 run = ['layout floating']
-
