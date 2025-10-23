@@ -1,6 +1,7 @@
 [window]
 decorations = "none"
 option_as_alt = "Both"
+dynamic_padding = false
 
 [general]
 live_config_reload = true
