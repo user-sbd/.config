@@ -44,12 +44,14 @@ require("fzf-lua").setup({
 	fzf_colors = true,
 	winopts = {
 		height = 1, width = 1, row = 0, col = 0,
-		border = "single", title = false,
-		title_pos = "", fullscreen = true,
+		border = "single", title = false, title_pos = "",
+		fullscreen = true,
 		preview = { vertical = "right:45%" },
 	},
-	file_icon_padding = "", previewers = { bat = true, },
-	files = { prompt = "> ", }, oldfiles = { prompt = "> ", },
+	file_icon_padding = "",
+	previewers = { bat = true, },
+	files = { prompt = "> ", },
+	oldfiles = { prompt = "> ", },
 })
 
 require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/snippets/" })
@@ -61,9 +63,7 @@ require('live-server').setup({})
 require('peek').setup({ app = "browser" })
 
 require("mason").setup()
-require("oil").setup({
-	view_options = { show_hidden = true, },
-})
+require("oil").setup({ view_options = { show_hidden = true, }, })
 
 vim.cmd("colorscheme gruber-darker")
 
@@ -86,14 +86,14 @@ map({ 'i', 's' }, '<C-e>', function() ls.expand_or_jump(1) end, { silent = true 
 map({ 'n', 'v' }, '<leader>n', ':norm ')
 map({ 'x', 'n' }, '<C-s>', [[<esc>:'<,'>s/\V/]])
 map('n', '<leader>fj', ':FzfLua files<CR>', { silent = true })
-map('n', '<leader>of', ':FzfLua oldfiles<CR>', { silent = true })
+map('n', '<leader>so', ':FzfLua oldfiles<CR>', { silent = true })
 map('n', '<leader>sh', ':FzfLua helptags<CR>', { silent = true })
-map('n', '<leader>fm', ':FzfLua manpages<CR>', { silent = true })
-map('n', '<leader>fs', ':FzfLua live_grep<CR>', { silent = true })
+map('n', '<leader>sm', ':FzfLua manpages<CR>', { silent = true })
+map('n', '<leader>ss', ':FzfLua live_grep<CR>', { silent = true })
 map('n', '<leader>cs', ':FzfLua colorschemes<CR>', { silent = true })
 map('n', '<leader>cf', ':FzfLua files cwd=~/.config<CR>', { silent = true })
 map('n', '<leader>gc', ':FzfLua git_commits<CR>', { silent = true })
-map('n', '<leader>bc', ':FzfLua git_bcommits<CR>', { silent = true })
+map('n', '<leader>gb', ':FzfLua git_bcommits<CR>', { silent = true })
 map('n', '<leader>gs', ':FzfLua git_status<CR>', { silent = true })
 map('n', '-', ':Oil<CR>', { silent = true })
 map('n', '<esc>', ':nohlsearch <CR>', { silent = true })
@@ -112,7 +112,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 	end,
 })
 
-vim.cmd[[set completeopt=menu,menuone,noselect]]
+vim.cmd [[set completeopt=menu,menuone,noselect]]
 vim.cmd(":hi statusline guibg=NONE")
 vim.cmd(":hi statusline guifg=white")
 vim.cmd(":hi ModeMsg guifg=#cdcdcd")
@@ -146,12 +146,13 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "typst",
 	callback = function()
-		map("n", "<leader>m", ":make<CR>:lua vim.fn.jobstart('zathura ' .. vim.fn.expand('%:r') .. '.pdf &')<CR><CR>", { noremap = true, buffer = true })
+		map("n", "<leader>m", ":make<CR>:lua vim.fn.jobstart('zathura ' .. vim.fn.expand('%:r') .. '.pdf &')<CR><CR>",
+			{ noremap = true, buffer = true })
 	end,
 })
 
 map("n", "<leader>m", ":make<CR>", { noremap = true, silent = true })
-map("n", "<leader>ra", ":AddGitHubRepo ")
+map("n", "<leader>ga", ":AddGitHubRepo ")
 map("n", "<leader>gr", ":Repos<CR>", { silent = true })
 
 local fzf = require('fzf-lua')
@@ -179,7 +180,8 @@ local function pick_github_repo_and_list_issues()
 		return
 	end
 	fzf.fzf_exec(lines, {
-		prompt = '> ', actions = {
+		prompt = '> ',
+		actions = {
 			['default'] = function(selected)
 				local repo = selected[1]
 				vim.cmd(string.format("Octo issue list %s", repo))
