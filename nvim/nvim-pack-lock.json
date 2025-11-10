@@ -1,0 +1,18 @@
+{
+  "plugins": {
+    "LuaSnip": [],
+    "fzf-lua": [],
+    "live-server.nvim": [],
+    "mason-lspconfig.nvim": [],
+    "mason.nvim": [],
+    "nvim-lspconfig": [],
+    "nvim-treesitter": {
+      "version": "'master'"
+    },
+    "oil.nvim": [],
+    "omni-preview.nvim": [],
+    "peek.nvim": [],
+    "typst-preview.nvim": [],
+    "vague.nvim": []
+  }
+}
