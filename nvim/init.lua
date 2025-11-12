@@ -1,3 +1,4 @@
+
 vim.cmd([[set mouse=]])
 vim.cmd([[set noswapfile]])
 vim.o.winborder = "rounded"
@@ -17,13 +18,11 @@ vim.o.wrap = false
 vim.pack.add({
 	{ src = "https://github.com/vague2k/vague.nvim" },
 	{ src = "https://github.com/stevearc/oil.nvim" },
-	{ src = "https://github.com/ibhagwan/fzf-lua" },
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "master" },
 	-- LSP CONFIG
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{ src = "https://github.com/mason-org/mason.nvim" },
 	{ src = "https://github.com/mason-org/mason-lspconfig.nvim" },
-	{ src = "https://github.com/L3MON4D3/LuaSnip" },
 	-- PREVIEWS
 	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
 	{ src = "https://github.com/barrett-ruth/live-server.nvim" },
@@ -31,29 +30,11 @@ vim.pack.add({
 	{ src = "https://github.com/toppair/peek.nvim" },
 })
 
-require("fzf-lua").setup({
-	fzf_colors = true,
-	winopts = {
-		height = 1, width = 1,
-		row = 0, col = 0,
-		border = "single", title = false,
-		title_pos = "", fullscreen = true,
-		preview = { vertical = "right:45%" },
-	},
-	file_icon_padding = "", previewers = { bat = true, },
-	files = { prompt = "> ", }, oldfiles = { prompt = "> ", },
-})
-
-require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/snippets/" })
-require("luasnip").setup({ enable_autosnippets = true })
 require('omni-preview').setup({})
 require('live-server').setup({})
 require('peek').setup({ app = "browser" })
 require("mason").setup()
 require("oil").setup({ view_options = { show_hidden = true, }, })
-
-local ls = require("luasnip")
-vim.cmd("colorscheme vague")
 
 require("mason-lspconfig").setup({
 	ensure_installed = {
@@ -71,22 +52,13 @@ map({ 'n', 'v', 'x' }, '<leader>lf', vim.lsp.buf.format)
 map('n', '<leader>v', ':e $MYVIMRC<CR>')
 map('n', '<leader>z', ':e ~/.zshrc<CR>')
 map({ 'v', 'x', 'n' }, '<C-y>', '"+y', { desc = 'System clipboard yank.' })
-map({ 'i', 's' }, '<C-e>', function() ls.expand_or_jump(1) end, { silent = true })
 map({ 'n', 'v' }, '<leader>n', ':norm ')
 map({ 'x', 'n' }, '<C-s>', [[<esc>:'<,'>s/\V/]])
-map('n', '<leader>fj', ':FzfLua files<CR>', { silent = true })
-map('n', '<leader>so', ':FzfLua oldfiles<CR>', { silent = true })
-map('n', '<leader>sh', ':FzfLua helptags<CR>', { silent = true })
-map('n', '<leader>sm', ':FzfLua manpages<CR>', { silent = true })
-map('n', '<leader>ss', ':FzfLua live_grep<CR>', { silent = true })
-map('n', '<leader>cs', ':FzfLua colorschemes<CR>', { silent = true })
-map('n', '<leader>cf', ':FzfLua files cwd=~/.config<CR>', { silent = true })
-map('n', '<leader>gb', ':FzfLua git_bcommits<CR>', { silent = true })
-map('n', '<leader>gs', ':FzfLua git_status<CR>', { silent = true })
 map('n', '-', ':Oil<CR>', { silent = true })
 map('n', '<esc>', ':nohlsearch <CR>', { silent = true })
 map('n', '<leader>p', ':OmniPreview start<CR>', { silent = true })
 map('n', '<leader>cd', '<Cmd>cd %:p:h<CR>', { silent = true })
+map('t', '<Esc>', [[<C-\><C-n>]], { noremap = true, silent = true })
 
 vim.api.nvim_create_autocmd('LspAttach', {
 	group = vim.api.nvim_create_augroup('my.lsp', {}),
@@ -106,44 +78,89 @@ vim.cmd("hi statusline guifg=white")
 vim.cmd("hi ModeMsg guifg=#cdcdcd")
 vim.cmd("hi Cursor guifg=white guibg=white")
 
-map("n", "<leader>a", function()
-	vim.cmd("argadd %")
-	vim.cmd("argdedup")
-end)
-
-map("n", "<leader>e", function()
-	vim.cmd.args()
-end)
-
-map("n", "<leader>1", function()
-	vim.cmd("silent! 1argument")
-end)
-
-map("n", "<leader>2", function()
-	vim.cmd("silent! 2argument")
-end)
-
-map("n", "<leader>3", function()
-	vim.cmd("silent! 3argument")
-end)
-
-map("n", "<leader>4", function()
-	vim.cmd("silent! 4argument")
-end)
-
-map("n", "<leader>5", function()
-	vim.cmd("silent! 5argument")
-end)
-
-map("n", "<leader>6", function()
-	vim.cmd("silent! 6argument")
-end)
-
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "typst",
 	callback = function()
 		map("n", "<leader>m", ":make<CR>:lua vim.fn.jobstart('zathura ' .. vim.fn.expand('%:r') .. '.pdf &')<CR><CR>",
 			{ noremap = true, buffer = true })
+	end,
+})
+
+
+if vim.fn.executable "rg" == 1 then
+    function _G.RgFindFiles(cmdarg, _cmdcomplete)
+        local fnames = vim.fn.systemlist('rg --files --hidden --color=never --glob="!.git"')
+        if #cmdarg == 0 then
+            return fnames
+        else
+            return vim.fn.matchfuzzy(fnames, cmdarg)
+        end
+    end
+    vim.o.findfunc = 'v:lua.RgFindFiles'
+end
+local function is_cmdline_type_find()
+    local cmdline_cmd = vim.fn.split(vim.fn.getcmdline(), ' ')[1]
+    return cmdline_cmd == 'find' or cmdline_cmd == 'fin'
+end
+vim.api.nvim_create_autocmd({ 'CmdlineChanged', 'CmdlineLeave' }, {
+    pattern = { '*' },
+    group = vim.api.nvim_create_augroup('CmdlineAutocompletion', { clear = true }),
+    callback = function(ev)
+        local function should_enable_autocomplete()
+            local cmdline_cmd = vim.fn.split(vim.fn.getcmdline(), ' ')[1]
+            return is_cmdline_type_find() or cmdline_cmd == 'help' or cmdline_cmd == 'h'
+        end
+        if ev.event == 'CmdlineChanged' and should_enable_autocomplete() then
+            vim.opt.wildmode = 'noselect:lastused,full'
+            vim.fn.wildtrigger()
+        end
+        if ev.event == 'CmdlineLeave' then
+            vim.opt.wildmode = 'full'
+        end
+    end
+})
+vim.keymap.set('n', '<leader>fj', ':find<space>', { desc = 'Fuzzy find' })
+vim.keymap.set('c', '<C-;>', function()
+    if not is_cmdline_type_find() then
+        vim.notify('This binding should be used with :find', vim.log.levels.ERROR)
+        return
+    end
+    local cmdline_arg = vim.fn.split(vim.fn.getcmdline(), ' ')[2]
+    if vim.uv.fs_realpath(vim.fn.expand(cmdline_arg)) == nil then
+        vim.notify('The second argument should be a valid path', vim.log.levels.ERROR)
+        return
+    end
+    local keys = vim.api.nvim_replace_termcodes(
+        '<C-U>edit ' .. vim.fs.dirname(cmdline_arg),
+        true,
+        true,
+        true
+    )
+    vim.fn.feedkeys(keys, 'c')
+end, { desc = 'Edit the dir for the path' })
+vim.keymap.set('c', '<c-v>', '<home><s-right><c-w>vs<end>', { desc = 'Change command to :vs' })
+
+vim.keymap.set("n", "<C-q>", ":copen<CR>", { silent = true })
+for i = 1, 9 do
+	vim.keymap.set('n', '<leader>' .. i, ':cc ' .. i .. '<CR>', { noremap = true, silent = true })
+end
+vim.keymap.set("n", "<leader>a",
+	function() vim.fn.setqflist({ { filename = vim.fn.expand("%"), lnum = 1, col = 1, text = vim.fn.expand("%"), } }, "a") end,
+	{ desc = "Add current file to QuickFix" })
+
+vim.api.nvim_create_autocmd("BufWinEnter", {
+	pattern = "*",
+	group = vim.api.nvim_create_augroup("qf", { clear = true }),
+	callback = function()
+		if vim.bo.buftype == "quickfix" then
+			vim.keymap.set("n", "<C-q>", ":ccl<cr>", { buffer = true, silent = true })
+			vim.keymap.set("n", "dd", function()
+				local idx = vim.fn.line('.')
+				local qflist = vim.fn.getqflist()
+				table.remove(qflist, idx)
+				vim.fn.setqflist(qflist, 'r')
+			end, { buffer = true })
+		end
 	end,
 })
 

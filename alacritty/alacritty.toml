@@ -14,9 +14,8 @@ size = 27
 [colors.primary]
 # background = "#080808"
 # background = "#1C1C1C"
-# background = "#1C1C1C"
-# background = "#1C1C1C"
-background = "#121212"
+# background = "#121212"
+background = "#1C1C1C"
 foreground = "#d8d8d8"
 
 [colors.normal]
