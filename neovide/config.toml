@@ -1,0 +1,9 @@
+
+# Font size
+font_size = 30
+
+# Remove titlebar (macOS: uses native traffic lights only)
+titlebar = false
+
+# Optional: Cleaner look
+frame = "transparent"   # or "buttonless" for no buttons at all

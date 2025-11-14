@@ -5,14 +5,34 @@
     "live-server.nvim": [],
     "mason-lspconfig.nvim": [],
     "mason.nvim": [],
+    "min-theme.nvim": {
+      "rev": "29fe6f0",
+      "src": "https://github.com/datsfilipe/min-theme.nvim"
+    },
+    "mini.pick": {
+      "rev": "fe1c25e",
+      "src": "https://github.com/nvim-mini/mini.pick"
+    },
     "nvim-lspconfig": [],
     "nvim-treesitter": {
       "version": "'master'"
     },
+    "nyoom.nvim": {
+      "rev": "f808500",
+      "src": "https://github.com/nyoom-engineering/nyoom.nvim"
+    },
     "oil.nvim": [],
     "omni-preview.nvim": [],
     "peek.nvim": [],
+    "smear-cursor.nvim": {
+      "rev": "abfa583",
+      "src": "https://github.com/sphamba/smear-cursor.nvim"
+    },
     "typst-preview.nvim": [],
-    "vague.nvim": []
+    "vague.nvim": [],
+    "vim-moonfly-colors": {
+      "rev": "ef85b89",
+      "src": "https://github.com/bluz71/vim-moonfly-colors"
+    }
   }
 }

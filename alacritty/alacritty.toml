@@ -9,13 +9,14 @@ live_config_reload = true
 [font]
 # normal = {family = "DankMono Nerd Font" }
 normal = { family = "JetBrainsMono Nerd Font"}
-size = 27
+size = 25
 
 [colors.primary]
 # background = "#080808"
 # background = "#1C1C1C"
 # background = "#121212"
-background = "#1C1C1C"
+background = "#121212"
+# background = "#1C1C1C"
 foreground = "#d8d8d8"
 
 [colors.normal]
