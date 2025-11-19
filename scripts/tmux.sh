@@ -1,16 +1,21 @@
 #!/bin/bash
 
 # Use find to get full paths of directories in ~/Documents (excluding ~/Documents itself)
-doc_dirs=$(find ~/Documents -maxdepth 2 -type d -not -path ~/Documents)
+# Exclude specific folders: Image-Line, Mighty, "REAPER Media"
+doc_dirs=$(find ~/Documents -maxdepth 2 -type d \
+    -not -path ~/Documents \
+    -not -path "*/Image-Line*" \
+    -not -path "*/Mighty*" \
+    -not -path "*/REAPER Media*")
 
 # Include '.config' as a separate option, but display it as just '.config'
-picker_dirs=$( { 
-    printf '%s\n' "$doc_dirs" ; 
-    echo ".config" ; 
-} | sort -u | sed "s|$HOME/Documents/||")
+picker_dirs=$( {
+    printf '%s\n' "$doc_dirs"
+    echo ".config"
+} | sort -u | sed "s|^$HOME/Documents/||")
 
 # Display the list of directories to sk for selection
-selected=$(echo "$picker_dirs" | sk --color="bw" --margin "10%")
+selected=$(echo "$picker_dirs" | sk --color="bw" --margin 10%)
 
 # Check if selection is empty
 if [ -z "$selected" ]; then
@@ -39,4 +44,3 @@ if [ -n "$TMUX" ]; then
 else
     tmux attach-session -t "$session"
 fi
-

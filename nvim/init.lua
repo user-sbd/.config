@@ -1,15 +1,3 @@
-if vim.g.neovide then
-	vim.o.guifont = "JetBrainsMono Nerd Font:h25"
-	vim.g.neovide_show_border = false
-	vim.g.neovide_window_blurred = true
-	vim.g.neovide_opacity = 1.0
-	vim.opt.linespace = 0 -- No extra line spacing
-	vim.g.neovide_scale_factor = 1.0 -- No UI scaling (since 0.10.2)
-	vim.g.neovide_padding_top = 0 -- Zero padding (top/bottom/left/right; since 0.10.4)
-	vim.g.neovide_padding_bottom = 0
-	vim.g.neovide_padding_left = 0
-	vim.g.neovide_padding_right = 0
-end
 vim.cmd([[set mouse=]])
 vim.cmd([[set noswapfile]])
 vim.o.winborder = "rounded"
@@ -27,63 +15,70 @@ vim.o.signcolumn = "yes:1"
 vim.o.wrap = false
 
 vim.pack.add({
-	{ src = "https://github.com/vague2k/vague.nvim" },
 	{ src = "https://github.com/stevearc/oil.nvim" },
-	{ src = "https://github.com/nvim-mini/mini.pick" },
-	{ src = "https://github.com/sphamba/smear-cursor.nvim" },
-	-- LSP CONFIG
+	{ src = "https://github.com/NeogitOrg/neogit" },
+	{ src = "https://github.com/nvim-lua/plenary.nvim" },
+	{ src = "https://github.com/chentoast/marks.nvim" },
+	{ src = "https://github.com/vague-theme/vague.nvim" },
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{ src = "https://github.com/mason-org/mason.nvim" },
-	{ src = "https://github.com/stevearc/oil.nvim" },
-	{ src = "https://github.com/bluz71/vim-moonfly-colors" },
-	{ src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "master" },
+	{ src = "https://github.com/ibhagwan/fzf-lua" },
 	{ src = "https://github.com/mason-org/mason-lspconfig.nvim" },
-	-- PREVIEWS
 	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
-	{ src = "https://github.com/barrett-ruth/live-server.nvim" },
-	{ src = "https://github.com/toppair/peek.nvim" },
-	{ src = "https://github.com/SylvanFranklin/omni-preview.nvim" },
 })
 
 vim.cmd("colorscheme vague")
-require("omni-preview").setup({})
-require("live-server").setup({})
-require("smear_cursor").setup({
-	opts = {
-		legacy_computing_symbols_support = false,
+-- vim.cmd("colorscheme default")
+
+require("mason").setup()
+require("marks").setup({
+	default_mappings = true,
+	builtin_marks = { ".", "<", ">", "^" },
+	cyclic = true,
+	force_write_shada = false,
+	refresh_interval = 250,
+	sign_priority = { lower = 10, upper = 15, builtin = 8, bookmark = 20 },
+	excluded_filetypes = {},
+	excluded_buftypes = {},
+})
+require("oil").setup({
+	view_options = { show_hidden = true },
+	skip_confirm_for_simple_edits = true,
+	delete_to_trash = true,
+	keymaps = {
+		["<C-h>"] = false, ["<C-j>"] = false,
+		["<C-k>"] = false, ["<C-l>"] = false,
+		["<C-b>"] = false, ["<C-n>"] = false,
+		["<C-m>"] = false, ["<C-,>"] = false,
 	},
 })
-require("peek").setup({ app = "browser" })
-require("mason").setup()
-require("oil").setup({ view_options = { show_hidden = true } })
-require("mini.pick").setup({
-	mappings = {
-		choose = "<CR>",
-		choose_in_vsplit = "<C-v>",
-		mark = "<C-x>",
-		move_down = "<C-n>",
-		move_up = "<C-p>",
-		stop = "<Esc>",
-		toggle_preview = "<Tab>",
+
+require("fzf-lua").setup({
+	fzf_colors = true,
+	winopts = {
+		height = 1, width = 1,
+		row = 0, col = 0,
+		border = "single",
+		title = false,
+		title_pos = "",
+		fullscreen = true,
+		preview = { vertical = "right:45%" },
 	},
+	file_icon_padding = "",
+	previewers = { bat = true },
+	files = { prompt = "> " },
+	oldfiles = { prompt = "> " },
 })
 
 require("mason-lspconfig").setup({
 	ensure_installed = {
-		"bashls",
-		"clangd",
-		"emmet_ls",
-		"glsl_analyzer",
-		"gopls",
-		"html",
-		"lua_ls",
-		"marksman",
-		"ruff",
-		"rust_analyzer",
-		"svelte",
-		"tailwindcss",
-		"tinymist",
-		"jsonls",
+		"bashls", "clangd",
+		"emmet_ls", "glsl_analyzer",
+		"gopls", "html",
+		"lua_ls", "marksman",
+		"ruff", "rust_analyzer",
+		"svelte", "tailwindcss",
+		"tinymist", "jsonls", "zk",
 	},
 	automatic_installation = true,
 	automatic_enable = true,
@@ -92,26 +87,42 @@ require("mason-lspconfig").setup({
 vim.g.mapleader = " "
 local map = vim.keymap.set
 
-map("n", "<C-l>", "<cmd>cnext<CR>")
-map("n", "<leader>t", "<cmd>te<CR>")
+map("n", "<C-l>", "<cmd>cnext<cr>")
 map("n", "<C-h>", "<cmd>cprev<CR>")
-map({ "n", "v", "x" }, "<leader>lf", vim.lsp.buf.format)
+map("n", "<leader>t", "<cmd>te<CR>")
 map("n", "<leader>v", ":e $MYVIMRC<CR>")
 map("n", "<leader>z", ":e ~/.zshrc<CR>")
 map({ "v", "x", "n" }, "<C-y>", '"+y')
 map({ "n", "v" }, "<leader>n", ":norm ")
-map("n", "<leader>fj", ":Pick files<CR>")
-map("n", "<leader>sh", ":Pick help<CR>")
-map("n", "<leader>fs", ":Pick grep_live<CR>")
-map({ "x", "n" }, "<C-s>", [[<esc>:'<,'>s/\V/]])
+map("n", "<leader>u", "<CMD>:Undotree<CR>")
+map({ "n", "v", "x" }, "<leader>lf", vim.lsp.buf.format)
 map("n", "-", ":Oil<CR>", { silent = true })
+map("n", "<leader>fj", ":FzfLua files<CR>", { silent = true })
+map("n", "<leader>fm", "<cmd>FzfLua marks<cr>")
+map("n", "<leader>of", ":FzfLua oldfiles<CR>", { silent = true })
+map("n", "<leader>sh", ":FzfLua helptags<CR>", { silent = true })
+map("n", "<leader>ss", ":FzfLua live_grep<CR>", { silent = true })
+map("n", "<leader>cs", ":FzfLua colorschemes<CR>", { silent = true })
+map("n", "<leader>M", ":MarksQFListGlobal<CR>", { silent = true})
+map("n", "<leader>cf", ":FzfLua files cwd=~/.config<CR>", { silent = true })
+map("n", "<leader>gb", ":FzfLua git_bcommits<CR>", { silent = true })
+map("n", "<leader>gs", ":FzfLua git_status<CR>", { silent = true })
 map("n", "<esc>", ":nohlsearch <CR>", { silent = true })
-map("n", "<leader>p", ":OmniPreview start<CR>", { silent = true })
+map("n", "<leader>p", ":TypstPreview<CR>", { silent = true })
 map("n", "<leader>cd", "<Cmd>cd %:p:h<CR>", { silent = true })
 map("n", "<leader>m", "<Cmd>make<CR>", { silent = true })
 map("t", "<Esc>", [[<C-\><C-n>]], { noremap = true, silent = true })
-map("n", "<leader>l", [[<cmd>vertical resize +5<cr>]])
-map("n", "<leader>h", [[<cmd>vertical resize -5<cr>]])
+vim.keymap.set(
+  "n",
+  "<leader>gg",
+  function()
+    require("neogit").open({
+      kind = "replace",
+      cwd = vim.fn.expand("%:p:h"),
+    })
+  end,
+  { desc = "Open Neogit UI (repo of current file)" }
+)
 
 vim.api.nvim_create_autocmd("LspAttach", {
 	group = vim.api.nvim_create_augroup("my.lsp", {}),
@@ -146,12 +157,12 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
-vim.keymap.set("n", "<C-q>", ":copen<CR>", { silent = true })
+map("n", "<C-q>", ":copen<CR>", { silent = true })
 for i = 1, 9 do
-	vim.keymap.set("n", "<leader>" .. i, ":cc " .. i .. "<CR>", { noremap = true, silent = true })
+	map("n", "<leader>" .. i, ":cc " .. i .. "<CR>", { noremap = true, silent = true })
 end
 
-vim.keymap.set("n", "<leader>a", function()
+map("n", "<leader>a", function()
 	local pos = vim.api.nvim_win_get_cursor(0)
 	vim.fn.setqflist({
 		{
@@ -168,8 +179,8 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
 	group = vim.api.nvim_create_augroup("qf", { clear = true }),
 	callback = function()
 		if vim.bo.buftype == "quickfix" then
-			vim.keymap.set("n", "<C-q>", ":ccl<cr>", { buffer = true, silent = true })
-			vim.keymap.set("n", "dd", function()
+			map("n", "<C-q>", ":ccl<cr>", { buffer = true, silent = true })
+			map("n", "dd", function()
 				local idx = vim.fn.line(".")
 				local qflist = vim.fn.getqflist()
 				table.remove(qflist, idx)
@@ -178,4 +189,13 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
 		end
 	end,
 })
-vim.api.nvim_set_keymap("n", "<leader>m", "<cmd>make<CR>", { noremap = true, silent = true })
+
+map("n", "<leader>m", "<cmd>make<CR>", { noremap = true, silent = true })
+vim.cmd.packadd("nvim.undotree")
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "nvim-undotree",
+	callback = function()
+		vim.cmd.wincmd("H")
+		vim.api.nvim_win_set_width(0, 40)
+	end,
+})
