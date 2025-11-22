@@ -112,9 +112,10 @@ map("n", "<leader>p", ":TypstPreview<CR>", { silent = true })
 map("n", "<leader>cd", "<Cmd>cd %:p:h<CR>", { silent = true })
 map("n", "<leader>m", "<Cmd>make<CR>", { silent = true })
 map("t", "<Esc>", [[<C-\><C-n>]], { noremap = true, silent = true })
+
 vim.keymap.set(
   "n",
-  "<leader>gg",
+  "<C-j>",
   function()
     require("neogit").open({
       kind = "replace",
@@ -199,3 +200,28 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.api.nvim_win_set_width(0, 40)
 	end,
 })
+
+-- Normal pairs (always safe)
+vim.keymap.set('i', '(', '()<Left>')
+vim.keymap.set('i', '[', '[]<Left>')
+vim.keymap.set('i', '{', '{}<Left>')
+vim.keymap.set('i', '<', '<><Left>')
+vim.keymap.set('i', '"', function()
+  local col = vim.fn.col('.') - 1
+  local prev_char = vim.fn.getline('.'):sub(col, col)
+  if prev_char:match('[%w]') then
+    return '"'
+  else
+    return '""<Left>'
+  end
+end, { expr = true })
+vim.keymap.set('i', "'", function()
+  local col = vim.fn.col('.')
+  local prev_char = vim.fn.getline('.'):sub(col-1, col-1)
+  local next_char = vim.fn.getline('.'):sub(col, col)
+  if next_char == "'" or prev_char:match('[%w]') then
+    return "'"
+  else
+    return "''<Left>"
+  end
+end, { expr = true })
