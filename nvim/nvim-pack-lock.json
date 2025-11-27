@@ -104,6 +104,10 @@
       "rev": "49f7ee7",
       "src": "https://github.com/kvrohit/rasmus.nvim"
     },
+    "render-markdown.nvim": {
+      "rev": "6e0e890",
+      "src": "https://github.com/MeanderingProgrammer/render-markdown.nvim"
+    },
     "smear-cursor.nvim": {
       "rev": "abfa583",
       "src": "https://github.com/sphamba/smear-cursor.nvim"

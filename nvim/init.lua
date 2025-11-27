@@ -16,9 +16,10 @@ vim.o.wrap = false
 
 vim.pack.add({
 	{ src = "https://github.com/stevearc/oil.nvim" },
+	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
+	{ src = "https://github.com/MeanderingProgrammer/render-markdown.nvim" },
 	{ src = "https://github.com/NeogitOrg/neogit" },
 	{ src = "https://github.com/nvim-lua/plenary.nvim" },
-	{ src = "https://github.com/chentoast/marks.nvim" },
 	{ src = "https://github.com/vague-theme/vague.nvim" },
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{ src = "https://github.com/mason-org/mason.nvim" },
@@ -31,54 +32,78 @@ vim.cmd("colorscheme vague")
 -- vim.cmd("colorscheme default")
 
 require("mason").setup()
-require("marks").setup({
-	default_mappings = true,
-	builtin_marks = { ".", "<", ">", "^" },
-	cyclic = true,
-	force_write_shada = false,
-	refresh_interval = 250,
-	sign_priority = { lower = 10, upper = 15, builtin = 8, bookmark = 20 },
-	excluded_filetypes = {},
-	excluded_buftypes = {},
+require("render-markdown").setup({
+	heading = {
+		enabled = false,
+	},
 })
 require("oil").setup({
 	view_options = { show_hidden = true },
 	skip_confirm_for_simple_edits = true,
 	delete_to_trash = true,
 	keymaps = {
-		["<C-h>"] = false, ["<C-j>"] = false,
-		["<C-k>"] = false, ["<C-l>"] = false,
-		["<C-b>"] = false, ["<C-n>"] = false,
-		["<C-m>"] = false, ["<C-,>"] = false,
+		["<C-h>"] = false,
+		["<C-j>"] = false,
+		["<C-k>"] = false,
+		["<C-l>"] = false,
+		["<C-b>"] = false,
+		["<C-n>"] = false,
+		["<C-m>"] = false,
+		["<C-,>"] = false,
 	},
 })
 
+local actions = require("fzf-lua.actions")
 require("fzf-lua").setup({
-	fzf_colors = true,
-	winopts = {
-		height = 1, width = 1,
-		row = 0, col = 0,
-		border = "single",
-		title = false,
-		title_pos = "",
-		fullscreen = true,
-		preview = { vertical = "right:45%" },
-	},
-	file_icon_padding = "",
-	previewers = { bat = true },
-	files = { prompt = "> " },
-	oldfiles = { prompt = "> " },
+  fzf_colors = true,
+  winopts = {
+    height     = 1,
+    width      = 1,
+    row        = 0,
+    col        = 0,
+    border     = "single",
+    fullscreen = true,
+    preview    = {
+      vertical = "right:45%",
+    },
+    title      = false,
+  },
+  actions = {
+    files = {
+      ["enter"]   = actions.file_edit_or_qf,
+      ["ctrl-v"]  = actions.file_vsplit,
+      ["ctrl-q"]   = actions.file_sel_to_qf,
+    },
+  },
+  files = {
+    prompt = "> ",
+  },
+  oldfiles = {
+    prompt = "> ",
+  },
+  previewers = {
+    bat = true,
+  },
+  file_icon_padding = "",
 })
 
 require("mason-lspconfig").setup({
 	ensure_installed = {
-		"bashls", "clangd",
-		"emmet_ls", "glsl_analyzer",
-		"gopls", "html",
-		"lua_ls", "marksman",
-		"ruff", "rust_analyzer",
-		"svelte", "tailwindcss",
-		"tinymist", "jsonls", "zk",
+		"bashls",
+		"clangd",
+		"emmet_ls",
+		"glsl_analyzer",
+		"gopls",
+		"html",
+		"lua_ls",
+		"marksman",
+		"ruff",
+		"rust_analyzer",
+		"svelte",
+		"tailwindcss",
+		"tinymist",
+		"jsonls",
+		"zk",
 	},
 	automatic_installation = true,
 	automatic_enable = true,
@@ -103,27 +128,18 @@ map("n", "<leader>of", ":FzfLua oldfiles<CR>", { silent = true })
 map("n", "<leader>sh", ":FzfLua helptags<CR>", { silent = true })
 map("n", "<leader>ss", ":FzfLua live_grep<CR>", { silent = true })
 map("n", "<leader>cs", ":FzfLua colorschemes<CR>", { silent = true })
-map("n", "<leader>M", ":MarksQFListGlobal<CR>", { silent = true})
+map("n", "<leader>M", ":MarksQFListGlobal<CR>", { silent = true })
 map("n", "<leader>cf", ":FzfLua files cwd=~/.config<CR>", { silent = true })
-map("n", "<leader>gb", ":FzfLua git_bcommits<CR>", { silent = true })
-map("n", "<leader>gs", ":FzfLua git_status<CR>", { silent = true })
 map("n", "<esc>", ":nohlsearch <CR>", { silent = true })
 map("n", "<leader>p", ":TypstPreview<CR>", { silent = true })
 map("n", "<leader>cd", "<Cmd>cd %:p:h<CR>", { silent = true })
 map("n", "<leader>m", "<Cmd>make<CR>", { silent = true })
 map("t", "<Esc>", [[<C-\><C-n>]], { noremap = true, silent = true })
-
-vim.keymap.set(
-  "n",
-  "<C-j>",
-  function()
-    require("neogit").open({
-      kind = "replace",
-      cwd = vim.fn.expand("%:p:h"),
-    })
-  end,
-  { desc = "Open Neogit UI (repo of current file)" }
-)
+map("t", "<C-l>", "<Esc><cmd>cnext<CR>", { noremap = true, silent = true })
+map("t", "<C-h>", "<Esc><cmd>cprev<CR>", { noremap = true, silent = true })
+map("n", "<C-n>", function()
+	require("neogit").open({ kind = "replace", cwd = vim.fn.expand("%:p:h") })
+end)
 
 vim.api.nvim_create_autocmd("LspAttach", {
 	group = vim.api.nvim_create_augroup("my.lsp", {}),
@@ -191,7 +207,6 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
 	end,
 })
 
-map("n", "<leader>m", "<cmd>make<CR>", { noremap = true, silent = true })
 vim.cmd.packadd("nvim.undotree")
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "nvim-undotree",
@@ -201,27 +216,3 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
--- Normal pairs (always safe)
-vim.keymap.set('i', '(', '()<Left>')
-vim.keymap.set('i', '[', '[]<Left>')
-vim.keymap.set('i', '{', '{}<Left>')
-vim.keymap.set('i', '<', '<><Left>')
-vim.keymap.set('i', '"', function()
-  local col = vim.fn.col('.') - 1
-  local prev_char = vim.fn.getline('.'):sub(col, col)
-  if prev_char:match('[%w]') then
-    return '"'
-  else
-    return '""<Left>'
-  end
-end, { expr = true })
-vim.keymap.set('i', "'", function()
-  local col = vim.fn.col('.')
-  local prev_char = vim.fn.getline('.'):sub(col-1, col-1)
-  local next_char = vim.fn.getline('.'):sub(col, col)
-  if next_char == "'" or prev_char:match('[%w]') then
-    return "'"
-  else
-    return "''<Left>"
-  end
-end, { expr = true })
