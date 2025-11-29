@@ -24,7 +24,7 @@ vim.pack.add({
 	{ src = "https://github.com/kien/ctrlp.vim" },
 })
 
-vim.cmd("colo retrobox")
+vim.cmd("colo slate")
 -- vim.cmd("colorscheme default")
 
 require("mason").setup()
@@ -50,7 +50,7 @@ require("mason-lspconfig").setup({
 		"bashls", "clangd", "emmet_ls", "glsl_analyzer",
 		"gopls", "html", "lua_ls", "marksman", "ruff",
 		"rust_analyzer", "svelte", "tailwindcss", "tinymist",
-		"jsonls", "zk",
+		"jsonls", "zk","pyright","pylsp",
 	},
 	automatic_installation = true,
 	automatic_enable = true,
@@ -77,6 +77,7 @@ map({"t","n" }, "<C-h>", "<Esc><cmd>prev<CR>", { noremap = true, silent = true }
 map("n", "<C-g>", function()
 	require("neogit").open({ kind = "split_below", cwd = vim.fn.expand("%:p:h") })
 end)
+vim.keymap.set("n", "<C-t>", "<CMD>CtrlPTag<CR>")
 vim.keymap.set("n", "<C-f>", function()
   vim.cmd("CtrlP ~/.config")
 end, { silent = true })
@@ -97,12 +98,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
 })
 
 vim.cmd([[set completeopt=menu,menuone,noselect]])
-vim.cmd("hi statusline guibg=WHITE")
-vim.cmd("hi statusline guibg=WHITE")
-vim.cmd("hi NormalFloat guibg=#1C1C1C")
-vim.cmd("hi statusline guifg=#1C1C1C")
+vim.cmd("hi statusline guibg=NONE")
+vim.cmd("hi statusline guifg=WHITE")
+vim.cmd("hi NormalFloat guibg=#262626")
+vim.cmd("hi FloatBorder guifg=#NONE guibg=#NONE")
 vim.cmd("hi ModeMsg guifg=#cdcdcd")
-vim.cmd("hi Cursor guifg=white guibg=white")
+vim.cmd("hi ModeMsg guibg=NONE")
 
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "typst",
@@ -144,9 +145,9 @@ hi link CtrlPNoEntries ErrorMsg
 hi CtrlPNoEntries ctermfg=white ctermbg=black
 hi link CtrlPMatch Normal
 hi CtrlPMatch ctermfg=white ctermbg=black
-hi CtrlPLinePre ctermfg=black ctermbg=black " Hide the '>' prefix in match window if present
+hi CtrlPLinePre ctermfg=black ctermbg=black
 hi link CtrlPPrtBase Normal
-hi CtrlPPrtBase ctermfg=black ctermbg=black " Hide the '>>>' in prompt
+hi CtrlPPrtBase ctermfg=black ctermbg=black
 hi link CtrlPPrtText Normal
 hi CtrlPPrtText ctermfg=white ctermbg=black
 hi link CtrlPMode1 LineNr
@@ -156,3 +157,5 @@ hi CtrlPMode2 ctermfg=white ctermbg=black
 hi link CtrlPStats Function
 hi CtrlPStats ctermfg=white ctermbg=black
 ]])
+vim.cmd("set wildignore+=*/.git/*,*/.hg/*,*/.svn/*")
+
