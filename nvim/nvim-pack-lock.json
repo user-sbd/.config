@@ -5,6 +5,14 @@
       "rev": "6d02078",
       "src": "https://github.com/metalelf0/black-metal-theme-neovim"
     },
+    "ctrlp.vim": {
+      "rev": "564176f",
+      "src": "https://github.com/kien/ctrlp.vim"
+    },
+    "dired.nvim": {
+      "rev": "b56790d",
+      "src": "https://github.com/X3eRo0/dired.nvim"
+    },
     "fzf-lua": {
       "rev": "8337813",
       "src": "https://github.com/ibhagwan/fzf-lua"
@@ -70,6 +78,14 @@
       "rev": "ba47d4b",
       "src": "https://github.com/EdenEast/nightfox.nvim"
     },
+    "nui": {
+      "rev": "cd61447",
+      "src": "https://github.com/nats-nui/nui"
+    },
+    "nui.nvim": {
+      "rev": "de74099",
+      "src": "https://github.com/MunifTanjim/nui.nvim"
+    },
     "nvim-lspconfig": {
       "rev": "c6f05c0",
       "src": "https://github.com/neovim/nvim-lspconfig"
@@ -112,6 +128,10 @@
       "rev": "abfa583",
       "src": "https://github.com/sphamba/smear-cursor.nvim"
     },
+    "solarized-osaka.nvim": {
+      "rev": "f796014",
+      "src": "https://github.com/craftzdog/solarized-osaka.nvim"
+    },
     "typst-preview.nvim": {
       "rev": "64469f8",
       "src": "https://github.com/chomosuke/typst-preview.nvim"
@@ -123,6 +143,10 @@
     "vim-moonfly-colors": {
       "rev": "ef85b89",
       "src": "https://github.com/bluz71/vim-moonfly-colors"
+    },
+    "vim-qf": {
+      "rev": "7cafff6",
+      "src": "https://github.com/romainl/vim-qf"
     },
     "y9nika.nvim": {
       "rev": "e25b944",
