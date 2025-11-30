@@ -62,9 +62,17 @@
       "rev": "29fe6f0",
       "src": "https://github.com/datsfilipe/min-theme.nvim"
     },
+    "mini.animate": {
+      "rev": "0365de8",
+      "src": "https://github.com/nvim-mini/mini.animate"
+    },
     "mini.pick": {
       "rev": "fe1c25e",
       "src": "https://github.com/nvim-mini/mini.pick"
+    },
+    "mini.statusline": {
+      "rev": "1491990",
+      "src": "https://github.com/nvim-mini/mini.statusline"
     },
     "neogit": {
       "rev": "4ba620ad",
@@ -131,6 +139,18 @@
     "solarized-osaka.nvim": {
       "rev": "f796014",
       "src": "https://github.com/craftzdog/solarized-osaka.nvim"
+    },
+    "telescope-fzf-native.nvim": {
+      "rev": "6fea601",
+      "src": "https://github.com/nvim-telescope/telescope-fzf-native.nvim"
+    },
+    "telescope-fzy-native.nvim": {
+      "rev": "282f069",
+      "src": "https://github.com/nvim-telescope/telescope-fzy-native.nvim"
+    },
+    "telescope.nvim": {
+      "rev": "f0caedf",
+      "src": "https://github.com/nvim-telescope/telescope.nvim"
     },
     "typst-preview.nvim": {
       "rev": "64469f8",
