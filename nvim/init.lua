@@ -21,25 +21,24 @@ vim.pack.add({
 	{ src = "https://github.com/mason-org/mason.nvim" },
 	{ src = "https://github.com/mason-org/mason-lspconfig.nvim" },
 	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
-	{ src = "https://github.com/nvim-telescope/telescope.nvim" },
-	{ src = "https://github.com/nvim-telescope/telescope-fzf-native.nvim" },
+	{ src = "https://github.com/nvim-mini/mini.pick" },
 })
 
-vim.cmd("colo slate")
--- vim.cmd("colorscheme default")
-
-require("telescope").setup({
-	extensions = {
-		fzf = {
-			fuzzy = true,
-			override_generic_sorter = true,
-			override_file_sorter = true,
-			case_mode = "smart_case",
+vim.cmd("colo habamax")
+require("mini.pick").setup({
+  options = {
+    content_from_bottom = false,
+    use_cache = false,
+  },
+  window = {
+    config = {
+			height = 100,
+			width = 100,
 		},
-	},
+    prompt_caret = '█',
+    prompt_prefix = ' ',
+  },
 })
-
-require("telescope").load_extension("fzf")
 
 require("mason").setup()
 require("oil").setup({
@@ -78,10 +77,11 @@ require("mason-lspconfig").setup({
 vim.g.mapleader = " "
 local map = vim.keymap.set
 
-map("n", "<leader>bt", "<cmd>Telescope<CR>")
-map("n", "<leader>cf", "<cmd>:Telescope find_files cwd=~/.config<CR>")
-map("n", "<leader>fj", "<cmd>Telescope find_files<CR>")
-map("n", "<leader>sh", "<cmd>Telescope help_tags<CR>")
+map("n", "<C-f>", "<cmd>cd ~/.config | :Pick files <CR>")
+map("n", "<leader>fj", "<cmd>Pick files <CR>")
+map("n", "<leader><leader>", "<cmd>Pick files <CR>")
+map("n", "<leader>fs", "<cmd>Pick grep_live<CR>")
+map("n", "<leader>sh", "<cmd>Pick help<CR>")
 
 map("n", "<leader>t", "<cmd>te<CR>")
 map("n", "<leader>v", ":e $MYVIMRC<CR>")
@@ -119,9 +119,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
 vim.cmd([[set completeopt=menu,menuone,noselect]])
 
 vim.cmd("hi statusline guibg=NONE")
+vim.cmd("hi MiniPickBorderBusy guibg=NONE")
+vim.cmd("hi MiniPickBorderText guibg=NONE")
 vim.cmd("hi TelescopeSelection guibg=#cdcdcd")
 vim.cmd("hi statusline guifg=WHITE")
-vim.cmd("hi NormalFloat guibg=#262626")
+vim.cmd("hi NormalFloat guibg=#1C1C1C")
 vim.cmd("hi FloatBorder guifg=#NONE guibg=#NONE")
 vim.cmd("hi ModeMsg guifg=#cdcdcd")
 vim.cmd("hi ModeMsg guibg=NONE")
@@ -165,3 +167,4 @@ for i = 1, 9 do
 		end
 	end)
 end
+
