@@ -1,6 +1,5 @@
 {
   "plugins": {
-    "LuaSnip": [],
     "black-metal-theme-neovim": {
       "rev": "6d02078",
       "src": "https://github.com/metalelf0/black-metal-theme-neovim"
@@ -17,6 +16,10 @@
       "rev": "8337813",
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
+    "fzy-lua-native": {
+      "rev": "9d720745d5c2fb563c0d86c17d77612a3519c506",
+      "src": "https://github.com/romgrk/fzy-lua-native"
+    },
     "github-nvim-theme": {
       "rev": "c106c94",
       "src": "https://github.com/projekt0n/github-nvim-theme"
@@ -29,7 +32,6 @@
       "rev": "d598926",
       "src": "https://github.com/metalelf0/jellybeans-nvim"
     },
-    "live-server.nvim": [],
     "markdown-plus.nvim": {
       "rev": "22d26ef",
       "src": "https://github.com/YousefHadder/markdown-plus.nvim"
@@ -114,12 +116,10 @@
       "rev": "7e1cd77",
       "src": "https://github.com/stevearc/oil.nvim"
     },
-    "omni-preview.nvim": [],
     "oxocarbon.nvim": {
       "rev": "9f85f60",
       "src": "https://github.com/nyoom-engineering/oxocarbon.nvim"
     },
-    "peek.nvim": [],
     "plenary.nvim": {
       "rev": "b9fd522",
       "src": "https://github.com/nvim-lua/plenary.nvim"

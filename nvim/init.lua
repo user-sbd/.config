@@ -12,6 +12,7 @@ vim.o.guicursor = ""
 vim.o.undofile = true
 vim.o.signcolumn = "yes:1"
 vim.o.wrap = false
+vim.o.guifontwide = "30"
 
 vim.pack.add({
 	{ src = "https://github.com/stevearc/oil.nvim" },
@@ -36,7 +37,7 @@ require("mini.pick").setup({
 			width = 100,
 		},
     prompt_caret = '█',
-    prompt_prefix = ' ',
+    prompt_prefix = '> ',
   },
 })
 
