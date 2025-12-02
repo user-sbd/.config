@@ -1,3 +1,4 @@
+vim.cmd([[set mouse=]])
 vim.cmd([[set noswapfile]])
 vim.o.winborder = "rounded"
 vim.o.winbar = ""
@@ -12,46 +13,28 @@ vim.o.guicursor = ""
 vim.o.undofile = true
 vim.o.signcolumn = "yes:1"
 vim.o.wrap = false
-vim.o.guifontwide = "30"
 
 vim.pack.add({
 	{ src = "https://github.com/stevearc/oil.nvim" },
+	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
 	{ src = "https://github.com/NeogitOrg/neogit" },
 	{ src = "https://github.com/nvim-lua/plenary.nvim" },
+	{ src = "https://github.com/vague-theme/vague.nvim" },
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{ src = "https://github.com/mason-org/mason.nvim" },
+	{ src = "https://github.com/ibhagwan/fzf-lua" },
 	{ src = "https://github.com/mason-org/mason-lspconfig.nvim" },
 	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
-	{ src = "https://github.com/nvim-mini/mini.pick" },
 })
 
-vim.cmd("colo habamax")
-require("mini.pick").setup({
-  options = {
-    content_from_bottom = false,
-    use_cache = false,
-  },
-  window = {
-    config = {
-			height = 100,
-			width = 100,
-		},
-    prompt_caret = '█',
-    prompt_prefix = '> ',
-  },
-})
+vim.cmd("colorscheme vague")
+-- vim.cmd("colorscheme default")
 
 require("mason").setup()
 require("oil").setup({
 	view_options = { show_hidden = true },
 	skip_confirm_for_simple_edits = true,
 	delete_to_trash = true,
-	buf_options = { buflisted = true },
-	columns = {
-		"mtime",
-		"permissions",
-		"size",
-	},
 	keymaps = {
 		["<C-h>"] = false,
 		["<C-j>"] = false,
@@ -64,12 +47,57 @@ require("oil").setup({
 	},
 })
 
+local actions = require("fzf-lua.actions")
+require("fzf-lua").setup({
+  fzf_colors = true,
+  winopts = {
+    height     = 1,
+    width      = 1,
+    row        = 0,
+    col        = 0,
+    border     = "single",
+    fullscreen = true,
+    preview    = {
+      vertical = "right:45%",
+    },
+    title      = "",
+  },
+  actions = {
+    files = {
+      ["enter"]   = actions.file_edit_or_qf,
+      ["ctrl-v"]  = actions.file_vsplit,
+      ["ctrl-q"]   = actions.file_arg
+    },
+  },
+  files = {
+    prompt = "> ",
+  },
+  oldfiles = {
+    prompt = "> ",
+  },
+  previewers = {
+    bat = true,
+  },
+  file_icon_padding = "",
+})
+
 require("mason-lspconfig").setup({
 	ensure_installed = {
-		"bashls", "clangd", "emmet_ls", "glsl_analyzer", "gopls",
-		"html", "lua_ls", "marksman", "ruff", "rust_analyzer",
-		"svelte", "tailwindcss", "tinymist", "jsonls", "zk",
-		"pyright", "pylsp",
+		"bashls",
+		"clangd",
+		"emmet_ls",
+		"glsl_analyzer",
+		"gopls",
+		"html",
+		"lua_ls",
+		"marksman",
+		"ruff",
+		"rust_analyzer",
+		"svelte",
+		"tailwindcss",
+		"tinymist",
+		"jsonls",
+		"zk",
 	},
 	automatic_installation = true,
 	automatic_enable = true,
@@ -78,12 +106,8 @@ require("mason-lspconfig").setup({
 vim.g.mapleader = " "
 local map = vim.keymap.set
 
-map("n", "<C-f>", "<cmd>cd ~/.config | :Pick files <CR>")
-map("n", "<leader>fj", "<cmd>Pick files <CR>")
-map("n", "<leader><leader>", "<cmd>Pick files <CR>")
-map("n", "<leader>fs", "<cmd>Pick grep_live<CR>")
-map("n", "<leader>sh", "<cmd>Pick help<CR>")
-
+map("n", "<C-l>", "<cmd>cnext<cr>")
+map("n", "<C-h>", "<cmd>cprev<CR>")
 map("n", "<leader>t", "<cmd>te<CR>")
 map("n", "<leader>v", ":e $MYVIMRC<CR>")
 map("n", "<leader>z", ":e ~/.zshrc<CR>")
@@ -92,12 +116,19 @@ map({ "n", "v" }, "<leader>n", ":norm ")
 map("n", "<leader>u", "<CMD>:Undotree<CR>")
 map({ "n", "v", "x" }, "<leader>lf", vim.lsp.buf.format)
 map("n", "-", ":Oil<CR>", { silent = true })
+map("n", "<leader>fj", ":FzfLua files<CR>", { silent = true })
+map("n", "<leader>so", ":FzfLua oldfiles<CR>", { silent = true })
+map("n", "<leader>sh", ":FzfLua helptags<CR>", { silent = true })
+map("n", "<leader>ss", ":FzfLua live_grep<CR>", { silent = true })
+map("n", "<leader>cs", ":FzfLua colorschemes<CR>", { silent = true })
+map("n", "<leader>sc", ":FzfLua files cwd=~/.config<CR>", { silent = true })
 map("n", "<esc>", ":nohlsearch <CR>", { silent = true })
+map("n", "<leader>p", ":TypstPreview<CR>", { silent = true })
 map("n", "<leader>cd", "<Cmd>cd %:p:h<CR>", { silent = true })
-map("n", "<leader>m", "<Cmd>make<CR>", { silent = false })
+map("n", "<leader>m", "<Cmd>make<CR>", { silent = true })
 map("t", "<Esc>", [[<C-\><C-n>]], { noremap = true, silent = true })
-map({ "t", "n" }, "<C-l>", "<Esc><cmd>next<CR>", { noremap = true, silent = true })
-map({ "t", "n" }, "<C-h>", "<Esc><cmd>prev<CR>", { noremap = true, silent = true })
+map("t", "<C-l>", "<Esc><cmd>cnext<CR>", { noremap = true, silent = true })
+map("t", "<C-h>", "<Esc><cmd>cprev<CR>", { noremap = true, silent = true })
 map("n", "<C-g>", function()
 	require("neogit").open({ kind = "replace", cwd = vim.fn.expand("%:p:h") })
 end)
@@ -118,18 +149,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
 })
 
 vim.cmd([[set completeopt=menu,menuone,noselect]])
-
 vim.cmd("hi statusline guibg=NONE")
-vim.cmd("hi MiniPickBorderBusy guibg=NONE")
-vim.cmd("hi MiniPickBorderText guibg=NONE")
-vim.cmd("hi TelescopeSelection guibg=#cdcdcd")
-vim.cmd("hi statusline guifg=WHITE")
-vim.cmd("hi NormalFloat guibg=#1C1C1C")
-vim.cmd("hi FloatBorder guifg=#NONE guibg=#NONE")
+vim.cmd("hi statusline guifg=white")
 vim.cmd("hi ModeMsg guifg=#cdcdcd")
-vim.cmd("hi ModeMsg guibg=NONE")
-vim.cmd("hi WinSeparator guifg=NONE guibg=NONE gui=bold")
-vim.cmd("hi StatusLineNC guifg=#737373 guibg=NONE gui=italic")
+vim.cmd("hi Cursor guifg=white guibg=white")
 
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "typst",
@@ -143,14 +166,6 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
-vim.cmd.packadd("nvim.undotree")
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = "nvim-undotree",
-	callback = function()
-		vim.cmd.wincmd("H")
-		vim.api.nvim_win_set_width(0, 80)
-	end,
-})
 
 --- harpoon
 map("n", "<leader>a", function()
@@ -169,4 +184,4 @@ for i = 1, 9 do
 	end)
 end
 
---change
+
