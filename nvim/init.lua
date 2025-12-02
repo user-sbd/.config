@@ -64,9 +64,13 @@ require("fzf-lua").setup({
   },
   actions = {
     files = {
+			['ctrl-q'] = function(selected_files)
+        for _, file in ipairs(selected_files) do
+          vim.cmd('argadd ' .. file)
+        end
+      end,
       ["enter"]   = actions.file_edit_or_qf,
       ["ctrl-v"]  = actions.file_vsplit,
-      ["ctrl-q"]   = actions.file_arg
     },
   },
   files = {
