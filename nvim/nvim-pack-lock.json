@@ -29,7 +29,7 @@
       "src": "https://github.com/NeogitOrg/neogit"
     },
     "nvim-lspconfig": {
-      "rev": "effe4bf2e1afb881ea67291c648b68dd3dfc927a",
+      "rev": "9c923997123ff9071198ea3b594d4c1931fab169",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-treesitter": {

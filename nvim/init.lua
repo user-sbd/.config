@@ -15,18 +15,18 @@ vim.o.signcolumn = "yes:1"
 vim.o.wrap = false
 
 vim.pack.add({
-	{ src = "https://github.com/stevearc/oil.nvim" },
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
-	{ src = "https://github.com/NeogitOrg/neogit" },
 	{ src = "https://github.com/nvim-lua/plenary.nvim" },
+
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
-	{ src = "https://github.com/bluz71/vim-moonfly-colors" },
 	{ src = "https://github.com/mason-org/mason.nvim" },
-	{ src = "https://github.com/ibhagwan/fzf-lua" },
 	{ src = "https://github.com/mason-org/mason-lspconfig.nvim" },
+	{ src = "https://github.com/stevearc/oil.nvim" },
+	{ src = "https://github.com/NeogitOrg/neogit" },
+	{ src = "https://github.com/ibhagwan/fzf-lua" },
+	{ src = "https://github.com/bluz71/vim-moonfly-colors" },
 	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
 	{ src = "https://github.com/folke/todo-comments.nvim" },
-	{ src = "https://github.com/nvim-lua/plenary.nvim" },
 })
 
 vim.cmd.colo('moonfly')
@@ -142,6 +142,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 vim.cmd([[set completeopt=menu,menuone,noselect]])
 vim.cmd("hi statusline guibg=NONE")
+vim.cmd("hi StatusLineNC guibg=NONE")
 vim.cmd("hi statusline guibg=NONE")
 vim.cmd("hi ModeMsg guifg=#cdcdcd")
 vim.cmd("hi NormalFloat guibg=#080808")
