@@ -17,7 +17,6 @@ vim.o.wrap = false
 vim.pack.add({
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
 	{ src = "https://github.com/nvim-lua/plenary.nvim" },
-
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{ src = "https://github.com/mason-org/mason.nvim" },
 	{ src = "https://github.com/mason-org/mason-lspconfig.nvim" },
@@ -27,71 +26,81 @@ vim.pack.add({
 	{ src = "https://github.com/bluz71/vim-moonfly-colors" },
 	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
 	{ src = "https://github.com/folke/todo-comments.nvim" },
+	{ src = "https://github.com/nvim-mini/mini.nvim" },
 })
 
-vim.cmd.colo('moonfly')
+vim.cmd.colo("moonfly")
 
-require('todo-comments').setup({
-  signs = false, -- show icons in the signs column
-  sign_priority = 8, -- sign priority
-  keywords = {
-    FIX = {color = "#DF000C",},
-    TODO = { icon = " ", color = "#3797F0" },
-    HACK = { icon = " ", color = "#3797F0" },
-    WARN = { icon = " ", color = "#3797F0", alt = { "WARNING", "XXX" } },
-    NOTE = { icon = " ", color = "#3797F0", alt = { "INFO" } },
-    TEST = { icon = "⏲ ", color = "#3797F0", alt = { "TESTING", "PASSED", "FAILED" } },
-  },
-  merge_keywords = true, -- when true, custom keywords will be merged with the defaults
-  highlight = {
-    multiline = false,
-    before = "fg",
-    keyword = "bg",
-    after = "fg",
-  }
-})
+require('mini.icons').setup()
+require("todo-comments").setup()
 require("mason").setup()
 require("oil").setup({
 	view_options = { show_hidden = true },
 	skip_confirm_for_simple_edits = true,
 	delete_to_trash = true,
-	keymaps = {
-		["<C-h>"] = false, ["<C-j>"] = false, ["<C-k>"] = false, ["<C-l>"] = false,
-		["<C-b>"] = false, ["<C-n>"] = false, ["<C-m>"] = false, ["<C-,>"] = false, },
+	columns = {
+    "icon",
+		"type",
+    "permissions",
+    "size",
+    "birthmode",
+    "atime",
+    "mtime",
+  },
 })
 
 local actions = require("fzf-lua.actions")
 require("fzf-lua").setup({
-	fzf_colors = true,
+	fzf_opts = {
+		["--layout"] = "reverse-list",
+		["--border"] = "none", -- No border for native look
+	},
 	winopts = {
-		height     = 1, width      = 1,
-		row        = 0, col        = 0,
-		border     = "single", fullscreen = true,
-		preview = { vertical = "right:45%", },
-		title      = false,
+		backdrop = 100,
+		height = 11,
+		width = 1,
+		row = 1,
+		col = 0,
+		border = "none",
+		fullscreen = false,
+		title_flags = false,
+		preview = { hidden = true },
+		title = false,
 	},
 	actions = {
 		files = {
-			['ctrl-q'] = function(selected_files)
+			["ctrl-q"] = function(selected_files)
 				for _, file in ipairs(selected_files) do
-					vim.cmd('argadd ' .. file)
+					vim.cmd("argadd " .. file)
 				end
 			end,
-			["enter"]  = actions.file_edit_or_qf,
+			["enter"] = actions.file_edit_or_qf,
 			["ctrl-v"] = actions.file_vsplit,
 		},
 	},
-	files = { prompt = "> ", },
-	oldfiles = { prompt = "> ", },
-	previewers = { bat = true, },
+	files = { prompt = "> " },
+	oldfiles = { prompt = "> " },
+	previewers = { bat = true },
 	file_icon_padding = "",
 })
 
 require("mason-lspconfig").setup({
 	ensure_installed = {
-		"bashls", "clangd", "emmet_ls", "glsl_analyzer", "gopls",
-		"html", "lua_ls", "marksman", "ruff", "rust_analyzer",
-		"svelte", "tailwindcss", "tinymist", "jsonls", "zk",
+		"bashls",
+		"clangd",
+		"emmet_ls",
+		"glsl_analyzer",
+		"gopls",
+		"html",
+		"lua_ls",
+		"marksman",
+		"ruff",
+		"rust_analyzer",
+		"svelte",
+		"tailwindcss",
+		"tinymist",
+		"jsonls",
+		"zk",
 	},
 	automatic_installation = true,
 	automatic_enable = true,
@@ -101,8 +110,9 @@ vim.g.mapleader = " "
 local map = vim.keymap.set
 
 map("n", "<C-l>", "<cmd>next<cr>")
+map("n", "<leader>ft", "<cmd>TodoFzfLua<cr>")
 map("n", "<C-l>", "<cmd>next<cr>")
--- map("n", "<leader>t", "<cmd>te<CR>")
+map("n", "<leader>t", "<cmd>te<CR>")
 map("n", "<leader>v", ":e $MYVIMRC<CR>")
 map("n", "<leader>z", ":e ~/.zshrc<CR>")
 map({ "v", "x", "n" }, "<C-y>", '"+y')
@@ -141,7 +151,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 })
 
 vim.cmd([[set completeopt=menu,menuone,noselect]])
-vim.cmd("hi statusline guibg=NONE")
+vim.cmd("hi StatusLine guibg=NONE")
 vim.cmd("hi StatusLineNC guibg=NONE")
 vim.cmd("hi statusline guibg=NONE")
 vim.cmd("hi ModeMsg guifg=#cdcdcd")
@@ -152,10 +162,14 @@ vim.cmd("hi Cursor guifg=white guibg=white")
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "typst",
 	callback = function()
-	map("n","<leader>m",":make<CR>:lua vim.fn.jobstart('sioyek' .. vim.fn.expand('%:r') .. '.pdf &')<CR><CR>",{ noremap = true, buffer = true })
+		map(
+			"n",
+			"<leader>m",
+			":make<CR>:lua vim.fn.jobstart('sioyek' .. vim.fn.expand('%:r') .. '.pdf &')<CR><CR>",
+			{ noremap = true, buffer = true }
+		)
 	end,
 })
-
 
 --- harpoon
 map("n", "<leader>a", function()
@@ -166,12 +180,12 @@ map("n", "<C-q>", function()
 	vim.cmd.args()
 end)
 for i = 1, 9 do
-    vim.keymap.set("n", "<leader>" .. i, function()
-      local args = vim.fn.argv()
-      if #args >= i then
-        vim.cmd.argument(i)
-      else
-        vim.notify("No argument " .. i, vim.log.levels.WARN)
-      end
-    end, { desc = "Go to argument " .. i })
-	end
+	vim.keymap.set("n", "<leader>" .. i, function()
+		local args = vim.fn.argv()
+		if #args >= i then
+			vim.cmd.argument(i)
+		else
+			vim.notify("No argument " .. i, vim.log.levels.WARN)
+		end
+	end, { desc = "Go to argument " .. i })
+end

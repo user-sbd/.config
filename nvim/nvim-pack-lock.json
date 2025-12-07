@@ -1,20 +1,16 @@
 {
   "plugins": {
-    "checkmate.nvim": {
-      "rev": "fc8edd6ecf8e4095ef878780e4bed83cc5c56c14",
-      "src": "https://github.com/bngarren/checkmate.nvim"
+    "dired.nvim": {
+      "rev": "b56790d065bf503f7d56d05d7f9893ef249b99ed",
+      "src": "https://github.com/X3eRo0/dired.nvim"
+    },
+    "fex.nvim": {
+      "rev": "1db131468f6c01468ffdee72a963c174d700ef9c",
+      "src": "https://github.com/2hdddg/fex.nvim"
     },
     "fzf-lua": {
-      "rev": "cae96b04f6cad98a3ad24349731df5e56b384c3c",
+      "rev": "bbff1efa2f72ddd1cb3fed2ca38a9b273aef4a9b",
       "src": "https://github.com/ibhagwan/fzf-lua"
-    },
-    "gruber-darker.nvim": {
-      "rev": "98a2e141981cbd5a194a97eae024bf55af854579",
-      "src": "https://github.com/blazkowolf/gruber-darker.nvim"
-    },
-    "jb.nvim": {
-      "rev": "a6bb6c196197462f1a2a569ffbe6b4da19e4994d",
-      "src": "https://github.com/nickkadutskyi/jb.nvim"
     },
     "mason-lspconfig.nvim": {
       "rev": "0b9bb925c000ae649ff7e7149c8cd00031f4b539",
@@ -24,9 +20,21 @@
       "rev": "57e5a8addb8c71fb063ee4acda466c7cf6ad2800",
       "src": "https://github.com/mason-org/mason.nvim"
     },
+    "mini.icons": {
+      "rev": "ff2e4f1d29f659cc2bad0f9256f2f6195c6b2428",
+      "src": "https://github.com/nvim-mini/mini.icons"
+    },
+    "mini.nvim": {
+      "rev": "dca98843fab66d080779cd973e7139e258ff164c",
+      "src": "https://github.com/nvim-mini/mini.nvim"
+    },
     "neogit": {
       "rev": "300949af63fa48cb6bc8d93822b78cb9dbb4fd75",
       "src": "https://github.com/NeogitOrg/neogit"
+    },
+    "nui.nvim": {
+      "rev": "de740991c12411b663994b2860f1a4fd0937c130",
+      "src": "https://github.com/MunifTanjim/nui.nvim"
     },
     "nvim-lspconfig": {
       "rev": "9c923997123ff9071198ea3b594d4c1931fab169",
@@ -36,13 +44,13 @@
       "rev": "42fc28ba918343ebfd5565147a42a26580579482",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter"
     },
+    "nvim-web-devicons": {
+      "rev": "8dcb311b0c92d460fac00eac706abd43d94d68af",
+      "src": "https://github.com/nvim-tree/nvim-web-devicons"
+    },
     "oil.nvim": {
       "rev": "cbcb3f997f6f261c577b943ec94e4ef55108dd95",
       "src": "https://github.com/stevearc/oil.nvim"
-    },
-    "oldworld.nvim": {
-      "rev": "d0af80cf6bd5d17789cd1214a8054fe1cf23fc22",
-      "src": "https://github.com/dgox16/oldworld.nvim"
     },
     "plenary.nvim": {
       "rev": "b9fd5226c2f76c951fc8ed5923d85e4de065e509",
@@ -55,10 +63,6 @@
     "typst-preview.nvim": {
       "rev": "291972a39db85c5d2e76249748aba4206dfd3bc2",
       "src": "https://github.com/chomosuke/typst-preview.nvim"
-    },
-    "vague.nvim": {
-      "rev": "dba28050887c2810b5ebf9e0143b4e919bd55757",
-      "src": "https://github.com/vague-theme/vague.nvim"
     },
     "vim-moonfly-colors": {
       "rev": "1ad5a8d40176a8749f0c77b8875225d9d299a438",
