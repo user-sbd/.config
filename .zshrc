@@ -1,16 +1,14 @@
-HISTFILE="~/.zsh_history"
-SAVEHIST=10000
-HISTSIZE=9999
-setopt INC_APPEND_HISTORY
-setopt HIST_EXPIRE_DUPS_FIRST
-setopt HIST_IGNORE_DUPS
-setopt HIST_IGNORE_SPACE
-setopt HIST_REDUCE_BLANKS
-setopt HIST_NO_STORE
+export HISTFILE="$HOME/.zsh_history"
+export HISTSIZE=100000000
+export SAVEHIST=100000000
+setopt INC_APPEND_HISTORY 
+setopt SHARE_HISTORY       
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_FIND_NO_DUPS
+setopt HIST_SAVE_NO_DUPS
+export HISTIGNORE="ls:ll:la:cd:pwd:exit:clear:history:v:vim:nvim:sk:fj:gs:ga:gc:gp:gd"
 
-HISTORY_IGNORE='(l|vim|v|exit|fj|ls|cd)'
-
-export EDITOR=nvim
+export EDITOR="/Users/nitin/Downloads/nvim/bin/nvim"
 export JAVA_HOME=$(/usr/libexec/java_home -v 17)
 export PATH="$JAVA_HOME/bin:$PATH"
 
@@ -29,7 +27,7 @@ bindkey '^f' finder
 
 autoload edit-command-line
 zle -N edit-command-line
-bindkey '^E' edit-command-line
+bindkey '^Xe' edit-command-line
 
 bindkey -M menuselect 'h' vi-backward-char
 bindkey -M menuselect 'k' vi-up-line-or-history
@@ -46,17 +44,32 @@ chpwd() { vcs_info }
 PROMPT=' %1~%F{red}%B${vcs_info_msg_0_}%b%f $ '
 
 alias z="cd"
+alias gl="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset%s %Cgreen(%cr)%Creset %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
+alias nf="fastfetch"
+alias work="nvim ~/Documents/notes/workout/split.md"
+alias nv="neovide"
 alias clear="clear -x"
-alias vim="nvim"
-alias v='nvim'
+alias vim="/Users/nitin/Downloads/nvim/bin/nvim"
+alias v="/Users/nitin/Downloads/nvim/bin/nvim"
 alias l="ls -C -t -U -A -p --color=auto"
 alias la="ls -lh --color=auto"
-alias y="yt-dlp"
+alias yt="yt-dlp -t mp4"
 alias rip='yt-dlp -x --audio-format mp3'
-alias fj="tmux new -s user"
+alias fj="tmux new -s home"
 alias ts="timew summary 1000h"
 alias g='git'
 alias ff='fastfetch'
 
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-export PATH=$PATH:/Users/nitin/.spicetify
+
+export PATH="$PATH:/Users/nitin/.local/bin"
+export SUDO_EDITOR="nvim"
+export PATH="$PATH:/Users/nitin/Downloads/nvim/bin/"
+
+cd() {
+    builtin cd "$@"
+    if [ -d "venv" ] && [ -f "venv/bin/activate" ] && [ "$VIRTUAL_ENV" = "" ]; then
+        source venv/bin/activate
+        echo "venv on "
+    fi
+}

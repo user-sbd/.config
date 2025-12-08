@@ -1,6 +1,6 @@
 vim.cmd([[set mouse=]])
 vim.cmd([[set noswapfile]])
-vim.o.winborder = "rounded"
+vim.o.winborder = 'rounded'
 vim.o.winbar = ""
 vim.o.tabstop = 2
 vim.o.ignorecase = true
@@ -26,7 +26,7 @@ vim.pack.add({
 	{ src = "https://github.com/bluz71/vim-moonfly-colors" },
 	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
 	{ src = "https://github.com/folke/todo-comments.nvim" },
-	{ src = "https://github.com/nvim-mini/mini.nvim" },
+	{ src = "https://github.com/nvim-mini/mini.icons" },
 })
 
 vim.cmd.colo("moonfly")
@@ -39,13 +39,8 @@ require("oil").setup({
 	skip_confirm_for_simple_edits = true,
 	delete_to_trash = true,
 	columns = {
-    "icon",
-		"type",
-    "permissions",
-    "size",
-    "birthmode",
-    "atime",
-    "mtime",
+    "icon", "permissions",
+		"size","atime",
   },
 })
 
@@ -53,19 +48,15 @@ local actions = require("fzf-lua.actions")
 require("fzf-lua").setup({
 	fzf_opts = {
 		["--layout"] = "reverse-list",
-		["--border"] = "none", -- No border for native look
+		["--border"] = "none",
 	},
 	winopts = {
-		backdrop = 100,
-		height = 11,
-		width = 1,
-		row = 1,
-		col = 0,
-		border = "none",
+		backdrop = 100, height = 10,
+		width = 1, row = 1,
+		col = 1, border = "none",
 		fullscreen = false,
 		title_flags = false,
 		preview = { hidden = true },
-		title = false,
 	},
 	actions = {
 		files = {
@@ -86,21 +77,13 @@ require("fzf-lua").setup({
 
 require("mason-lspconfig").setup({
 	ensure_installed = {
-		"bashls",
-		"clangd",
-		"emmet_ls",
-		"glsl_analyzer",
-		"gopls",
-		"html",
-		"lua_ls",
-		"marksman",
-		"ruff",
-		"rust_analyzer",
-		"svelte",
-		"tailwindcss",
-		"tinymist",
-		"jsonls",
-		"zk",
+		"bashls", "clangd",
+		"emmet_ls", "glsl_analyzer",
+		"gopls", "html","zk",
+		"lua_ls", "marksman",
+		"ruff", "rust_analyzer",
+		"svelte", "tailwindcss",
+		"tinymist", "jsonls",
 	},
 	automatic_installation = true,
 	automatic_enable = true,
@@ -109,7 +92,8 @@ require("mason-lspconfig").setup({
 vim.g.mapleader = " "
 local map = vim.keymap.set
 
-map("n", "<C-l>", "<cmd>next<cr>")
+map("n", "<C-l>", "<CMD>next<CR>")
+map("n", "<C-h>", "<CMD>prev<CR>")
 map("n", "<leader>ft", "<cmd>TodoFzfLua<cr>")
 map("n", "<C-l>", "<cmd>next<cr>")
 map("n", "<leader>t", "<cmd>te<CR>")
@@ -152,6 +136,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 vim.cmd([[set completeopt=menu,menuone,noselect]])
 vim.cmd("hi StatusLine guibg=NONE")
+vim.cmd("hi FzfLuaTitle guibg=NONE")
+vim.cmd("hi FzfLuaFzfHeader guifg=NONE")
 vim.cmd("hi StatusLineNC guibg=NONE")
 vim.cmd("hi statusline guibg=NONE")
 vim.cmd("hi ModeMsg guifg=#cdcdcd")
