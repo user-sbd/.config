@@ -1,6 +1,6 @@
 vim.cmd([[set mouse=]])
 vim.cmd([[set noswapfile]])
-vim.o.winborder = 'rounded'
+vim.o.winborder = "rounded"
 vim.o.winbar = ""
 vim.o.tabstop = 2
 vim.o.ignorecase = true
@@ -13,6 +13,7 @@ vim.o.guicursor = ""
 vim.o.undofile = true
 vim.o.signcolumn = "yes:1"
 vim.o.wrap = false
+vim.o.laststatus = 0
 
 vim.pack.add({
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
@@ -26,37 +27,65 @@ vim.pack.add({
 	{ src = "https://github.com/bluz71/vim-moonfly-colors" },
 	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
 	{ src = "https://github.com/folke/todo-comments.nvim" },
-	{ src = "https://github.com/nvim-mini/mini.icons" },
+	{ src = "https://github.com/vimpostor/vim-tpipeline" },
 })
 
 vim.cmd.colo("moonfly")
 
-require('mini.icons').setup()
 require("todo-comments").setup()
 require("mason").setup()
+local permission_hlgroups = {
+	["-"] = "NonText",
+	["r"] = "DiagnosticSignWarn",
+	["w"] = "DiagnosticSignError",
+	["x"] = "DiagnosticSignOk",
+}
+
 require("oil").setup({
 	view_options = { show_hidden = true },
 	skip_confirm_for_simple_edits = true,
 	delete_to_trash = true,
 	columns = {
-    "icon", "permissions",
-		"size","atime",
-  },
+		{
+			"permissions",
+			highlight = function(permission_str)
+				local hls = {}
+				for i = 1, #permission_str do
+					local char = permission_str:sub(i, i)
+					table.insert(hls, { permission_hlgroups[char], i - 1, i })
+				end
+				return hls
+			end,
+		},
+		{ "size", highlight = "StderrMsg" },
+		{ "mtime", highlight = "Question" },
+		{ "icon", add_padding = false, },
+	},
+	win_options = {
+		number = true,
+		relativenumber = true,
+		signcolumn = "no",
+		foldcolumn = "0",
+		statuscolumn = "",
+	},
 })
 
 local actions = require("fzf-lua.actions")
 require("fzf-lua").setup({
-	fzf_opts = {
-		["--layout"] = "reverse-list",
-		["--border"] = "none",
-	},
 	winopts = {
-		backdrop = 100, height = 10,
-		width = 1, row = 1,
-		col = 1, border = "none",
-		fullscreen = false,
-		title_flags = false,
-		preview = { hidden = true },
+		height = 0.85,
+		width = 0.80,
+		row = 0.35,
+		col = 0.50,
+		border = "rounded",
+		fullscreen = true,
+		preview = {
+			border = "rounded",
+			hidden = false,
+			horizontal = "right:40%",
+			layout = "horizontal",
+			flip_columns = 100,
+		},
 	},
 	actions = {
 		files = {
@@ -77,13 +106,21 @@ require("fzf-lua").setup({
 
 require("mason-lspconfig").setup({
 	ensure_installed = {
-		"bashls", "clangd",
-		"emmet_ls", "glsl_analyzer",
-		"gopls", "html","zk",
-		"lua_ls", "marksman",
-		"ruff", "rust_analyzer",
-		"svelte", "tailwindcss",
-		"tinymist", "jsonls",
+		"bashls",
+		"clangd",
+		"emmet_ls",
+		"glsl_analyzer",
+		"gopls",
+		"html",
+		"zk",
+		"lua_ls",
+		"marksman",
+		"ruff",
+		"rust_analyzer",
+		"svelte",
+		"tailwindcss",
+		"tinymist",
+		"jsonls",
 	},
 	automatic_installation = true,
 	automatic_enable = true,
@@ -92,8 +129,18 @@ require("mason-lspconfig").setup({
 vim.g.mapleader = " "
 local map = vim.keymap.set
 
-map("n", "<C-l>", "<CMD>next<CR>")
-map("n", "<C-h>", "<CMD>prev<CR>")
+map("n", "<C-l>", function()
+	local argc = vim.fn.argc()
+	if argc == 0 then
+		return
+	end
+	local argidx = vim.fn.argidx()
+	if argidx == argc - 1 then
+		vim.cmd("rewind")
+	else
+		vim.cmd("next")
+	end
+end, { noremap = true, silent = true })
 map("n", "<leader>ft", "<cmd>TodoFzfLua<cr>")
 map("n", "<C-l>", "<cmd>next<cr>")
 map("n", "<leader>t", "<cmd>te<CR>")

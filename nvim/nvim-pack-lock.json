@@ -1,15 +1,11 @@
 {
   "plugins": {
-    "dired.nvim": {
-      "rev": "b56790d065bf503f7d56d05d7f9893ef249b99ed",
-      "src": "https://github.com/X3eRo0/dired.nvim"
-    },
-    "fex.nvim": {
-      "rev": "1db131468f6c01468ffdee72a963c174d700ef9c",
-      "src": "https://github.com/2hdddg/fex.nvim"
+    "avante.nvim": {
+      "rev": "bbf6d8f0d9aa072a2ccffc7701936eaa71985f92",
+      "src": "https://github.com/yetone/avante.nvim"
     },
     "fzf-lua": {
-      "rev": "bdfedf65cc0ea99cc6653567bf4b5d64eb0646f6",
+      "rev": "43bda24f711e0c13428f16056002aebc20b38e04",
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
     "mason-lspconfig.nvim": {
@@ -23,10 +19,6 @@
     "mini.icons": {
       "rev": "ff2e4f1d29f659cc2bad0f9256f2f6195c6b2428",
       "src": "https://github.com/nvim-mini/mini.icons"
-    },
-    "mini.nvim": {
-      "rev": "6f11e41a137590e4a5f13624a2a9a845686e719f",
-      "src": "https://github.com/nvim-mini/mini.nvim"
     },
     "neogit": {
       "rev": "300949af63fa48cb6bc8d93822b78cb9dbb4fd75",
@@ -44,10 +36,6 @@
       "rev": "42fc28ba918343ebfd5565147a42a26580579482",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter"
     },
-    "nvim-web-devicons": {
-      "rev": "8dcb311b0c92d460fac00eac706abd43d94d68af",
-      "src": "https://github.com/nvim-tree/nvim-web-devicons"
-    },
     "oil.nvim": {
       "rev": "cbcb3f997f6f261c577b943ec94e4ef55108dd95",
       "src": "https://github.com/stevearc/oil.nvim"
@@ -60,10 +48,6 @@
       "rev": "31e3c38ce9b29781e4422fc0322eb0a21f4e8668",
       "src": "https://github.com/folke/todo-comments.nvim"
     },
-    "trouble.nvim": {
-      "rev": "bd67efe408d4816e25e8491cc5ad4088e708a69a",
-      "src": "https://github.com/folke/trouble.nvim"
-    },
     "typst-preview.nvim": {
       "rev": "291972a39db85c5d2e76249748aba4206dfd3bc2",
       "src": "https://github.com/chomosuke/typst-preview.nvim"
@@ -71,6 +55,10 @@
     "vim-moonfly-colors": {
       "rev": "1ad5a8d40176a8749f0c77b8875225d9d299a438",
       "src": "https://github.com/bluz71/vim-moonfly-colors"
+    },
+    "vim-tpipeline": {
+      "rev": "bc6dfc10e26a8dd1ec2f0512050a8a0afaa9d090",
+      "src": "https://github.com/vimpostor/vim-tpipeline"
     }
   }
 }
