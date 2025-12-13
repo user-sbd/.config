@@ -1,0 +1,15 @@
+# vim: ft=sh
+# glo config file
+
+# vim binary
+# the vim binary to execute, if you usually run vim through
+# a wrapper this is the place to specify it, so long as the
+# wrapper is in your PATH the full path is not needed.
+vim_bin="/Users/nitin/Downloads/nvim/bin/nvim"
+
+# vim type
+# accepted values are: vim, neovim
+# the vim script for achieving the intended function is ever
+# so different in vim and neovim so this is necessary for the
+# script to work as intended.
+vim_type="nvim"

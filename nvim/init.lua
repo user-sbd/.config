@@ -13,7 +13,11 @@ vim.o.guicursor = ""
 vim.o.undofile = true
 vim.o.signcolumn = "yes:1"
 vim.o.wrap = false
-vim.o.laststatus = 0
+vim.o.laststatus = 3
+vim.o.cmdheight = 1
+vim.o.splitright = true
+vim.o.inccommand = "split"
+vim.g.mapleader = " "
 
 vim.pack.add({
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
@@ -24,67 +28,52 @@ vim.pack.add({
 	{ src = "https://github.com/stevearc/oil.nvim" },
 	{ src = "https://github.com/NeogitOrg/neogit" },
 	{ src = "https://github.com/ibhagwan/fzf-lua" },
-	{ src = "https://github.com/bluz71/vim-moonfly-colors" },
+	{ src = "https://github.com/rose-pine/neovim" },
 	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
 	{ src = "https://github.com/folke/todo-comments.nvim" },
-	{ src = "https://github.com/vimpostor/vim-tpipeline" },
+	{ src = "https://github.com/vague-theme/vague.nvim" },
 })
 
-vim.cmd.colo("moonfly")
-
+require("vague").setup({ transparent = true })
+vim.cmd("colo vague")
 require("todo-comments").setup()
 require("mason").setup()
-local permission_hlgroups = {
-	["-"] = "NonText",
-	["r"] = "DiagnosticSignWarn",
-	["w"] = "DiagnosticSignError",
-	["x"] = "DiagnosticSignOk",
-}
-
 require("oil").setup({
 	view_options = { show_hidden = true },
 	skip_confirm_for_simple_edits = true,
 	delete_to_trash = true,
 	columns = {
-		{
-			"permissions",
-			highlight = function(permission_str)
-				local hls = {}
-				for i = 1, #permission_str do
-					local char = permission_str:sub(i, i)
-					table.insert(hls, { permission_hlgroups[char], i - 1, i })
-				end
-				return hls
-			end,
-		},
-		{ "size", highlight = "StderrMsg" },
-		{ "mtime", highlight = "Question" },
-		{ "icon", add_padding = false, },
+		{ "permissions", highlight = "MoreMsg" },
+		{ "type", highlight = "Directory" },
+		{ "file", highlight = "Directory" },
+		-- { "ctime", highlight = "" },
+		-- { "atime", highlight = "" },
+		-- { "birthtime", highlight = "" },
+		{ "mtime", highlight = "Constant" },
+		{ "size", highlight = "Added" },
 	},
-	win_options = {
-		number = true,
-		relativenumber = true,
-		signcolumn = "no",
-		foldcolumn = "0",
-		statuscolumn = "",
-	},
+	win_options = { signcolumn = "yes:1" },
 })
 
-local actions = require("fzf-lua.actions")
 require("fzf-lua").setup({
+	fzf_opts = {
+		["--info"] = "inline-right",
+		["--height"] = "100%",
+		["--layout"] = "reverse",
+		["--border"] = "none",
+	},
 	winopts = {
-		height = 0.85,
-		width = 0.80,
-		row = 0.35,
-		col = 0.50,
+		height = 15,
+		width = 50,
+		row = 1,
+		col = 0,
 		border = "rounded",
-		fullscreen = true,
+		fullscreen = false,
 		preview = {
 			border = "rounded",
-			hidden = false,
-			horizontal = "right:40%",
+			hidden = true,
+			horizontal = "right:50%",
 			layout = "horizontal",
-			flip_columns = 100,
 		},
 	},
 	actions = {
@@ -94,8 +83,8 @@ require("fzf-lua").setup({
 					vim.cmd("argadd " .. file)
 				end
 			end,
-			["enter"] = actions.file_edit_or_qf,
-			["ctrl-v"] = actions.file_vsplit,
+			["enter"] = require("fzf-lua.actions").file_edit_or_qf,
+			["ctrl-v"] = require("fzf-lua.actions").file_vsplit,
 		},
 	},
 	files = { prompt = "> " },
@@ -126,10 +115,9 @@ require("mason-lspconfig").setup({
 	automatic_enable = true,
 })
 
-vim.g.mapleader = " "
 local map = vim.keymap.set
 
-map("n", "<C-l>", function()
+map("n", "<C-n>", function()
 	local argc = vim.fn.argc()
 	if argc == 0 then
 		return
@@ -141,22 +129,23 @@ map("n", "<C-l>", function()
 		vim.cmd("next")
 	end
 end, { noremap = true, silent = true })
-map("n", "<leader>ft", "<cmd>TodoFzfLua<cr>")
-map("n", "<C-l>", "<cmd>next<cr>")
-map("n", "<leader>t", "<cmd>te<CR>")
 map("n", "<leader>v", ":e $MYVIMRC<CR>")
 map("n", "<leader>z", ":e ~/.zshrc<CR>")
 map({ "v", "x", "n" }, "<C-y>", '"+y')
 map({ "n", "v" }, "<leader>n", ":norm ")
-map("n", "<leader>u", "<CMD>:Undotree<CR>")
 map({ "n", "v", "x" }, "<leader>lf", vim.lsp.buf.format)
 map("n", "-", ":Oil<CR>", { silent = true })
+map("n", "<leader>ft", "<cmd>TodoFzfLua<cr>")
 map("n", "<leader>fj", ":FzfLua files<CR>", { silent = true })
 map("n", "<leader>so", ":FzfLua oldfiles<CR>", { silent = true })
 map("n", "<leader>sh", ":FzfLua helptags<CR>", { silent = true })
 map("n", "<leader>fs", ":FzfLua live_grep<CR>", { silent = true })
 map("n", "<leader>cs", ":FzfLua colorschemes<CR>", { silent = true })
 map("n", "<leader>sc", ":FzfLua files cwd=~/.config<CR>", { silent = true })
+map("n", "<leader>h", function()
+	vim.cmd("te zsh -i -c ollama-gemma")
+	vim.cmd("argadd %")
+end, { silent = true })
 map("n", "<esc>", ":nohlsearch <CR>", { silent = true })
 map("n", "<leader>p", ":TypstPreview<CR>", { silent = true })
 map("n", "<leader>cd", "<Cmd>cd %:p:h<CR>", { silent = true })
@@ -186,11 +175,10 @@ vim.cmd("hi StatusLine guibg=NONE")
 vim.cmd("hi FzfLuaTitle guibg=NONE")
 vim.cmd("hi FzfLuaFzfHeader guifg=NONE")
 vim.cmd("hi StatusLineNC guibg=NONE")
-vim.cmd("hi statusline guibg=NONE")
 vim.cmd("hi ModeMsg guifg=#cdcdcd")
-vim.cmd("hi NormalFloat guibg=#080808")
-vim.cmd("hi FloatBorder guibg=#080808")
-vim.cmd("hi Cursor guifg=white guibg=white")
+vim.cmd("hi NormalFloat guibg=#141415")
+vim.cmd("hi FloatBorder guibg=#141415")
+vim.cmd("hi WinSeparator guifg=NONE guibg=NONE")
 
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "typst",
