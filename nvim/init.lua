@@ -13,7 +13,7 @@ vim.o.guicursor = ""
 vim.o.undofile = true
 vim.o.signcolumn = "yes:1"
 vim.o.wrap = false
-vim.o.laststatus = 3
+vim.o.laststatus = 2
 vim.o.cmdheight = 1
 vim.o.splitright = true
 vim.o.inccommand = "split"
@@ -28,11 +28,18 @@ vim.pack.add({
 	{ src = "https://github.com/stevearc/oil.nvim" },
 	{ src = "https://github.com/NeogitOrg/neogit" },
 	{ src = "https://github.com/ibhagwan/fzf-lua" },
-	{ src = "https://github.com/rose-pine/neovim" },
 	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
 	{ src = "https://github.com/folke/todo-comments.nvim" },
 	{ src = "https://github.com/vague-theme/vague.nvim" },
+	{ src = "https://github.com/nvim-mini/mini.statusline" },
 })
+
+local MiniStatusLine = require("mini.statusline")
+MiniStatusLine.setup({ use_icons = vim.g.have_nerd_font })
+---@diagnostic disable-next-line: duplicate-set-field
+MiniStatusLine.section_location = function()
+	return "%2l:%-2v"
+end
 
 require("vague").setup({ transparent = true })
 vim.cmd("colo vague")
@@ -43,14 +50,11 @@ require("oil").setup({
 	skip_confirm_for_simple_edits = true,
 	delete_to_trash = true,
 	columns = {
-		{ "permissions", highlight = "MoreMsg" },
-		{ "type", highlight = "Directory" },
-		{ "file", highlight = "Directory" },
-		-- { "ctime", highlight = "" },
-		-- { "atime", highlight = "" },
-		-- { "birthtime", highlight = "" },
-		{ "mtime", highlight = "Constant" },
-		{ "size", highlight = "Added" },
+		"permissions",
+		"type",
+		"file",
+		"mtime",
+		"size",
 	},
 	win_options = { signcolumn = "yes:1" },
 })
@@ -171,10 +175,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
 })
 
 vim.cmd([[set completeopt=menu,menuone,noselect]])
-vim.cmd("hi StatusLine guibg=NONE")
 vim.cmd("hi FzfLuaTitle guibg=NONE")
 vim.cmd("hi FzfLuaFzfHeader guifg=NONE")
-vim.cmd("hi StatusLineNC guibg=NONE")
 vim.cmd("hi ModeMsg guifg=#cdcdcd")
 vim.cmd("hi NormalFloat guibg=#141415")
 vim.cmd("hi FloatBorder guibg=#141415")

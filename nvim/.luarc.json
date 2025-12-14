@@ -5,7 +5,8 @@
     "lua/?/init.lua"
   ],
   "diagnostics.globals": ["vim",
-        "run_make_and_exec_in_tmux"],
+        "run_make_and_exec_in_tmux",
+        "minisetup"],
   "workspace.checkThirdParty": false,
   "workspace.library": [
     "$VIMRUNTIME"
