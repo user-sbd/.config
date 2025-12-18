@@ -1,31 +1,21 @@
 [window]
 decorations = "none"
 option_as_alt = "Both"
-dynamic_padding = false
+dynamic_padding = true
 
 [general]
 live_config_reload = true
 
 [font]
-# normal = {family = "DankMono Nerd Font" }
-normal = { family = "JetBrainsMono Nerd Font"}
-size = 25
+normal = {family = "ZedMono Nerd Font" }
+# normal = { family = "JetBrainsMono Nerd Font"}
+size = 27
 
 [colors.primary]
-background = "#080808"
+# background = "#080808"
+background = "#111111"
 # background = "#1C1C1C"
 # background = "#121212"
 # background = "#1C1C1C"
 # background = "#1C1C1C"
-foreground = "#d8d8d8"
-
-[colors.normal]
-black = "#181818"
-red = "#ac4242"
-green = "#90a959"
-yellow = "#f4bf75"
-blue = "#6a9fb5"
-magenta = "#aa759f"
-cyan = "#75b5aa"
-white = "#d8d8d8"
 

@@ -38,7 +38,7 @@ autoload -Uz vcs_info
 precmd_vcs_info() { vcs_info }
 precmd_functions+=( precmd_vcs_info )
 zstyle ':vcs_info:*' enable git
-zstyle ':vcs_info:git:*' formats ' %F{#B284BE} %b%f'
+zstyle ':vcs_info:git:*' formats ' %F{#B284BE}*b %b%f'
 chpwd() { vcs_info }
 
 PROMPT=' %1~%F{red}%B${vcs_info_msg_0_}%b%f $ '
@@ -66,10 +66,3 @@ export PATH="$PATH:/Users/nitin/.local/bin"
 export SUDO_EDITOR="nvim"
 export PATH="$PATH:/Users/nitin/Downloads/nvim/bin/"
 
-cd() {
-    builtin cd "$@"
-    if [ -d "venv" ] && [ -f "venv/bin/activate" ] && [ "$VIRTUAL_ENV" = "" ]; then
-        source venv/bin/activate
-        echo "venv on "
-    fi
-}

@@ -1,9 +1,9 @@
+neovim-bin = "/Users/nitin/Downloads/nvim/bin/nvim"
+neovide_macos_simple_fullscreen = true
 
-# Font size
-font_size = 30
+[font]
+normal = ["ZedMono Nerd Font"]
+size = 25.0
 
-# Remove titlebar (macOS: uses native traffic lights only)
-titlebar = false
 
-# Optional: Cleaner look
-frame = "transparent"   # or "buttonless" for no buttons at all
+

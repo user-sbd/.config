@@ -6,7 +6,9 @@
   ],
   "diagnostics.globals": ["vim",
         "run_make_and_exec_in_tmux",
-        "minisetup"],
+        "minisetup",
+        "grep",
+        "git_files"],
   "workspace.checkThirdParty": false,
   "workspace.library": [
     "$VIMRUNTIME"
