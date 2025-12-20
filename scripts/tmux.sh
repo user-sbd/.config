@@ -6,7 +6,7 @@ doc_dirs=$(find ~/Documents -maxdepth 2 -type d \
     -not -path "*/Image-Line*" \
     -not -path "*/Mighty*" \
     -not -path "*/REAPER Media*" \
-    -not -path "*/notes/*")
+	)
 
 picker_dirs=$( {
     printf '%s\n' "$doc_dirs"

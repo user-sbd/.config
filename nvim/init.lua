@@ -14,72 +14,55 @@ vim.o.undofile = true
 vim.o.number = true
 vim.o.relativenumber = true
 vim.o.guicursor = ""
-vim.g.mapleader = " "
 vim.o.winborder = "rounded"
-vim.g.maplocalleader = " "
 vim.o.statusline = "[%n] %<%f %w%m%r%=%-14.(%l,%c%V%) %P"
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
 
 local map = vim.keymap.set
 
 vim.pack.add({
-	{ src = "https://github.com/vague2k/vague.nvim" },
-	{ src = "https://github.com/chentoast/marks.nvim" },
 	{ src = "https://github.com/stevearc/oil.nvim" },
-	{ src = "https://github.com/nvim-tree/nvim-web-devicons" },
-	{ src = "https://github.com/aznhe21/actions-preview.nvim" },
-	{ src = "https://github.com/nvim-telescope/telescope.nvim", version = "0.1.8" },
-	{ src = "https://github.com/y9san9/y9nika.nvim" },
 	{ src = "https://github.com/nvim-lua/plenary.nvim" },
-	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
+	{ src = "https://github.com/nvim-telescope/telescope.nvim", version = "0.1.8" },
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{ src = "https://github.com/mason-org/mason.nvim" },
+	{ src = "https://github.com/y9san9/y9nika.nvim" },
+	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
 	{ src = "https://github.com/NeogitOrg/neogit" },
-	{ src = "https://github.com/vimwiki/vimwiki" },
-	{ src = "https://github.com/comfysage/artio.nvim" },
+	{ src = "https://github.com/chentoast/marks.nvim" },
 })
 
-
-require("vim._extui").enable({})
-require("artio").setup({
-  opts = {
-    preselect = true,
-    bottom = true,
-    promptprefix = "$",
-    prompt_title = false,
-    pointer = ".",
-    use_icons = false,
-  },
-  win = {
-    height = 10,
-    hidestatusline = false,
-  },
-  mappings = {
-    ["<C-n>"] = "down",
-    ["<C-p>"] = "up",
-    ["<cr>"] = "accept",
-    ["<C-c>"] = "cancel",
-    ["<Esc>"] = "cancel",
-    ["<tab>"] = "mark",
-    ["<c-l>"] = "togglepreview",
-  },
+require'marks'.setup {
+  default_mappings = true,
+  builtin_marks = { ".", "<", ">", "^" },
+}
+require("telescope").setup({
+	defaults = {
+		preview = { treesitter = false },
+		color_devicons = true,
+		sorting_strategy = "ascending",
+		borderchars = { "", "", "", "", "", "", "", "" },
+		path_displays = { "smart" },
+		layout_config = {
+			height = 100,
+			width = 400,
+			prompt_position = "top",
+			preview_cutoff = 40,
+		},
+	},
 })
-vim.ui.select = require("artio").select
-map("n", "<leader>fj", "<Plug>(artio-files)")
-map("n", "<leader>sc", "<CMD>cd ~/.config<CR> <Plug>(artio-files)")
-map("n", "<leader>sd", "<Plug>(artio-diagnostics)")
-map("n", "<leader>sh", "<Plug>(artio-helptags)")
-map("n", "<leader>sb", "<Plug>(artio-buffers)")
-map("n", "<leader>sg", "<Plug>(artio-buffergrep)")
-map("n", "<leader>so", "<Plug>(artio-oldfiles)")
-map("n", "<leader>cs", "<Plug>(artio-colorschemes)")
-map("n", "<leader>fh", "<Plug>(artio-highlights)")
+
+require("oil").setup({
+	view_options = { show_hidden = true },
+	skip_confirm_for_simple_edits = true,
+	delete_to_trash = true,
+
+	columns = { "type", "file", "mtime", "size", "icon" },
+	win_options = { signcolumn = "yes:1" },
+})
 
 require("mason").setup()
-vim.cmd("let g:vimwiki_list = [{'path': '~/Documents/notes/wiki'}]")
-vim.cmd([[
-let g:vimwiki_list = [{'path': '~/Documents/notes/wiki',
-	\ 'syntax': 'markdown', 'ext': 'md'}]
-]])
 
 vim.api.nvim_create_autocmd("LspAttach", {
 	group = vim.api.nvim_create_augroup("my.lsp", {}),
@@ -136,61 +119,44 @@ vim.lsp.enable({
 	"zk",
 })
 
-require("oil").setup({
-	view_options = { show_hidden = true },
-	skip_confirm_for_simple_edits = true,
-	delete_to_trash = true,
-	columns = {
-		"permissions",
-		"type",
-		"file",
-		"mtime",
-		"size",
-	},
-	win_options = { signcolumn = "yes:1" },
-})
-
-vim.cmd("colorscheme y9nika-monoaccent")
+vim.cmd("colorscheme y9nika")
 vim.cmd("hi ModeMsg guifg=#cdcdcd")
 vim.cmd("hi NormalFloat guibg=#111111")
-vim.cmd("hi FloatBorder guibg=#141415")
+vim.cmd("hi FloatBorder guibg=NONE")
 vim.cmd("hi WinSeparator guifg=NONE guibg=NONE")
 
-require("vague").setup({ transparent = true })
-
-local builtin = require("telescope.builtin")
-
-map("n", "<C-n>", function()
-	local argc = vim.fn.argc()
-	if argc == 0 then
-		return
-	end
-	local argidx = vim.fn.argidx()
-	if argidx == argc - 1 then
-		vim.cmd("rewind")
-	else
-		vim.cmd("next")
-	end
-end, { noremap = true, silent = true })
 map("n", "<leader>h", function()
 	vim.cmd("te zsh -i -c ollama-gemma")
 	vim.cmd("argadd %")
 end, { silent = true })
+
+local builtin = require("telescope.builtin")
+map({ "n" }, "<leader>so", builtin.oldfiles)
+map({ "n" }, "<leader>f", builtin.find_files)
+vim.keymap.set("n", "<leader>sc", function()
+	vim.cmd("cd ~/.config")
+	builtin.find_files()
+end, { noremap = true })
+map({ "n" }, "<leader>sh", builtin.help_tags)
+map({ "n" }, "<leader>sr", builtin.lsp_references)
+map({ "n" }, "<leader>st", builtin.builtin)
+map({ "n" }, "<leader>sk", builtin.keymaps)
+
 map("t", "<Esc>", [[<C-\><C-n>]], { noremap = true, silent = true })
 map({ "n" }, "<Esc>", "<cmd>nohlsearch<CR>")
 map({ "n" }, "<leader>wv", "<cmd>VimwikiIndex<CR>")
 map({ "n", "v", "x" }, "<leader>v", "<Cmd>edit $MYVIMRC<CR>", { desc = "Edit " .. vim.fn.expand("$MYVIMRC") })
 map({ "n", "v", "x" }, "<leader>z", "<Cmd>e ~/.zshrc<CR>", { desc = "Edit .zshrc" })
 map({ "n", "v", "x" }, "<leader>n", ":norm ")
+
+map({ "n", "v", "x" }, "t", "'")
 map({ "n", "v", "x" }, "<leader>lf", vim.lsp.buf.format, { desc = "Format current buffer" })
 map({ "v", "x", "n" }, "<C-y>", '"+y', { desc = "System clipboard yank." })
 map({ "n" }, "-", "<cmd>Oil<CR>")
-map({ "n" }, "<leader>c", "1z=")
 map("n", "<C-g>", function()
 	require("neogit").open({ kind = "replace", cwd = vim.fn.expand("%:p:h") })
 end)
 
---- harpoon
 map("n", "<leader>a", function()
 	vim.cmd("argadd %")
 	vim.cmd("argdedup")
