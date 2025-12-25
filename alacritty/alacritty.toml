@@ -2,6 +2,8 @@
 decorations = "none"
 option_as_alt = "Both"
 dynamic_padding = true
+# blur = true
+# opacity = 0.7
 
 [general]
 live_config_reload = true
@@ -12,11 +14,10 @@ normal = {family = "ZedMono Nerd Font" }
 size = 27
 
 [colors.primary]
-# background = "#080808"
-# background = "#111111"
-background = "#0E1415"
+# background = "#0E1415"
+background = "#111111"
+# background = "#14161B"
+# background = "#0E1415"
 # background = "#1C1C1C"
 # background = "#121212"
-# background = "#1C1C1C"
-# background = "#1C1C1C"
 
