@@ -1,5 +1,6 @@
 vim.pack.add({
 	{ src = "https://github.com/stevearc/oil.nvim" },
+	{ src = "https://github.com/benomahony/oil-git.nvim" },
 	{ src = "https://github.com/nvim-lua/plenary.nvim" },
 	{ src = "https://github.com/nvim-telescope/telescope.nvim", version = "0.1.8" },
 	{ src = "https://github.com/nvim-telescope/telescope-fzf-native.nvim" },
@@ -47,6 +48,7 @@ require("telescope").setup({
 	},
 })
 require("telescope").load_extension("fzf")
+
 
 require("oil").setup({
 	keymaps = { ["`"] = "actions.tcd" },
@@ -115,7 +117,7 @@ vim.lsp.enable({
 vim.cmd("colorscheme vague")
 -- vim.cmd("colorscheme retrobox")
 vim.cmd("hi ModeMsg guifg=#cdcdcd")
-vim.cmd("hi StatusLine guibg=none")
+-- vim.cmd("hi StatusLine guibg=none")
 vim.cmd("hi NormalFloat guibg=NONE ctermbg=NONE")
 vim.cmd("hi FloatBorder guibg=NONE")
 vim.cmd("hi WinSeparator guifg=NONE guibg=NONE")
