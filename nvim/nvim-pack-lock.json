@@ -20,6 +20,10 @@
       "rev": "cb938c25edaac38d362555f19244a9cb85d561e8",
       "src": "https://github.com/aznhe21/actions-preview.nvim"
     },
+    "arrow.nvim": {
+      "rev": "6e0f726f55f99332dd726a53effd6813786b6d49",
+      "src": "https://github.com/otavioschwanck/arrow.nvim"
+    },
     "artio.nvim": {
       "rev": "21b466d74084fc7fd636a23cd9ce19cb677bdfeb",
       "src": "https://github.com/comfysage/artio.nvim"
@@ -27,6 +31,10 @@
     "avante.nvim": {
       "rev": "476f342fe6bc1e120ba3e334b5d9cf3ef66de56a",
       "src": "https://github.com/yetone/avante.nvim"
+    },
+    "dartboard.nvim": {
+      "rev": "68a8372527fdc891cd164d61194fd1dd2f81fce2",
+      "src": "https://github.com/markgandolfo/dartboard.nvim"
     },
     "debugprint.nvim": {
       "rev": "25bc7c2b1703050d14cfb2560974a8426febe08d",
@@ -52,13 +60,22 @@
       "rev": "5813e4878748805f1518cee7abb50fd7205a3a48",
       "src": "https://github.com/lewis6991/gitsigns.nvim"
     },
+    "grapple.nvim": {
+      "rev": "b41ddfc1c39f87f3d1799b99c2f0f1daa524c5f7",
+      "src": "https://github.com/cbochs/grapple.nvim"
+    },
     "guh.nvim": {
       "rev": "092bbd901a8a367d6e08ec86c1e69ef52006a254",
       "src": "https://github.com/justinmk/guh.nvim"
     },
+    "guttermarks.nvim": {
+      "rev": "aaa67cdd90500a9073ee083bd090788d3ecd88e4",
+      "src": "https://github.com/dimtion/guttermarks.nvim"
+    },
     "harpoon": {
       "rev": "1bc17e3e42ea3c46b33c0bbad6a880792692a1b3",
-      "src": "https://github.com/ThePrimeagen/harpoon"
+      "src": "https://github.com/ThePrimeagen/harpoon",
+      "version": "'harpoon2'"
     },
     "linediff.vim": {
       "rev": "29fa617fc10307a1e0ae82a8761114e465d17b06",
@@ -91,6 +108,10 @@
     "neogit": {
       "rev": "d8bf9102692250193b855acd9025a826f1af2729",
       "src": "https://github.com/NeogitOrg/neogit"
+    },
+    "neotab.nvim": {
+      "rev": "e99d3e28c5a2066d2d368dfe4ef3827c8d75d337",
+      "src": "https://github.com/kawre/neotab.nvim"
     },
     "nvim-lspconfig": {
       "rev": "5eeb45c8c469b84777a5bd8796b698c8a1c780a7",
@@ -136,6 +157,10 @@
     "vague.nvim": {
       "rev": "fcc283576764474ccfbbcca240797d5d7f4d8a78",
       "src": "https://github.com/vague-theme/vague.nvim"
+    },
+    "which-key.nvim": {
+      "rev": "3aab2147e74890957785941f0c1ad87d0a44c15a",
+      "src": "https://github.com/folke/which-key.nvim"
     },
     "y9nika.nvim": {
       "rev": "ac9d245f4a1de404973cc4f061104f8a65c9813e",

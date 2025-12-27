@@ -9,7 +9,6 @@ vim.pack.add({
 	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
 	{ src = "https://github.com/NeogitOrg/neogit" },
 })
-
 local map = vim.keymap.set
 local opt = vim.opt
 
@@ -51,7 +50,7 @@ require("telescope").load_extension("fzf")
 
 require("oil").setup({
 	keymaps = { ["`"] = "actions.tcd" },
-	columns = { "size", "mtime", "icon", },
+	columns = { "size", "mtime", },
 	delete_to_trash = true,
 	skip_confirm_for_simple_edits = true,
 	win_options = { signcolumn = "yes:1" },
@@ -113,8 +112,6 @@ vim.lsp.enable({
 	"zk",
 })
 
--- vim.cmd("colorscheme y9nika-monoaccent")
--- vim.cmd("colorscheme y9nika")
 vim.cmd("colorscheme vague")
 -- vim.cmd("colorscheme retrobox")
 vim.cmd("hi ModeMsg guifg=#cdcdcd")
@@ -126,22 +123,31 @@ vim.cmd("hi QuickFixLine guifg = #7AA2F7")
 vim.cmd("hi Normal guibg=NONE ctermbg=NONE")
 vim.cmd("hi NonText guibg=NONE ctermbg=NONE")
 vim.cmd("hi SignColumn guibg=NONE ctermbg=NONE")
--- Add other highlight groups as needed, e.g., for sidebars or float windows
--- vim.cmd("hi NvimTreeNormal guibg=NONE")
+
+vim.cmd[[
+inoremap " ""<left>
+inoremap ' ''<left>
+inoremap ( ()<left>
+inoremap [ []<left>
+inoremap { {}<left>
+inoremap {<CR> {<CR>}<ESC>O
+]]
 
 map("t", "<Esc>", [[<C-\><C-n>]], { noremap = true, silent = true })
+
 map({ "n", "v", "x" }, "<leader>v", "<Cmd>edit $MYVIMRC<CR>", { desc = "Edit " .. vim.fn.expand("$MYVIMRC") })
 map({ "n", "v", "x" }, "<leader>td", "<Cmd>edit /Users/nitin/Documents/DO.typ<CR>", { desc = "Edit " .. vim.fn.expand("$MYVIMRC") })
 map({ "n", "v", "x" }, "<C-s>", "<Cmd>botright 10new | terminal<CR>", { desc = "Edit " .. vim.fn.expand("$MYVIMRC") })
 map({ "n" }, "<Esc>", "<Cmd>nohlsearch<CR>")
 map({ "n", "v", "x" }, "<leader>z", "<Cmd>e ~/.zshrc<CR>", { desc = "Edit .zshrc" })
 map({ "n", "v", "x" }, "<leader>n", ":norm ")
-map({ "n", "v", "x" }, "`", "'")
 map({ "n", "v", "x" }, "<leader>lf", vim.lsp.buf.format, { desc = "Format current buffer" })
 map({ "v", "x", "n" }, "<C-y>", '"+y', { desc = "System clipboard yank." })
 
 local builtin = require("telescope.builtin")
 map({ "n" }, "<leader>f", builtin.find_files)
+map({ "n" }, "<leader>sm", builtin.marks)
+map({ "n" }, "<leader>sh", builtin.help_tags)
 map({ "n" }, "<leader>g", builtin.live_grep)
 map({ "n" }, "<leader>b", builtin.buffers)
 map({ "n" }, "<leader>so", builtin.oldfiles)
@@ -149,12 +155,9 @@ map("n", "<leader>sc", function()
 	vim.cmd("cd ~/.config")
 	builtin.find_files()
 end, { noremap = true })
-map({ "n" }, "<leader>sh", builtin.help_tags)
 map({ "n" }, "<leader>st", builtin.builtin)
-map("n", "<C-t>", ":lua require('toggle-checkbox').toggle()<CR>")
 map("n", "<C-p>", ":bnext<CR>", { silent = true })
 map("n", "<C-n>", ":bprevious<CR>", { silent = true })
-map({ "n" }, "<leader>sk", builtin.keymaps)
 map({ "n" }, "-", "<cmd>Oil<CR>")
 map("n", "<C-g>", function()
 	require("neogit").open({ kind = "replace", cwd = vim.fn.expand("%:p:h") })
@@ -189,3 +192,29 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
 		end
 	end,
 })
+
+local set = vim.opt_local
+
+-- Set local settings for terminal buffers
+vim.api.nvim_create_autocmd("TermOpen", {
+  group = vim.api.nvim_create_augroup("custom-term-open", {}),
+  callback = function()
+    set.number = false
+    set.relativenumber = false
+    set.scrolloff = 0
+
+    vim.bo.filetype = "terminal"
+  end,
+})
+
+-- Easily hit escape in terminal mode.
+vim.keymap.set("t", "<esc><esc>", "<c-\\><c-n>")
+
+-- Open a terminal at the bottom of the screen with a fixed height.
+vim.keymap.set("n", ",st", function()
+  vim.cmd.new()
+  vim.cmd.wincmd "J"
+  vim.api.nvim_win_set_height(0, 9)
+  vim.wo.winfixheight = true
+  vim.cmd.term()
+end)
