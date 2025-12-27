@@ -115,9 +115,9 @@ vim.lsp.enable({
 })
 
 vim.cmd("colorscheme vague")
--- vim.cmd("colorscheme retrobox")
+-- vim.cmd("colorscheme ")
 vim.cmd("hi ModeMsg guifg=#cdcdcd")
--- vim.cmd("hi StatusLine guibg=none")
+vim.cmd("hi StatusLine guibg=none")
 vim.cmd("hi NormalFloat guibg=NONE ctermbg=NONE")
 vim.cmd("hi FloatBorder guibg=NONE")
 vim.cmd("hi WinSeparator guifg=NONE guibg=NONE")
