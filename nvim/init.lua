@@ -30,8 +30,8 @@ opt.undofile = true
 opt.number = true
 opt.relativenumber = true
 opt.guicursor = ""
+opt.statusline = "[%n] %<%f %w%m%r%=%-14.(%l,%c%V%) [%{&filetype}]"
 opt.winborder = "rounded"
-opt.statusline = "[%n] %<%f %w%m%r%=%-14.(%l,%c%V%) %P"
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
@@ -113,6 +113,7 @@ vim.lsp.enable({
 })
 
 vim.cmd("colorscheme vague")
+-- vim.cmd("colorscheme unokai")
 -- vim.cmd("colorscheme ")
 vim.cmd("hi ModeMsg guifg=#cdcdcd")
 vim.cmd("hi StatusLine guibg=none")
@@ -164,6 +165,7 @@ map("n", "<C-p>", ":bnext<CR>", { silent = true })
 map("n", "<C-n>", ":bprevious<CR>", { silent = true })
 map({ "n" }, "-", "<cmd>Oil<CR>")
 map("n", "<C-g>", ":Git | only<CR>",{ silent = true })
+map("n", "<C-s>", "<CMD>te<CR>")
 
 map("n", "<C-q>", ":copen<CR>", { silent = true })
 for i = 1, 9 do
@@ -195,4 +197,3 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
 	end,
 })
 
-vim.keymap.set("n", "<C-t>", "<CMD>te<CR>")
