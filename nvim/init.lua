@@ -1,14 +1,15 @@
 vim.pack.add({
 	{ src = "https://github.com/stevearc/oil.nvim" },
-	{ src = "https://github.com/benomahony/oil-git.nvim" },
 	{ src = "https://github.com/nvim-lua/plenary.nvim" },
-	{ src = "https://github.com/nvim-telescope/telescope.nvim", version = "0.1.8" },
+	{ src = "https://github.com/nvim-telescope/telescope.nvim",           version = "0.1.8" },
 	{ src = "https://github.com/nvim-telescope/telescope-fzf-native.nvim" },
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{ src = "https://github.com/mason-org/mason.nvim" },
 	{ src = "https://github.com/vague-theme/vague.nvim" },
 	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
 	{ src = "https://github.com/NeogitOrg/neogit" },
+	{ src = "https://github.com/nvim-lualine/lualine.nvim" },
+	{ src = "https://github.com/tpope/vim-fugitive" },
 })
 local map = vim.keymap.set
 local opt = vim.opt
@@ -49,10 +50,42 @@ require("telescope").setup({
 })
 require("telescope").load_extension("fzf")
 
+require("lualine").setup({
+	options = {
+		icons_enabled = true,
+		theme = "ayu_dark",
+		component_separators = { left = "", right = "" },
+		section_separators = { left = "", right = "" },
+	},
+	sections = {
+		require('lualine').setup({
+			sections = {
+				lualine_a = { { 'mode', fmt = function(res) return res:sub(1, 1) end } },
+			}
+		}),
+		lualine_b = { "filename" },
+		lualine_c = { "branch" },
+		lualine_x = { "filetype" },
+		lualine_y = { "diff" },
+		lualine_z = { "filesize" },
+	},
+	inactive_sections = {
+		lualine_a = {},
+		lualine_b = {},
+		lualine_c = { "filename" },
+		lualine_x = { "location" },
+		lualine_y = {},
+		lualine_z = {},
+	},
+	tabline = {},
+	winbar = {},
+	inactive_winbar = {},
+	extensions = {},
+})
 
 require("oil").setup({
 	keymaps = { ["`"] = "actions.tcd" },
-	columns = { "size", "mtime", },
+	columns = { "size", "mtime" },
 	delete_to_trash = true,
 	skip_confirm_for_simple_edits = true,
 	win_options = { signcolumn = "yes:1" },
@@ -126,20 +159,24 @@ vim.cmd("hi Normal guibg=NONE ctermbg=NONE")
 vim.cmd("hi NonText guibg=NONE ctermbg=NONE")
 vim.cmd("hi SignColumn guibg=NONE ctermbg=NONE")
 
-vim.cmd[[
+vim.cmd([[
 inoremap " ""<left>
 inoremap ' ''<left>
 inoremap ( ()<left>
 inoremap [ []<left>
 inoremap { {}<left>
 inoremap {<CR> {<CR>}<ESC>O
-]]
+]])
 
 map("t", "<Esc>", [[<C-\><C-n>]], { noremap = true, silent = true })
 
 map({ "n", "v", "x" }, "<leader>v", "<Cmd>edit $MYVIMRC<CR>", { desc = "Edit " .. vim.fn.expand("$MYVIMRC") })
-map({ "n", "v", "x" }, "<leader>td", "<Cmd>edit /Users/nitin/Documents/DO.typ<CR>", { desc = "Edit " .. vim.fn.expand("$MYVIMRC") })
-map({ "n", "v", "x" }, "<C-s>", "<Cmd>botright 10new | terminal<CR>", { desc = "Edit " .. vim.fn.expand("$MYVIMRC") })
+map(
+	{ "n", "v", "x" },
+	"<leader>td",
+	"<Cmd>edit /Users/nitin/Documents/DO.typ<CR>",
+	{ desc = "Edit " .. vim.fn.expand("$MYVIMRC") }
+)
 map({ "n" }, "<Esc>", "<Cmd>nohlsearch<CR>")
 map({ "n", "v", "x" }, "<leader>z", "<Cmd>e ~/.zshrc<CR>", { desc = "Edit .zshrc" })
 map({ "n", "v", "x" }, "<leader>n", ":norm ")
@@ -195,28 +232,10 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
 	end,
 })
 
-local set = vim.opt_local
-
--- Set local settings for terminal buffers
-vim.api.nvim_create_autocmd("TermOpen", {
-  group = vim.api.nvim_create_augroup("custom-term-open", {}),
-  callback = function()
-    set.number = false
-    set.relativenumber = false
-    set.scrolloff = 0
-
-    vim.bo.filetype = "terminal"
-  end,
-})
-
--- Easily hit escape in terminal mode.
-vim.keymap.set("t", "<esc><esc>", "<c-\\><c-n>")
-
--- Open a terminal at the bottom of the screen with a fixed height.
-vim.keymap.set("n", ",st", function()
-  vim.cmd.new()
-  vim.cmd.wincmd "J"
-  vim.api.nvim_win_set_height(0, 9)
-  vim.wo.winfixheight = true
-  vim.cmd.term()
+vim.keymap.set("n", "<C-s>", function()
+	vim.cmd.new()
+	vim.cmd.wincmd("J")
+	vim.api.nvim_win_set_height(0, 9)
+	vim.wo.winfixheight = true
+	vim.cmd.term()
 end)
