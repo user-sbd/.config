@@ -1,7 +1,7 @@
 vim.pack.add({
 	{ src = "https://github.com/stevearc/oil.nvim" },
 	{ src = "https://github.com/nvim-lua/plenary.nvim" },
-	{ src = "https://github.com/nvim-telescope/telescope.nvim",           version = "0.1.8" },
+	{ src = "https://github.com/nvim-telescope/telescope.nvim", version = "0.1.8" },
 	{ src = "https://github.com/nvim-telescope/telescope-fzf-native.nvim" },
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{ src = "https://github.com/mason-org/mason.nvim" },
@@ -163,9 +163,7 @@ map({ "n" }, "<leader>st", builtin.builtin)
 map("n", "<C-p>", ":bnext<CR>", { silent = true })
 map("n", "<C-n>", ":bprevious<CR>", { silent = true })
 map({ "n" }, "-", "<cmd>Oil<CR>")
-map("n", "<C-g>", function()
-	require("neogit").open({ kind = "replace", cwd = vim.fn.expand("%:p:h") })
-end)
+map("n", "<C-g>", ":Git | only<CR>",{ silent = true })
 
 map("n", "<C-q>", ":copen<CR>", { silent = true })
 for i = 1, 9 do
@@ -197,10 +195,4 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
 	end,
 })
 
-vim.keymap.set("n", "<C-t>", function()
-	vim.cmd.new()
-	vim.cmd.wincmd("J")
-	vim.api.nvim_win_set_height(0, 9)
-	vim.wo.winfixheight = true
-	vim.cmd.term()
-end)
+vim.keymap.set("n", "<C-t>", "<CMD>te<CR>")
