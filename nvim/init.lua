@@ -7,8 +7,6 @@ vim.pack.add({
 	{ src = "https://github.com/mason-org/mason.nvim" },
 	{ src = "https://github.com/vague-theme/vague.nvim" },
 	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
-	{ src = "https://github.com/NeogitOrg/neogit" },
-	{ src = "https://github.com/nvim-lualine/lualine.nvim" },
 	{ src = "https://github.com/tpope/vim-fugitive" },
 })
 local map = vim.keymap.set
@@ -49,39 +47,6 @@ require("telescope").setup({
 	},
 })
 require("telescope").load_extension("fzf")
-
-require("lualine").setup({
-	options = {
-		icons_enabled = true,
-		theme = "ayu_dark",
-		component_separators = { left = "", right = "" },
-		section_separators = { left = "", right = "" },
-	},
-	sections = {
-		require('lualine').setup({
-			sections = {
-				lualine_a = { { 'mode', fmt = function(res) return res:sub(1, 1) end } },
-			}
-		}),
-		lualine_b = { "filename" },
-		lualine_c = { "branch" },
-		lualine_x = { "filetype" },
-		lualine_y = { "diff" },
-		lualine_z = { "filesize" },
-	},
-	inactive_sections = {
-		lualine_a = {},
-		lualine_b = {},
-		lualine_c = { "filename" },
-		lualine_x = { "location" },
-		lualine_y = {},
-		lualine_z = {},
-	},
-	tabline = {},
-	winbar = {},
-	inactive_winbar = {},
-	extensions = {},
-})
 
 require("oil").setup({
 	keymaps = { ["`"] = "actions.tcd" },
@@ -232,7 +197,7 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
 	end,
 })
 
-vim.keymap.set("n", "<C-s>", function()
+vim.keymap.set("n", "<C-t>", function()
 	vim.cmd.new()
 	vim.cmd.wincmd("J")
 	vim.api.nvim_win_set_height(0, 9)
