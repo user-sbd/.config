@@ -14,7 +14,7 @@ vim.pack.add({
 local map = vim.keymap.set
 local opt = vim.opt
 
-map("n","<leader>vc", require('neogit').open({ kind = "replace" }))
+vim.keymap.set("n", "<leader>wq", "<CMD>lua require('neogit').open({ kind = replace })<CR>" )
 vim.cmd([[set mouse=]])
 vim.cmd([[set noswapfile]])
 opt.winborder = "rounded"
