@@ -8,6 +8,10 @@
       "rev": "57e5a8addb8c71fb063ee4acda466c7cf6ad2800",
       "src": "https://github.com/mason-org/mason.nvim"
     },
+    "neogit": {
+      "rev": "d8bf9102692250193b855acd9025a826f1af2729",
+      "src": "https://github.com/NeogitOrg/neogit"
+    },
     "nvim-lspconfig": {
       "rev": "d696e36d5792daf828f8c8e8d4b9aa90c1a10c2a",
       "src": "https://github.com/neovim/nvim-lspconfig"
@@ -48,6 +52,10 @@
     "vim-fugitive": {
       "rev": "61b51c09b7c9ce04e821f6cf76ea4f6f903e3cf4",
       "src": "https://github.com/tpope/vim-fugitive"
+    },
+    "y9nika.nvim": {
+      "rev": "98cb5a1dd79d2aa8655b8000e8933f588d2786b0",
+      "src": "https://github.com/y9san9/y9nika.nvim"
     }
   }
 }

@@ -2,8 +2,8 @@
 decorations = "none"
 option_as_alt = "Both"
 dynamic_padding = true
-blur = true
-opacity = 0.8
+# blur = true
+# opacity = 0.8
 
 [general]
 live_config_reload = true

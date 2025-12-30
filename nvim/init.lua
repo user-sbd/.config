@@ -8,10 +8,13 @@ vim.pack.add({
 	{ src = "https://github.com/vague-theme/vague.nvim" },
 	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
 	{ src = "https://github.com/tpope/vim-fugitive" },
+	{ src = "https://github.com/walkersumida/fusen.nvim" },
+	{ src = "https://github.com/NeogitOrg/neogit" },
 })
 local map = vim.keymap.set
 local opt = vim.opt
 
+map("n","<leader>vc", require('neogit').open({ kind = "replace" }))
 vim.cmd([[set mouse=]])
 vim.cmd([[set noswapfile]])
 opt.winborder = "rounded"
@@ -30,7 +33,7 @@ opt.undofile = true
 opt.number = true
 opt.relativenumber = true
 opt.guicursor = ""
-opt.statusline = "[%n] %<%f %w%m%r%=%-14.(%l,%c%V%) [%{&filetype}]"
+opt.statusline = "[%n] %<%f %w%m%r%=%-14.(%l,%c%V%) "
 opt.winborder = "rounded"
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
@@ -50,10 +53,31 @@ require("telescope").load_extension("fzf")
 
 require("oil").setup({
 	keymaps = { ["`"] = "actions.tcd" },
-	columns = { "size", "mtime" },
 	delete_to_trash = true,
 	skip_confirm_for_simple_edits = true,
 	win_options = { signcolumn = "yes:1" },
+})
+
+require("fusen").setup({
+	save_file = vim.fn.expand("$HOME") .. "/.config/nvim/fusen_marks.json",
+	mark = {
+		icon = "",
+		hl_group = "DiagnosticError",
+	},
+	keymaps = {
+		add_mark = "me",
+		clear_mark = "mc",
+		clear_buffer = "mC",
+		clear_all = "mD",
+		next_mark = "]q",
+		prev_mark = "[q",
+		list_marks = "ml",
+	},
+	annotation_display = {
+		mode = "eol",
+		spacing = 4,
+	},
+	enabled = true,
 })
 
 require("mason").setup()
@@ -164,7 +188,7 @@ map({ "n" }, "<leader>st", builtin.builtin)
 map("n", "<C-p>", ":bnext<CR>", { silent = true })
 map("n", "<C-n>", ":bprevious<CR>", { silent = true })
 map({ "n" }, "-", "<cmd>Oil<CR>")
-map("n", "<C-g>", ":Git | only<CR>",{ silent = true })
+map("n", "<C-g>", ":Git | only<CR>", { silent = true })
 map("n", "<C-s>", "<CMD>te<CR>")
 
 map("n", "<C-q>", ":copen<CR>", { silent = true })
