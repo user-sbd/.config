@@ -5,16 +5,14 @@ vim.pack.add({
 	{ src = "https://github.com/nvim-telescope/telescope-fzf-native.nvim" },
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{ src = "https://github.com/mason-org/mason.nvim" },
-	{ src = "https://github.com/vague-theme/vague.nvim" },
+	{ src = "https://github.com/bluz71/vim-moonfly-colors" },
 	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
 	{ src = "https://github.com/tpope/vim-fugitive" },
 	{ src = "https://github.com/walkersumida/fusen.nvim" },
-	{ src = "https://github.com/NeogitOrg/neogit" },
 })
 local map = vim.keymap.set
 local opt = vim.opt
 
-vim.keymap.set("n", "<leader>wq", "<CMD>lua require('neogit').open({ kind = replace })<CR>" )
 vim.cmd([[set mouse=]])
 vim.cmd([[set noswapfile]])
 opt.winborder = "rounded"
@@ -65,8 +63,8 @@ require("fusen").setup({
 		hl_group = "DiagnosticError",
 	},
 	keymaps = {
-		add_mark = "me",
-		clear_mark = "mc",
+		add_mark = "<C-m>",
+		clear_mark = "dm",
 		clear_buffer = "mC",
 		clear_all = "mD",
 		next_mark = "]q",
@@ -136,7 +134,7 @@ vim.lsp.enable({
 	"zk",
 })
 
-vim.cmd("colorscheme vague")
+vim.cmd("colorscheme moonfly")
 -- vim.cmd("colorscheme unokai")
 -- vim.cmd("colorscheme ")
 vim.cmd("hi ModeMsg guifg=#cdcdcd")
@@ -145,9 +143,6 @@ vim.cmd("hi NormalFloat guibg=NONE ctermbg=NONE")
 vim.cmd("hi FloatBorder guibg=NONE")
 vim.cmd("hi WinSeparator guifg=NONE guibg=NONE")
 vim.cmd("hi QuickFixLine guifg = #7AA2F7")
-vim.cmd("hi Normal guibg=NONE ctermbg=NONE")
-vim.cmd("hi NonText guibg=NONE ctermbg=NONE")
-vim.cmd("hi SignColumn guibg=NONE ctermbg=NONE")
 
 vim.cmd([[
 inoremap " ""<left>
