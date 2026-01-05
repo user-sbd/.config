@@ -12,6 +12,10 @@
       "rev": "a18ef908ac06b52ad9333b70e3e630b0a56ecb3d",
       "src": "https://github.com/glacambre/firenvim"
     },
+    "flashcards.nvim": {
+      "rev": "5b99cd63415625f04056602a14176755028520ff",
+      "src": "https://github.com/alex-laycalvert/flashcards.nvim"
+    },
     "fusen.nvim": {
       "rev": "ff57476e167dd5437b6030616b7257e2a3b0619f",
       "src": "https://github.com/walkersumida/fusen.nvim"

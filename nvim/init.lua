@@ -8,13 +8,14 @@ vim.pack.add({
 	{ src = "https://github.com/bluz71/vim-moonfly-colors" },
 	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
 	{ src = "https://github.com/tpope/vim-fugitive" },
-	{ src = "https://github.com/walkersumida/fusen.nvim" },
+	{ src = "https://github.com/alex-laycalvert/flashcards.nvim" },
 })
 local map = vim.keymap.set
 local opt = vim.opt
 
 vim.cmd([[set mouse=]])
 vim.cmd([[set noswapfile]])
+vim.o.makeprg = "./make.sh"
 opt.winborder = "rounded"
 opt.tabstop = 2
 opt.inccommand = "split"
@@ -56,28 +57,6 @@ require("oil").setup({
 	win_options = { signcolumn = "yes:1" },
 })
 
-require("fusen").setup({
-	save_file = vim.fn.expand("$HOME") .. "/.config/nvim/fusen_marks.json",
-	mark = {
-		icon = "",
-		hl_group = "DiagnosticError",
-	},
-	keymaps = {
-		add_mark = "<C-m>",
-		clear_mark = "dm",
-		clear_buffer = "mC",
-		clear_all = "mD",
-		next_mark = "]q",
-		prev_mark = "[q",
-		list_marks = "ml",
-	},
-	annotation_display = {
-		mode = "eol",
-		spacing = 4,
-	},
-	enabled = true,
-})
-
 require("mason").setup()
 
 vim.api.nvim_create_autocmd("LspAttach", {
@@ -97,46 +76,25 @@ vim.api.nvim_create_autocmd("LspAttach", {
 vim.cmd([[set completeopt+=menuone,noselect,popup]])
 
 vim.lsp.enable({
-	"lua_ls",
-	"cssls",
-	"svelte",
-	"tinymist",
-	"rust_analyzer",
-	"clangd",
-	"ruff",
-	"glsl_analyzer",
-	"intelephense",
-	"tailwindcss",
-	"emmet_language_server",
-	"emmet_ls",
-	"solargraph",
-	"zls",
-	"bash-language-server",
-	"clangd",
-	"emmet-language-server",
-	"glsl_analyzer",
-	"gopls",
-	"html-lsp",
-	"json-lsp",
-	"lua-language-server",
-	"markdownlint-cli2",
-	"marksman",
-	"pyright",
-	"python-lsp-server",
-	"ruff",
-	"rust-analyzer",
-	"shfmt",
-	"stylua",
-	"svelte-language-server",
-	"tailwindcss-language-server",
-	"tinymist",
-	"tree-sitter-cli",
-	"zk",
-})
-
+	"lua_ls", "cssls",
+	"svelte", "tinymist",
+	"rust_analyzer", "clangd",
+	"ruff", "glsl_analyzer",
+	"intelephense", "tailwindcss",
+	"emmet_language_server", "emmet_ls",
+	"solargraph", "zls",
+	"bash-language-server", "clangd",
+	"emmet-language-server", "glsl_analyzer",
+	"gopls", "html-lsp",
+	"json-lsp", "lua-language-server",
+	"markdownlint-cli2", "marksman",
+	"pyright", "python-lsp-server",
+	"ruff", "rust-analyzer",
+	"shfmt", "stylua",
+	"svelte-language-server", "tailwindcss-language-server",
+	"tinymist", "tree-sitter-cli",
+	"zk", })
 vim.cmd("colorscheme moonfly")
--- vim.cmd("colorscheme unokai")
--- vim.cmd("colorscheme ")
 vim.cmd("hi ModeMsg guifg=#cdcdcd")
 vim.cmd("hi StatusLine guibg=none")
 vim.cmd("hi NormalFloat guibg=NONE ctermbg=NONE")
@@ -150,18 +108,13 @@ inoremap ' ''<left>
 inoremap ( ()<left>
 inoremap [ []<left>
 inoremap { {}<left>
-inoremap {<CR> {<CR>}<ESC>O
+inoremap < <><left>
 ]])
 
+map("n","<leader>m", "<CMD>make<CR>",{ silent = true })
+map("n","<leader>ms", "<CMD>Telescope marks<CR>",{ silent = true })
 map("t", "<Esc>", [[<C-\><C-n>]], { noremap = true, silent = true })
-
 map({ "n", "v", "x" }, "<leader>v", "<Cmd>edit $MYVIMRC<CR>", { desc = "Edit " .. vim.fn.expand("$MYVIMRC") })
-map(
-	{ "n", "v", "x" },
-	"<leader>td",
-	"<Cmd>edit /Users/nitin/Documents/DO.typ<CR>",
-	{ desc = "Edit " .. vim.fn.expand("$MYVIMRC") }
-)
 map({ "n" }, "<Esc>", "<Cmd>nohlsearch<CR>")
 map({ "n", "v", "x" }, "<leader>z", "<Cmd>e ~/.zshrc<CR>", { desc = "Edit .zshrc" })
 map({ "n", "v", "x" }, "<leader>n", ":norm ")
@@ -170,7 +123,6 @@ map({ "v", "x", "n" }, "<C-y>", '"+y', { desc = "System clipboard yank." })
 
 local builtin = require("telescope.builtin")
 map({ "n" }, "<leader>f", builtin.find_files)
-map({ "n" }, "<leader>sm", builtin.marks)
 map({ "n" }, "<leader>sh", builtin.help_tags)
 map({ "n" }, "<leader>g", builtin.live_grep)
 map({ "n" }, "<leader>b", builtin.buffers)
@@ -180,39 +132,27 @@ map("n", "<leader>sc", function()
 	builtin.find_files()
 end, { noremap = true })
 map({ "n" }, "<leader>st", builtin.builtin)
-map("n", "<C-p>", ":bnext<CR>", { silent = true })
-map("n", "<C-n>", ":bprevious<CR>", { silent = true })
 map({ "n" }, "-", "<cmd>Oil<CR>")
 map("n", "<C-g>", ":Git | only<CR>", { silent = true })
 map("n", "<C-s>", "<CMD>te<CR>")
 
-map("n", "<C-q>", ":copen<CR>", { silent = true })
-for i = 1, 9 do
-	map("n", "<leader>" .. i, ":cc " .. i .. "<CR>", { noremap = true, silent = true })
-end
-map("n", "<leader>a", function()
-	local pos = vim.api.nvim_win_get_cursor(0)
-	vim.fn.setqflist(
-		{ { filename = vim.fn.expand("%"), lnum = pos[1], col = pos[2] + 1, text = vim.fn.expand("%:t") } },
-		"a"
-	)
-end)
-vim.api.nvim_create_autocmd("BufWinEnter", {
-	pattern = "*",
-	group = vim.api.nvim_create_augroup("qf", { clear = true }),
-	callback = function()
-		if vim.bo.buftype == "quickfix" then
-			vim.wo.number = false
-			vim.wo.relativenumber = false
-			vim.wo.signcolumn = "no"
-			map("n", "<C-q>", ":ccl<cr>", { buffer = true, silent = true })
-			map("n", "dd", function()
-				local idx = vim.fn.line(".")
-				local qflist = vim.fn.getqflist()
-				table.remove(qflist, idx)
-				vim.fn.setqflist(qflist, "r")
-			end, { buffer = true })
-		end
-	end,
-})
+vim.api.nvim_create_autocmd("TextYankPost", { callback = function() vim.highlight.on_yank() end, })
 
+map("n", "<leader>a", function()
+	vim.cmd("argadd %")
+	vim.cmd("argdedup")
+end)
+map("n", "<C-q>", function()
+	vim.cmd.args()
+end)
+for i = 1, 9 do
+	vim.keymap.set("n", "<leader>" .. i, function()
+		local args = vim.fn.argv()
+		if #args >= i then
+			vim.cmd.argument(i)
+		else
+			vim.notify("No argument " .. i, vim.log.levels.WARN)
+		end
+	end, { desc = "Go to argument " .. i })
+end
+map("n", "<C-n>", ":if argidx() == argc() - 1 | first | else | next | endif<CR>", { silent = true })
