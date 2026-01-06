@@ -8,7 +8,6 @@ vim.pack.add({
 	{ src = "https://github.com/bluz71/vim-moonfly-colors" },
 	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
 	{ src = "https://github.com/tpope/vim-fugitive" },
-	{ src = "https://github.com/alex-laycalvert/flashcards.nvim" },
 })
 local map = vim.keymap.set
 local opt = vim.opt
