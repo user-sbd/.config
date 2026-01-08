@@ -43,11 +43,11 @@ require("telescope").setup({
 		color_devicons = true,
 		sorting_strategy = "ascending",
 		borderchars = { "", "", "", "", "", "", "", "" },
+		-- borderchars =  { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
 		path_displays = { "smart" },
-		layout_config = { height = 100, width = 400, prompt_position = "top", preview_cutoff = 40 },
+		layout_config = { height = 80, width = 390, prompt_position = "top", preview_cutoff = 40 },
 	},
 })
-require("telescope").load_extension("fzf")
 
 require("oil").setup({
 	keymaps = { ["`"] = "actions.tcd" },
@@ -75,24 +75,15 @@ vim.api.nvim_create_autocmd("LspAttach", {
 vim.cmd([[set completeopt+=menuone,noselect,popup]])
 
 vim.lsp.enable({
-	"lua_ls", "cssls",
-	"svelte", "tinymist",
-	"rust_analyzer", "clangd",
-	"ruff", "glsl_analyzer",
-	"intelephense", "tailwindcss",
-	"emmet_language_server", "emmet_ls",
-	"solargraph", "zls",
-	"bash-language-server", "clangd",
-	"emmet-language-server", "glsl_analyzer",
-	"gopls", "html-lsp",
-	"json-lsp", "lua-language-server",
-	"markdownlint-cli2", "marksman",
-	"pyright", "python-lsp-server",
-	"ruff", "rust-analyzer",
-	"shfmt", "stylua",
-	"svelte-language-server", "tailwindcss-language-server",
-	"tinymist", "tree-sitter-cli",
-	"zk", })
+	"lua_ls", "cssls", "svelte", "tinymist", "rust_analyzer",
+	"clangd", "ruff", "glsl_analyzer", "intelephense", "tailwindcss",
+	"emmet_language_server", "emmet_ls", "solargraph", "zls", "bash-language-server",
+	"clangd", "emmet-language-server", "glsl_analyzer", "gopls",
+	"html-lsp", "json-lsp", "lua-language-server", "markdownlint-cli2", "marksman",
+	"pyright", "python-lsp-server", "ruff", "rust-analyzer", "shfmt",
+	"stylua", "svelte-language-server", "tailwindcss-language-server", "tinymist",
+	"tree-sitter-cli","zk",
+})
 vim.cmd("colorscheme moonfly")
 vim.cmd("hi ModeMsg guifg=#cdcdcd")
 vim.cmd("hi StatusLine guibg=none")
@@ -100,18 +91,9 @@ vim.cmd("hi NormalFloat guibg=NONE ctermbg=NONE")
 vim.cmd("hi FloatBorder guibg=NONE")
 vim.cmd("hi WinSeparator guifg=NONE guibg=NONE")
 vim.cmd("hi QuickFixLine guifg = #7AA2F7")
+vim.cmd("hi TelescopeSelectionCaret guifg=#80A0FF")
 
-vim.cmd([[
-inoremap " ""<left>
-inoremap ' ''<left>
-inoremap ( ()<left>
-inoremap [ []<left>
-inoremap { {}<left>
-inoremap < <><left>
-]])
-
-map("n","<leader>m", "<CMD>make<CR>",{ silent = true })
-map("n","<leader>ms", "<CMD>Telescope marks<CR>",{ silent = true })
+map("n", "<leader>m", "<CMD>make<CR>", { silent = true })
 map("t", "<Esc>", [[<C-\><C-n>]], { noremap = true, silent = true })
 map({ "n", "v", "x" }, "<leader>v", "<Cmd>edit $MYVIMRC<CR>", { desc = "Edit " .. vim.fn.expand("$MYVIMRC") })
 map({ "n" }, "<Esc>", "<Cmd>nohlsearch<CR>")
@@ -121,6 +103,7 @@ map({ "n", "v", "x" }, "<leader>lf", vim.lsp.buf.format, { desc = "Format curren
 map({ "v", "x", "n" }, "<C-y>", '"+y', { desc = "System clipboard yank." })
 
 local builtin = require("telescope.builtin")
+map("n", "<leader>ms", "<CMD>Telescope marks<CR>", { silent = true })
 map({ "n" }, "<leader>f", builtin.find_files)
 map({ "n" }, "<leader>sh", builtin.help_tags)
 map({ "n" }, "<leader>g", builtin.live_grep)
@@ -135,7 +118,11 @@ map({ "n" }, "-", "<cmd>Oil<CR>")
 map("n", "<C-g>", ":Git | only<CR>", { silent = true })
 map("n", "<C-s>", "<CMD>te<CR>")
 
-vim.api.nvim_create_autocmd("TextYankPost", { callback = function() vim.highlight.on_yank() end, })
+vim.api.nvim_create_autocmd("TextYankPost", {
+	callback = function()
+		vim.highlight.on_yank()
+	end,
+})
 
 map("n", "<leader>a", function()
 	vim.cmd("argadd %")
@@ -155,3 +142,5 @@ for i = 1, 9 do
 	end, { desc = "Go to argument " .. i })
 end
 map("n", "<C-n>", ":if argidx() == argc() - 1 | first | else | next | endif<CR>", { silent = true })
+
+

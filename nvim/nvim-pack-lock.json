@@ -1,5 +1,9 @@
 {
   "plugins": {
+    "artio.nvim": {
+      "rev": "f729822fe0c84aee70f8f21897c2b368277719b5",
+      "src": "https://github.com/comfysage/artio.nvim"
+    },
     "debugprint.nvim": {
       "rev": "1f5de64ac5d0d0ca20a1a535e1ab2fe2c7d4359f",
       "src": "https://github.com/andrewferrier/debugprint.nvim"
@@ -27,6 +31,10 @@
     "gitsigns.nvim": {
       "rev": "130beacf8a51f00aede9c31064c749136679a321",
       "src": "https://github.com/lewis6991/gitsigns.nvim"
+    },
+    "gruber-darker.nvim": {
+      "rev": "6615b4ac1fe77a3f4f8168ba1d4a9f2fff0d8d55",
+      "src": "https://github.com/blazkowolf/gruber-darker.nvim"
     },
     "guh.nvim": {
       "rev": "092bbd901a8a367d6e08ec86c1e69ef52006a254",
@@ -92,9 +100,17 @@
       "rev": "d2d196c335919767803f905d573ce66340e33ee6",
       "src": "https://github.com/leath-dub/snipe.nvim"
     },
+    "spelunk.nvim": {
+      "rev": "71132b1bea194f9f0c6888e36d72d20f91159081",
+      "src": "https://github.com/EvWilson/spelunk.nvim"
+    },
     "telescope-fzf-native.nvim": {
       "rev": "6fea601bd2b694c6f2ae08a6c6fab14930c60e2c",
       "src": "https://github.com/nvim-telescope/telescope-fzf-native.nvim"
+    },
+    "telescope-github.nvim": {
+      "rev": "ee95c509901c3357679e9f2f9eaac3561c811736",
+      "src": "https://github.com/nvim-telescope/telescope-github.nvim"
     },
     "telescope.nvim": {
       "rev": "4d0f5e0e7f69071e315515c385fab2a4eff07b3d",
