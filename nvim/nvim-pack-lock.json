@@ -1,12 +1,32 @@
 {
   "plugins": {
+    "fzf-lua": {
+      "rev": "b8d1356b7120f5cf111709cb2fa504096248fb26",
+      "src": "https://github.com/ibhagwan/fzf-lua"
+    },
+    "mason-lspconfig.nvim": {
+      "rev": "fe661093f4b05136437b531e7f959af2a2ae66c8",
+      "src": "https://github.com/mason-org/mason-lspconfig.nvim"
+    },
     "mason.nvim": {
       "rev": "44d1e90e1f66e077268191e3ee9d2ac97cc18e65",
       "src": "https://github.com/mason-org/mason.nvim"
     },
+    "mini.icons": {
+      "rev": "efc85e42262cd0c9e1fdbf806c25cb0be6de115c",
+      "src": "https://github.com/nvim-mini/mini.icons"
+    },
+    "neogit": {
+      "rev": "d8bf9102692250193b855acd9025a826f1af2729",
+      "src": "https://github.com/NeogitOrg/neogit"
+    },
     "nvim-lspconfig": {
       "rev": "5a82e10b2df0ed31bec642c1c0344baee7c458b6",
       "src": "https://github.com/neovim/nvim-lspconfig"
+    },
+    "nvim-treesitter": {
+      "rev": "5a7e5638e7d220575b1c22c8a2e099b52231886e",
+      "src": "https://github.com/nvim-treesitter/nvim-treesitter"
     },
     "obsidian.nvim": {
       "rev": "f6b241fa08d157701b9b0850b1251d98f86b122e",
@@ -36,6 +56,10 @@
       "rev": "a0bbec21143c7bc5f8bb02e0005fa0b982edc026",
       "src": "https://github.com/nvim-telescope/telescope.nvim",
       "version": "'0.1.8'"
+    },
+    "todo-comments.nvim": {
+      "rev": "31e3c38ce9b29781e4422fc0322eb0a21f4e8668",
+      "src": "https://github.com/folke/todo-comments.nvim"
     },
     "typst-preview.nvim": {
       "rev": "bf5d5eaf23bbfcca9f98a24ed29bd084abf89bf2",
