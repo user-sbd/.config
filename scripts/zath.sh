@@ -3,7 +3,7 @@
 pdf_dir="$HOME/Documents/pdfs"
 
 selected=$(find "$pdf_dir" -type f -name '*.pdf' -exec basename {} .pdf \; |
-	fzf
+	sk --margin 10% --color="bw"
 )
 
 if [ -n "$selected" ]; then

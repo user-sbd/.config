@@ -1,28 +1,15 @@
-#!/bin/bash
+# I'll be doing another one for Linux, but this one will give you 
+# a pop up notification and sound alert (using the built-in sounds for macOS)
 
-CATEGORIES=(
-    "CODING"
-    "MUSIC"
-    "WORKFLOW"
-    "LEARNING"
-    "VIDEO"
-    "STOP"
-)
+# Requires https://github.com/caarlos0/timer to be installed
 
-selected=$(printf "%s\n" "${CATEGORIES[@]}" | sk --margin 10% --color="bw" --bind 'q:abort')
-sk_status=$?
-
-if [[ $sk_status -ne 0 || -z "$selected" ]]; then
-    tmux set -g status-right ""
-    exit 0
-fi
-
-tmux set -g status-interval 5
-
-if [[ "$selected" == "STOP" ]]; then
-    timew stop
-    tmux set -g status-right ""
-else
-    timew start "$selected"
-    tmux set -g status-right "#(timew | awk '/^ *Tracking/ {print \$NF \" \"}')#(timew | awk '/^ *Total/ {print \$NF}')"
-fi
+# Mac setup for pomo
+alias work="timer 60m && terminal-notifier -message 'Pomodoro'\
+        -title 'Work Timer is up! Take a Break 😊'\
+        -appIcon '~/Pictures/pumpkin.png'\
+        -sound Crystal"
+        
+alias rest="timer 10m && terminal-notifier -message 'Pomodoro'\
+        -title 'Break is over! Get back to work 😬'\
+        -appIcon '~/Pictures/pumpkin.png'\
+        -sound Crystal"

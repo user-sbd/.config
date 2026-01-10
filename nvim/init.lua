@@ -5,7 +5,7 @@ vim.pack.add({
 	{ src = "https://github.com/nvim-telescope/telescope-fzf-native.nvim" },
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{ src = "https://github.com/mason-org/mason.nvim" },
-	{ src = "https://github.com/bluz71/vim-moonfly-colors" },
+	{ src = "https://github.com/vague-theme/vague.nvim" },
 	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
 	{ src = "https://github.com/tpope/vim-fugitive" },
 })
@@ -14,7 +14,7 @@ local opt = vim.opt
 
 vim.cmd([[set mouse=]])
 vim.cmd([[set noswapfile]])
-vim.o.makeprg = "./make.sh"
+opt.makeprg = "./make.sh"
 opt.winborder = "rounded"
 opt.tabstop = 2
 opt.inccommand = "split"
@@ -33,6 +33,7 @@ opt.relativenumber = true
 opt.guicursor = ""
 opt.statusline = "[%n] %<%f %w%m%r%=%-14.(%l,%c%V%) "
 opt.winborder = "rounded"
+opt.pumborder = "rounded"
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
@@ -40,14 +41,15 @@ require("telescope").setup({
 	pickers = { colorscheme = { enable_preview = true } },
 	defaults = {
 		preview = { treesitter = false },
-		color_devicons = true,
+		-- color_devicons = true,
 		sorting_strategy = "ascending",
 		borderchars = { "", "", "", "", "", "", "", "" },
 		-- borderchars =  { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
-		path_displays = { "smart" },
+		path_displays = { "tail" },
 		layout_config = { height = 80, width = 390, prompt_position = "top", preview_cutoff = 40 },
 	},
 })
+require('telescope').load_extension('fzf')
 
 require("oil").setup({
 	keymaps = { ["`"] = "actions.tcd" },
@@ -75,25 +77,54 @@ vim.api.nvim_create_autocmd("LspAttach", {
 vim.cmd([[set completeopt+=menuone,noselect,popup]])
 
 vim.lsp.enable({
-	"lua_ls", "cssls", "svelte", "tinymist", "rust_analyzer",
-	"clangd", "ruff", "glsl_analyzer", "intelephense", "tailwindcss",
-	"emmet_language_server", "emmet_ls", "solargraph", "zls", "bash-language-server",
-	"clangd", "emmet-language-server", "glsl_analyzer", "gopls",
-	"html-lsp", "json-lsp", "lua-language-server", "markdownlint-cli2", "marksman",
-	"pyright", "python-lsp-server", "ruff", "rust-analyzer", "shfmt",
-	"stylua", "svelte-language-server", "tailwindcss-language-server", "tinymist",
-	"tree-sitter-cli","zk",
+	"lua_ls",
+	"cssls",
+	"svelte",
+	"tinymist",
+	"rust_analyzer",
+	"clangd",
+	"ruff",
+	"glsl_analyzer",
+	"intelephense",
+	"tailwindcss",
+	"emmet_language_server",
+	"emmet_ls",
+	"solargraph",
+	"zls",
+	"bash-language-server",
+	"clangd",
+	"emmet-language-server",
+	"glsl_analyzer",
+	"gopls",
+	"html-lsp",
+	"json-lsp",
+	"lua-language-server",
+	"markdownlint-cli2",
+	"marksman",
+	"pyright",
+	"python-lsp-server",
+	"ruff",
+	"rust-analyzer",
+	"shfmt",
+	"stylua",
+	"svelte-language-server",
+	"tailwindcss-language-server",
+	"tinymist",
+	"tree-sitter-cli",
+	"zk",
 })
-vim.cmd("colorscheme moonfly")
+vim.cmd("colorscheme vague")
 vim.cmd("hi ModeMsg guifg=#cdcdcd")
 vim.cmd("hi StatusLine guibg=none")
 vim.cmd("hi NormalFloat guibg=NONE ctermbg=NONE")
 vim.cmd("hi FloatBorder guibg=NONE")
 vim.cmd("hi WinSeparator guifg=NONE guibg=NONE")
 vim.cmd("hi QuickFixLine guifg = #7AA2F7")
-vim.cmd("hi TelescopeSelectionCaret guifg=#80A0FF")
+vim.cmd("hi Pmenu guibg=NONE")
+vim.cmd("hi PmenuBorder guibg=NONE")
 
 map("n", "<leader>m", "<CMD>make<CR>", { silent = true })
+map("n", "<leader>e", "<CMD>Telescope file_browser <CR>", { silent = true })
 map("t", "<Esc>", [[<C-\><C-n>]], { noremap = true, silent = true })
 map({ "n", "v", "x" }, "<leader>v", "<Cmd>edit $MYVIMRC<CR>", { desc = "Edit " .. vim.fn.expand("$MYVIMRC") })
 map({ "n" }, "<Esc>", "<Cmd>nohlsearch<CR>")
@@ -143,4 +174,28 @@ for i = 1, 9 do
 end
 map("n", "<C-n>", ":if argidx() == argc() - 1 | first | else | next | endif<CR>", { silent = true })
 
+local win = nil
+local buf = nil
 
+local function toggle_term()
+	if win and vim.api.nvim_win_is_valid(win) then
+		vim.api.nvim_win_hide(win)
+		win = nil
+		return
+	end
+
+	if not buf or not vim.api.nvim_buf_is_valid(buf) then
+		vim.cmd("below split | terminal")
+		buf = vim.api.nvim_get_current_buf()
+		win = vim.api.nvim_get_current_win()
+		vim.bo[buf].bufhidden = "hide"
+	else
+		vim.cmd("below split")
+		win = vim.api.nvim_get_current_win()
+		vim.api.nvim_win_set_buf(win, buf)
+		vim.cmd("startinsert")
+	end
+end
+
+vim.keymap.set("n", "<C-t>", toggle_term, {})
+vim.keymap.set("t", "<C-t>", toggle_term, {})
