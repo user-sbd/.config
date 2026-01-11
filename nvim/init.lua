@@ -8,7 +8,6 @@ vim.pack.add({
 	{ src = "https://github.com/vague-theme/vague.nvim" },
 	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
 	{ src = "https://github.com/tpope/vim-fugitive" },
-	{ src = "https://github.com/NeogitOrg/neogit" },
 })
 local map = vim.keymap.set
 local opt = vim.opt
@@ -97,9 +96,7 @@ vim.cmd("hi QuickFixLine guifg = #7AA2F7")
 vim.cmd("hi Pmenu guibg=NONE")
 vim.cmd("hi PmenuBorder guibg=NONE")
 
-map("n", "<leader>gg", require('neogit').open, { desc = "Open Neogit UI" })
 map("n", "<leader>m", "<CMD>make<CR>", { silent = true })
-map("n", "<leader>e", "<CMD>Telescope file_browser <CR>", { silent = true })
 map("t", "<Esc>", [[<C-\><C-n>]], { noremap = true, silent = true })
 map({ "n", "v", "x" }, "<leader>v", "<Cmd>edit $MYVIMRC<CR>", { desc = "Edit " .. vim.fn.expand("$MYVIMRC") })
 map({ "n" }, "<Esc>", "<Cmd>nohlsearch<CR>")
@@ -122,7 +119,6 @@ end, { noremap = true })
 map({ "n" }, "<leader>st", builtin.builtin)
 map({ "n" }, "-", "<cmd>Oil<CR>")
 map("n", "<C-g>", ":Git | only<CR>", { silent = true })
-map("n", "<C-s>", "<CMD>te<CR>")
 
 vim.api.nvim_create_autocmd("TextYankPost", {
 	callback = function()
