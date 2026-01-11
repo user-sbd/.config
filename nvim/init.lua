@@ -8,6 +8,7 @@ vim.pack.add({
 	{ src = "https://github.com/vague-theme/vague.nvim" },
 	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
 	{ src = "https://github.com/tpope/vim-fugitive" },
+	{ src = "https://github.com/NeogitOrg/neogit" },
 })
 local map = vim.keymap.set
 local opt = vim.opt
@@ -43,8 +44,8 @@ require("telescope").setup({
 		preview = { treesitter = false },
 		-- color_devicons = true,
 		sorting_strategy = "ascending",
-		borderchars = { "", "", "", "", "", "", "", "" },
-		-- borderchars =  { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+		-- borderchars = { "", "", "", "", "", "", "", "" },
+		borderchars =  { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
 		path_displays = { "tail" },
 		layout_config = { height = 80, width = 390, prompt_position = "top", preview_cutoff = 40 },
 	},
@@ -77,41 +78,14 @@ vim.api.nvim_create_autocmd("LspAttach", {
 vim.cmd([[set completeopt+=menuone,noselect,popup]])
 
 vim.lsp.enable({
-	"lua_ls",
-	"cssls",
-	"svelte",
-	"tinymist",
-	"rust_analyzer",
-	"clangd",
-	"ruff",
-	"glsl_analyzer",
-	"intelephense",
-	"tailwindcss",
-	"emmet_language_server",
-	"emmet_ls",
-	"solargraph",
-	"zls",
-	"bash-language-server",
-	"clangd",
-	"emmet-language-server",
-	"glsl_analyzer",
-	"gopls",
-	"html-lsp",
-	"json-lsp",
-	"lua-language-server",
-	"markdownlint-cli2",
-	"marksman",
-	"pyright",
-	"python-lsp-server",
-	"ruff",
-	"rust-analyzer",
-	"shfmt",
-	"stylua",
-	"svelte-language-server",
-	"tailwindcss-language-server",
-	"tinymist",
-	"tree-sitter-cli",
-	"zk",
+	"lua_ls", "cssls", "svelte", "tinymist", "rust_analyzer", "clangd",
+	"ruff", "glsl_analyzer", "intelephense", "tailwindcss", "emmet_language_server",
+	"emmet_ls", "solargraph", "zls", "bash-language-server",
+	"emmet-language-server", "glsl_analyzer", "gopls", "html-lsp", "json-lsp",
+	"lua-language-server", "markdownlint-cli2", "marksman", "pyright",
+	"python-lsp-server", "ruff", "rust-analyzer", "shfmt",
+	"stylua", "svelte-language-server",
+	"tailwindcss-language-server", "tinymist", "tree-sitter-cli", "zk",
 })
 vim.cmd("colorscheme vague")
 vim.cmd("hi ModeMsg guifg=#cdcdcd")
@@ -123,6 +97,7 @@ vim.cmd("hi QuickFixLine guifg = #7AA2F7")
 vim.cmd("hi Pmenu guibg=NONE")
 vim.cmd("hi PmenuBorder guibg=NONE")
 
+map("n", "<leader>gg", require('neogit').open, { desc = "Open Neogit UI" })
 map("n", "<leader>m", "<CMD>make<CR>", { silent = true })
 map("n", "<leader>e", "<CMD>Telescope file_browser <CR>", { silent = true })
 map("t", "<Esc>", [[<C-\><C-n>]], { noremap = true, silent = true })
