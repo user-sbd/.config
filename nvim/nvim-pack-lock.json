@@ -1,5 +1,9 @@
 {
   "plugins": {
+    "alpha-nvim": {
+      "rev": "3979b01cb05734331c7873049001d3f2bb8477f4",
+      "src": "https://github.com/goolord/alpha-nvim"
+    },
     "fzf-lua": {
       "rev": "b8d1356b7120f5cf111709cb2fa504096248fb26",
       "src": "https://github.com/ibhagwan/fzf-lua"
@@ -15,6 +19,10 @@
     "mini.icons": {
       "rev": "efc85e42262cd0c9e1fdbf806c25cb0be6de115c",
       "src": "https://github.com/nvim-mini/mini.icons"
+    },
+    "mini.nvim": {
+      "rev": "8dccba88fc4dce006ca0ad668067c9e0d5ce7702",
+      "src": "https://github.com/nvim-mini/mini.nvim"
     },
     "neogit": {
       "rev": "d8bf9102692250193b855acd9025a826f1af2729",
