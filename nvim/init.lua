@@ -13,6 +13,7 @@ vim.pack.add({
 local opt = vim.opt
 local map = vim.keymap.set
 
+
 vim.cmd([[set mouse=]])
 vim.cmd([[set noswapfile]])
 opt.makeprg = "./make.sh"
@@ -44,8 +45,8 @@ require("telescope").setup({
 		preview = { treesitter = false },
 		-- color_devicons = true,
 		sorting_strategy = "ascending",
-		-- borderchars = { "", "", "", "", "", "", "", "" },
-		borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+		borderchars = { "", "", "", "", "", "", "", "" },
+		-- borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
 		path_displays = { "tail" },
 		layout_config = { height = 80, width = 390, prompt_position = "top", preview_cutoff = 40 },
 	},
@@ -85,6 +86,7 @@ vim.lsp.enable({
 	"rust_analyzer",
 	"clangd",
 	"ruff",
+	"basedpyright",
 	"glsl_analyzer",
 	"intelephense",
 	"tailwindcss",
@@ -139,7 +141,7 @@ map({ "n" }, "<leader>sh", builtin.help_tags)
 map({ "n" }, "<leader>g", builtin.live_grep)
 map({ "n" }, "<leader>b", builtin.buffers)
 map({ "n" }, "<leader>so", builtin.oldfiles)
-map('n', "<leader>cs", "Telescope find_files cwd=~/.config")
+map('n',"<leader>sc", "<CMD>Telescope find_files cwd=~/.config<CR>")
 map({ "n" }, "<leader>st", builtin.builtin)
 map({ "n" }, "-", "<cmd>Oil<CR>")
 map("n", "<C-g>", ":Git | only<CR>", { silent = true })
@@ -196,3 +198,4 @@ local function toggle_term()
 end
 
 map({ "n", "t" }, "<C-t>", toggle_term)
+
