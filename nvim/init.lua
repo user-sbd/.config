@@ -1,8 +1,8 @@
 vim.pack.add({
 	{ src = "https://github.com/stevearc/oil.nvim" },
+	{ src = "https://github.com/nvim-tree/nvim-web-devicons" },
 	{ src = "https://github.com/nvim-lua/plenary.nvim" },
-	{ src = "https://github.com/nvim-telescope/telescope.nvim", version = "0.1.8" },
-	{ src = "https://github.com/nvim-telescope/telescope-fzf-native.nvim" },
+	{ src = "https://github.com/ibhagwan/fzf-lua" },
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{ src = "https://github.com/mason-org/mason.nvim" },
 	{ src = "https://github.com/vague-theme/vague.nvim" },
@@ -12,7 +12,6 @@ vim.pack.add({
 
 local opt = vim.opt
 local map = vim.keymap.set
-
 
 vim.cmd([[set mouse=]])
 vim.cmd([[set noswapfile]])
@@ -39,24 +38,62 @@ opt.pumborder = "rounded"
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
-require("telescope").setup({
-	pickers = { colorscheme = { enable_preview = true } },
-	defaults = {
-		preview = { treesitter = false },
-		-- color_devicons = true,
-		sorting_strategy = "ascending",
-		borderchars = { "", "", "", "", "", "", "", "" },
-		-- borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
-		path_displays = { "tail" },
-		layout_config = { height = 80, width = 390, prompt_position = "top", preview_cutoff = 40 },
+require("fzf-lua").setup({
+	fzf_args = {
+		--color=fg:#d0d0d0,fg+:#d0d0d0,bg:#141415,bg+:#6A9FB5
+		--color=hl:#6A9FB5,hl+:#5fd7ff,info:#6A9FB5,marker:#87ff00
+		--color=prompt:#6A9FB5,spinner:#141415,pointer:#ffffff,header:#141415
+		--color=gutter:#141415,border:#262626,separator:#141415,scrollbar:#141415
+		--color=preview-scrollbar:#141415,label:#aeaeae,query:#d9d9d9
+		--border="rounded" --border-label="" --preview-window="border-sharp" --prompt="> "
+		--marker=" " --pointer="." --separator="─" --scrollbar="│"
 	},
+	fzf_opts = {
+		["--ansi"] = true,
+		["--info"] = "inline-right",
+		["--height"] = "100%",
+		["--border"] = "none",
+	},
+	winopts = {
+		-- title_flags   = true,
+		height = 15,
+		width = 50,
+		row = 1,
+		col = 0,
+		border = { " ", " ", " ", " ", " ", " ", " ", " " },
+		fullscreen = true,
+		preview = {
+			border = { "", "", "", "", "", "", "", "" },
+			horizontal = "right:40%",
+			layout = "horizontal",
+		},
+	},
+	actions = {
+		files = {
+			["ctrl-q"] = function(selected_files)
+				for _, file in ipairs(selected_files) do
+					vim.cmd("argadd " .. file)
+				end
+			end,
+			["enter"] = require("fzf-lua.actions").file_edit_or_qf,
+			["ctrl-v"] = require("fzf-lua.actions").file_vsplit,
+		},
+	},
+	files = { prompt = "> " },
+	oldfiles = { prompt = "> " },
+	previewers = { bat = true },
+	file_icon_padding = "",
 })
-require("telescope").load_extension("fzf")
+
 
 require("oil").setup({
-	keymaps = { ["`"] = "actions.tcd" },
-	delete_to_trash = true,
 	skip_confirm_for_simple_edits = true,
+	delete_to_trash = true,
+	columns = {
+		{ "permissions", highlight = "MoreMsg" },
+		{ "file",        highlight = "Directory" },
+		{ "size",        highlight = "Number" },
+	},
 	win_options = { signcolumn = "yes:1" },
 })
 
@@ -76,45 +113,16 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		end
 	end,
 })
-vim.cmd([[set completeopt+=menuone,noselect,popup]])
-
 vim.lsp.enable({
-	"lua_ls",
-	"cssls",
-	"svelte",
-	"tinymist",
-	"rust_analyzer",
-	"clangd",
-	"ruff",
-	"basedpyright",
-	"glsl_analyzer",
-	"intelephense",
-	"tailwindcss",
-	"emmet_language_server",
-	"emmet_ls",
-	"solargraph",
-	"zls",
-	"bash-language-server",
-	"emmet-language-server",
-	"glsl_analyzer",
-	"gopls",
-	"html-lsp",
-	"json-lsp",
-	"lua-language-server",
-	"markdownlint-cli2",
-	"marksman",
-	"pyright",
-	"python-lsp-server",
-	"ruff",
-	"rust-analyzer",
-	"shfmt",
-	"stylua",
-	"svelte-language-server",
-	"tailwindcss-language-server",
-	"tinymist",
-	"tree-sitter-cli",
-	"zk",
+	"rust_analyzer", "clangd", "ruff",
+	"intelephense", "tailwindcss", "ts_ls",
+	"emmet_language_server", "emmet_ls", "zls",
+	"marksman", "bash-language-server",
+	"lua_ls", "cssls", "svelte", "tinymist",
 })
+
+vim.cmd [[set completeopt+=menuone,noselect,popup]]
+
 vim.cmd("colorscheme vague")
 vim.cmd("hi ModeMsg guifg=#cdcdcd")
 vim.cmd("hi StatusLine guibg=none")
@@ -126,6 +134,14 @@ vim.cmd("hi Pmenu guibg=NONE")
 vim.cmd("hi PmenuBorder guibg=NONE")
 vim.cmd("hi QuickFixLine guifg = #7AA2F7")
 
+map("n", "<leader>f", ":FzfLua files<CR>", { silent = true })
+map("n", "<leader>b", ":FzfLua buffers<CR>", { silent = true })
+map("n", "<leader>o", ":FzfLua oldfiles<CR>", { silent = true })
+map("n", "<leader>h", ":FzfLua helptags<CR>", { silent = true })
+map("n", "<leader>g", ":FzfLua live_grep<CR>", { silent = true })
+map("n", "<leader>t", ":FzfLua colorschemes<CR>", { silent = true })
+map("n", "<leader>c", ":FzfLua files cwd=~/.config<CR>", { silent = true })
+
 map("t", "<Esc>", [[<C-\><C-n>]], { noremap = true, silent = true })
 map({ "n", "v", "x" }, "<leader>v", "<Cmd>edit $MYVIMRC<CR>", { desc = "Edit " .. vim.fn.expand("$MYVIMRC") })
 map({ "n" }, "<Esc>", "<Cmd>nohlsearch<CR>")
@@ -134,15 +150,6 @@ map({ "n", "v", "x" }, "<leader>n", ":norm ")
 map({ "n", "v", "x" }, "<leader>lf", vim.lsp.buf.format, { desc = "Format current buffer" })
 map({ "v", "x", "n" }, "<C-y>", '"+y', { desc = "System clipboard yank." })
 
-local builtin = require("telescope.builtin")
-map("n", "<leader>ms", "<CMD>Telescope marks<CR>", { silent = true })
-map({ "n" }, "<leader>f", builtin.find_files)
-map({ "n" }, "<leader>sh", builtin.help_tags)
-map({ "n" }, "<leader>g", builtin.live_grep)
-map({ "n" }, "<leader>b", builtin.buffers)
-map({ "n" }, "<leader>so", builtin.oldfiles)
-map('n',"<leader>sc", "<CMD>Telescope find_files cwd=~/.config<CR>")
-map({ "n" }, "<leader>st", builtin.builtin)
 map({ "n" }, "-", "<cmd>Oil<CR>")
 map("n", "<C-g>", ":Git | only<CR>", { silent = true })
 
@@ -197,5 +204,4 @@ local function toggle_term()
 	vim.cmd("startinsert")
 end
 
-map({ "n", "t" }, "<C-t>", toggle_term)
-
+map({ "n", "t" }, "<C-s>", toggle_term)

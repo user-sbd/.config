@@ -1,9 +1,10 @@
 #!/bin/bash
 
 
-doc_dirs=$(find ~/Documents -maxdepth 2 -type d \
+doc_dirs=$(find ~/Documents ~/Documents/projects/learnc/ -maxdepth 3 -type d \
     -not -path ~/Documents \
     -not -path "*/Image-Line*" \
+    -not -path "*/.git*" \
     -not -path "*/Mighty*" \
     -not -path "*/REAPER Media*" \
 	)
