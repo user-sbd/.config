@@ -8,6 +8,7 @@ vim.pack.add({
 	{ src = "https://github.com/vague-theme/vague.nvim" },
 	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
 	{ src = "https://github.com/tpope/vim-fugitive" },
+	{ src = "https://github.com/nvim-mini/mini.surround" },
 })
 
 local opt = vim.opt
@@ -85,15 +86,9 @@ require("fzf-lua").setup({
 	file_icon_padding = "",
 })
 
-
 require("oil").setup({
 	skip_confirm_for_simple_edits = true,
 	delete_to_trash = true,
-	columns = {
-		{ "permissions", highlight = "MoreMsg" },
-		{ "file",        highlight = "Directory" },
-		{ "size",        highlight = "Number" },
-	},
 	win_options = { signcolumn = "yes:1" },
 })
 
@@ -141,7 +136,6 @@ map("n", "<leader>h", ":FzfLua helptags<CR>", { silent = true })
 map("n", "<leader>g", ":FzfLua live_grep<CR>", { silent = true })
 map("n", "<leader>t", ":FzfLua colorschemes<CR>", { silent = true })
 map("n", "<leader>c", ":FzfLua files cwd=~/.config<CR>", { silent = true })
-
 map("t", "<Esc>", [[<C-\><C-n>]], { noremap = true, silent = true })
 map({ "n", "v", "x" }, "<leader>v", "<Cmd>edit $MYVIMRC<CR>", { desc = "Edit " .. vim.fn.expand("$MYVIMRC") })
 map({ "n" }, "<Esc>", "<Cmd>nohlsearch<CR>")
@@ -200,8 +194,10 @@ local function toggle_term()
 		term_win = vim.api.nvim_get_current_win()
 		vim.api.nvim_win_set_buf(term_win, term_buf)
 	end
-
 	vim.cmd("startinsert")
 end
 
 map({ "n", "t" }, "<C-s>", toggle_term)
+
+require('mini.surround').setup()
+
