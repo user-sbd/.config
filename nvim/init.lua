@@ -25,7 +25,6 @@ opt.shiftwidth = 2
 opt.cmdheight = 1
 opt.signcolumn = "yes:1"
 opt.wrap = false
-opt.cursorcolumn = false
 opt.ignorecase = true
 opt.smartindent = true
 opt.termguicolors = true
@@ -61,23 +60,21 @@ require("fzf-lua").setup({
 		width = 50,
 		row = 1,
 		col = 0,
-		border = { " ", " ", " ", " ", " ", " ", " ", " " },
+		-- border = { " ", " ", " ", " ", " ", " ", " ", " " },
+		border = "rounded",
 		fullscreen = true,
 		preview = {
-			border = { "", "", "", "", "", "", "", "" },
+			border = "rounded",
+			-- border = { "", "", "", "", "", "", "", "" },
 			horizontal = "right:40%",
 			layout = "horizontal",
 		},
 	},
 	actions = {
 		files = {
-			["ctrl-q"] = function(selected_files)
-				for _, file in ipairs(selected_files) do
-					vim.cmd("argadd " .. file)
-				end
-			end,
-			["enter"] = require("fzf-lua.actions").file_edit_or_qf,
+			["enter"]  = require("fzf-lua.actions").file_edit_or_qf,
 			["ctrl-v"] = require("fzf-lua.actions").file_vsplit,
+			["ctrl-q"] = require("fzf-lua.actions").file_sel_to_qf,
 		},
 	},
 	files = { prompt = "> " },
@@ -130,6 +127,9 @@ vim.cmd("hi PmenuBorder guibg=NONE")
 vim.cmd("hi QuickFixLine guifg = #7AA2F7")
 
 map("n", "<leader>f", ":FzfLua files<CR>", { silent = true })
+map({ "i", "n" }, "<C-f>", "<CMD>FzfLua files<CR>", { silent = true })
+
+
 map("n", "<leader>b", ":FzfLua buffers<CR>", { silent = true })
 map("n", "<leader>o", ":FzfLua oldfiles<CR>", { silent = true })
 map("n", "<leader>h", ":FzfLua helptags<CR>", { silent = true })
@@ -153,24 +153,48 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 })
 
-map("n", "<leader>a", function()
-	vim.cmd("argadd %")
-	vim.cmd("argdedup")
-end)
-map("n", "<C-q>", function()
-	vim.cmd.args()
-end)
+map("n", "<C-q>", ":copen<CR>", { silent = true })
 for i = 1, 9 do
-	vim.keymap.set("n", "<leader>" .. i, function()
-		local args = vim.fn.argv()
-		if #args >= i then
-			vim.cmd.argument(i)
-		else
-			vim.notify("No argument " .. i, vim.log.levels.WARN)
-		end
-	end, { desc = "Go to argument " .. i })
+	map('n', '<leader>' .. i, ':cc ' .. i .. '<CR>', { noremap = true, silent = true })
 end
-map("n", "<C-n>", ":if argidx() == argc() - 1 | first | else | next | endif<CR>", { silent = true })
+map("n", "<leader>a",
+	function() vim.fn.setqflist({ { filename = vim.fn.expand("%"), lnum = 1, col = 1, text = vim.fn.expand("%"), } }, "a") end,
+	{ desc = "Add current file to QuickFix" })
+
+vim.api.nvim_create_autocmd("BufWinEnter", {
+	pattern = "*",
+	group = vim.api.nvim_create_augroup("qf", { clear = true }),
+	callback = function()
+		if vim.bo.buftype == "quickfix" then
+			map("n", "<C-q>", ":ccl<cr>", { buffer = true, silent = true })
+			map("n", "dd", function()
+				local idx = vim.fn.line('.')
+				local qflist = vim.fn.getqflist()
+				table.remove(qflist, idx)
+				vim.fn.setqflist(qflist, 'r')
+			end, { buffer = true })
+		end
+	end,
+})
+
+-- map("n", "<leader>a", function()
+-- 	vim.cmd("argadd %")
+-- 	vim.cmd("argdedup")
+-- end)
+-- map("n", "<C-q>", function()
+-- 	vim.cmd.args()
+-- end)
+-- for i = 1, 9 do
+-- 	vim.keymap.set("n", "<leader>" .. i, function()
+-- 		local args = vim.fn.argv()
+-- 		if #args >= i then
+-- 			vim.cmd.argument(i)
+-- 		else
+-- 			vim.notify("No argument " .. i, vim.log.levels.WARN)
+-- 		end
+-- 	end, { desc = "Go to argument " .. i })
+-- end
+-- map("n", "<C-n>", ":if argidx() == argc() - 1 | first | else | next | endif<CR>", { silent = true })
 
 local term_win = nil
 local term_buf = nil
@@ -200,4 +224,3 @@ end
 map({ "n", "t" }, "<C-s>", toggle_term)
 
 require('mini.surround').setup()
-
