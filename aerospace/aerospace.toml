@@ -1,7 +1,11 @@
-enable-normalization-flatten-containers = false
 enable-normalization-opposite-orientation-for-nested-containers = false
+enable-normalization-flatten-containers = false
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 start-at-login = true
+
+# gaps.outer.bottom = 48  # Adjust this value based on your bar height (e.g., 32 + margins/padding); 40 is a good starting point for a 32px bar
+
+exec-on-workspace-change = ['/bin/bash', '-c', 'sketchybar --trigger aerospace_workspace_change FOCUSED=$AEROSPACE_FOCUSED_WORKSPACE']
 
 [mode.main.binding]
 alt-h = 'focus --boundaries-action wrap-around-the-workspace left'

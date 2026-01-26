@@ -8,7 +8,8 @@ vim.pack.add({
 	{ src = "https://github.com/vague-theme/vague.nvim" },
 	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
 	{ src = "https://github.com/tpope/vim-fugitive" },
-	{ src = "https://github.com/nvim-mini/mini.surround" },
+	{ src = "https://github.com/EvWilson/spelunk.nvim" },
+	{ src = "https://github.com/darfink/vim-plist" },
 })
 
 local opt = vim.opt
@@ -223,4 +224,3 @@ end
 
 map({ "n", "t" }, "<C-s>", toggle_term)
 
-require('mini.surround').setup()
