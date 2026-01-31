@@ -8,7 +8,6 @@ vim.pack.add({
 	{ src = "https://github.com/vague-theme/vague.nvim" },
 	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
 	{ src = "https://github.com/tpope/vim-fugitive" },
-	{ src = "https://github.com/EvWilson/spelunk.nvim" },
 	{ src = "https://github.com/darfink/vim-plist" },
 })
 

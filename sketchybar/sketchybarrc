@@ -18,10 +18,10 @@ bar=(
 
 # Default item properties
 defaults=(
-  icon.font="ZedMono Nerd Font:Regular:15.5"
+  icon.font="ZedMono Nerd Font:Regular:17.5"
   icon.color=$TEXT_COLOR
   background.color=$ITEM_BG_COLOR
-  label.font="ZedMono Nerd Font:Regular:15.5"
+  label.font="ZedMono Nerd Font:Regular:17.5"
   label.color=$TEXT_COLOR
   padding_left=5
   padding_right=5

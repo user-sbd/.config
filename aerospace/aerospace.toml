@@ -3,11 +3,15 @@ enable-normalization-flatten-containers = false
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 start-at-login = true
 
-# gaps.outer.bottom = 48  # Adjust this value based on your bar height (e.g., 32 + margins/padding); 40 is a good starting point for a 32px bar
-
-exec-on-workspace-change = ['/bin/bash', '-c', 'sketchybar --trigger aerospace_workspace_change FOCUSED=$AEROSPACE_FOCUSED_WORKSPACE']
+# after-startup-command = [
+#     'exec-and-forget sketchybar',
+# ]
+#
+# exec-on-workspace-change = ['sketchybar --trigger aerospace_workspace_change']
 
 [mode.main.binding]
+alt-o = 'exec-and-forget ~/.config/scripts/choos.sh'
+
 alt-h = 'focus --boundaries-action wrap-around-the-workspace left'
 alt-j = 'focus --boundaries-action wrap-around-the-workspace down'
 alt-k = 'focus --boundaries-action wrap-around-the-workspace up'
