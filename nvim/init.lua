@@ -8,7 +8,7 @@ vim.pack.add({
 	{ src = "https://github.com/vague-theme/vague.nvim" },
 	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
 	{ src = "https://github.com/tpope/vim-fugitive" },
-	{ src = "https://github.com/darfink/vim-plist" },
+	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
 })
 
 local opt = vim.opt
@@ -37,6 +37,15 @@ opt.winborder = "rounded"
 opt.pumborder = "rounded"
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
+
+require'nvim-treesitter'.setup {
+  install_dir = vim.fn.stdpath('data') .. '/site',
+  ensure_installed = { "typescript", "css", "javascript", "svelte", "html" },
+  highlight = {
+    enable = true,
+  },
+}
+
 
 require("fzf-lua").setup({
 	fzf_args = {
@@ -105,12 +114,13 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		end
 	end,
 })
+
 vim.lsp.enable({
 	"rust_analyzer", "clangd", "ruff",
 	"intelephense", "tailwindcss", "ts_ls",
 	"emmet_language_server", "emmet_ls", "zls",
 	"marksman", "bash-language-server",
-	"lua_ls", "cssls", "svelte", "tinymist",
+	"lua_ls", "cssls", "svelte-language-server", "tinymist", "svelteserver",
 })
 
 vim.cmd [[set completeopt+=menuone,noselect,popup]]
@@ -222,4 +232,7 @@ local function toggle_term()
 end
 
 map({ "n", "t" }, "<C-s>", toggle_term)
+
+
+
 
