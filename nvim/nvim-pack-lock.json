@@ -4,6 +4,10 @@
       "rev": "5cc68a2a20d4d1b1260f2c452becf557f9dcd479",
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
+    "markview.nvim": {
+      "rev": "9e852c299351fc2110e763edc7fc899358ee112e",
+      "src": "https://github.com/OXY2DEV/markview.nvim"
+    },
     "mason.nvim": {
       "rev": "44d1e90e1f66e077268191e3ee9d2ac97cc18e65",
       "src": "https://github.com/mason-org/mason.nvim"
@@ -20,9 +24,17 @@
       "rev": "803353450c374192393f5387b6a0176d0972b848",
       "src": "https://github.com/nvim-tree/nvim-web-devicons"
     },
+    "obsidian.nvim": {
+      "rev": "14e0427bef6c55da0d63f9a313fd9941be3a2479",
+      "src": "https://github.com/epwalsh/obsidian.nvim"
+    },
     "oil.nvim": {
       "rev": "f55b25e493a7df76371cfadd0ded5004cb9cd48a",
       "src": "https://github.com/stevearc/oil.nvim"
+    },
+    "peek.nvim": {
+      "rev": "5820d937d5414baea5f586dc2a3d912a74636e5b",
+      "src": "https://github.com/toppair/peek.nvim"
     },
     "plenary.nvim": {
       "rev": "b9fd5226c2f76c951fc8ed5923d85e4de065e509",
@@ -47,6 +59,10 @@
     "vim-plist": {
       "rev": "aa781a387c70a9ea30cbce8da988e19693f5aaec",
       "src": "https://github.com/darfink/vim-plist"
+    },
+    "vim-svelte-plugin": {
+      "rev": "f80ff67a94e3ac279fe55ecdf55ad7342f4a5228",
+      "src": "https://github.com/leafOfTree/vim-svelte-plugin"
     }
   }
 }

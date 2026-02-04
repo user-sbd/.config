@@ -9,6 +9,7 @@ vim.pack.add({
 	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
 	{ src = "https://github.com/tpope/vim-fugitive" },
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
+	{ src = "https://github.com/leafOfTree/vim-svelte-plugin" },
 })
 
 local opt = vim.opt
@@ -38,14 +39,13 @@ opt.pumborder = "rounded"
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
-require'nvim-treesitter'.setup {
-  install_dir = vim.fn.stdpath('data') .. '/site',
-  ensure_installed = { "typescript", "css", "javascript", "svelte", "html" },
-  highlight = {
-    enable = true,
-  },
+require('nvim-treesitter').setup {
+	install_dir = vim.fn.stdpath('data') .. '/site',
+	ensure_installed = { "typescript", "css", "javascript", "svelte", "html" },
+	highlight = {
+		enable = true,
+	},
 }
-
 
 require("fzf-lua").setup({
 	fzf_args = {
@@ -116,14 +116,14 @@ vim.api.nvim_create_autocmd("LspAttach", {
 })
 
 vim.lsp.enable({
-	"rust_analyzer", "clangd", "ruff",
-	"intelephense", "tailwindcss", "ts_ls",
-	"emmet_language_server", "emmet_ls", "zls",
-	"marksman", "bash-language-server",
-	"lua_ls", "cssls", "svelte-language-server", "tinymist", "svelteserver",
+  "rust_analyzer", "clangd", "ruff",
+  "intelephense", "tailwindcss", "ts_ls",
+  "emmet_language_server", "emmet_ls", "zls",
+  "marksman", "bashls","lua_ls",
+	"cssls", "svelte", "tinymist",
 })
 
-vim.cmd [[set completeopt+=menuone,noselect,popup]]
+vim.cmd[[set completeopt+=menuone,noselect,popup]]
 
 vim.cmd("colorscheme vague")
 vim.cmd("hi ModeMsg guifg=#cdcdcd")
@@ -138,7 +138,6 @@ vim.cmd("hi QuickFixLine guifg = #7AA2F7")
 
 map("n", "<leader>f", ":FzfLua files<CR>", { silent = true })
 map({ "i", "n" }, "<C-f>", "<CMD>FzfLua files<CR>", { silent = true })
-
 
 map("n", "<leader>b", ":FzfLua buffers<CR>", { silent = true })
 map("n", "<leader>o", ":FzfLua oldfiles<CR>", { silent = true })
@@ -187,25 +186,6 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
 	end,
 })
 
--- map("n", "<leader>a", function()
--- 	vim.cmd("argadd %")
--- 	vim.cmd("argdedup")
--- end)
--- map("n", "<C-q>", function()
--- 	vim.cmd.args()
--- end)
--- for i = 1, 9 do
--- 	vim.keymap.set("n", "<leader>" .. i, function()
--- 		local args = vim.fn.argv()
--- 		if #args >= i then
--- 			vim.cmd.argument(i)
--- 		else
--- 			vim.notify("No argument " .. i, vim.log.levels.WARN)
--- 		end
--- 	end, { desc = "Go to argument " .. i })
--- end
--- map("n", "<C-n>", ":if argidx() == argc() - 1 | first | else | next | endif<CR>", { silent = true })
-
 local term_win = nil
 local term_buf = nil
 
@@ -232,7 +212,3 @@ local function toggle_term()
 end
 
 map({ "n", "t" }, "<C-s>", toggle_term)
-
-
-
-
