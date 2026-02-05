@@ -10,6 +10,7 @@ vim.pack.add({
 	{ src = "https://github.com/tpope/vim-fugitive" },
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
 	{ src = "https://github.com/leafOfTree/vim-svelte-plugin" },
+	{ src = "https://github.com/dgox16/oldworld.nvim" },
 })
 
 local opt = vim.opt
@@ -116,16 +117,16 @@ vim.api.nvim_create_autocmd("LspAttach", {
 })
 
 vim.lsp.enable({
-  "rust_analyzer", "clangd", "ruff",
-  "intelephense", "tailwindcss", "ts_ls",
-  "emmet_language_server", "emmet_ls", "zls",
-  "marksman", "bashls","lua_ls",
+	"rust_analyzer", "clangd", "ruff",
+	"intelephense", "tailwindcss", "ts_ls",
+	"emmet_language_server", "emmet_ls", "zls",
+	"marksman", "bashls", "lua_ls",
 	"cssls", "svelte", "tinymist",
 })
 
-vim.cmd[[set completeopt+=menuone,noselect,popup]]
+vim.cmd [[set completeopt+=menuone,noselect,popup]]
 
-vim.cmd("colorscheme vague")
+vim.cmd("colorscheme oldworld")
 vim.cmd("hi ModeMsg guifg=#cdcdcd")
 vim.cmd("hi StatusLine guibg=none")
 vim.cmd("hi NormalFloat guibg=NONE ctermbg=NONE")
