@@ -7,6 +7,7 @@ vim.pack.add({
 	{ src = "https://github.com/tpope/vim-fugitive" },
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
 	{ src = "https://github.com/nvim-lua/plenary.nvim" },
+	{ src = "https://github.com/NeogitOrg/neogit" },
 	{ src = "https://github.com/ThePrimeagen/harpoon", version = 'harpoon2' },
 })
 
@@ -117,7 +118,8 @@ vim.lsp.enable({
 	"intelephense", "tailwindcss", "ts_ls",
 	"emmet_language_server", "emmet_ls", "zls",
 	"marksman", "bashls", "lua_ls",
-	"cssls", "svelte", "tinymist","basedpyright",
+	"cssls", "svelte", "tinymist",
+	"basedpyright",
 })
 
 vim.cmd [[set completeopt+=menuone,noselect,popup]]
@@ -136,7 +138,6 @@ vim.cmd("hi QuickFixLine guifg = #7AA2F7")
 map("n", "<leader>f", ":FzfLua files<CR>", { silent = true })
 map({ "i", "n" }, "<C-f>", "<CMD>FzfLua files<CR>", { silent = true })
 
-map("n", "<leader>b", ":FzfLua buffers<CR>", { silent = true })
 map("n", "<leader>o", ":FzfLua oldfiles<CR>", { silent = true })
 map("n", "<leader>sh", ":FzfLua helptags<CR>", { silent = true })
 map("n", "<leader>g", ":FzfLua live_grep<CR>", { silent = true })
@@ -191,7 +192,7 @@ local harpoon = require("harpoon")
 harpoon:setup({ settings = { save_on_toggle = true, sync_on_ui_close = true, }, })
 
 map("n", "<leader>a", function() harpoon:list():add() end)
-map("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
+map("n", "<C-q>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
 map("n", "<leader>h", function() harpoon:list():select(1) end)
 map("n", "<leader>j", function() harpoon:list():select(2) end)
 map("n", "<leader>k", function() harpoon:list():select(3) end)
