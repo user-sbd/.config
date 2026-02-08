@@ -1,16 +1,13 @@
 vim.pack.add({
 	{ src = "https://github.com/stevearc/oil.nvim" },
-	{ src = "https://github.com/nvim-tree/nvim-web-devicons" },
-	{ src = "https://github.com/nvim-lua/plenary.nvim" },
 	{ src = "https://github.com/ibhagwan/fzf-lua" },
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{ src = "https://github.com/mason-org/mason.nvim" },
 	{ src = "https://github.com/vague-theme/vague.nvim" },
-	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
 	{ src = "https://github.com/tpope/vim-fugitive" },
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
-	{ src = "https://github.com/leafOfTree/vim-svelte-plugin" },
-	{ src = "https://github.com/dgox16/oldworld.nvim" },
+	{ src = "https://github.com/nvim-lua/plenary.nvim" },
+	{ src = "https://github.com/ThePrimeagen/harpoon", version = 'harpoon2' },
 })
 
 local opt = vim.opt
@@ -18,7 +15,6 @@ local map = vim.keymap.set
 
 vim.cmd([[set mouse=]])
 vim.cmd([[set noswapfile]])
-opt.makeprg = "./make.sh"
 opt.winborder = "rounded"
 opt.tabstop = 2
 opt.inccommand = "split"
@@ -121,12 +117,12 @@ vim.lsp.enable({
 	"intelephense", "tailwindcss", "ts_ls",
 	"emmet_language_server", "emmet_ls", "zls",
 	"marksman", "bashls", "lua_ls",
-	"cssls", "svelte", "tinymist",
+	"cssls", "svelte", "tinymist","basedpyright",
 })
 
 vim.cmd [[set completeopt+=menuone,noselect,popup]]
 
-vim.cmd("colorscheme oldworld")
+vim.cmd("colorscheme vague")
 vim.cmd("hi ModeMsg guifg=#cdcdcd")
 vim.cmd("hi StatusLine guibg=none")
 vim.cmd("hi NormalFloat guibg=NONE ctermbg=NONE")
@@ -142,7 +138,7 @@ map({ "i", "n" }, "<C-f>", "<CMD>FzfLua files<CR>", { silent = true })
 
 map("n", "<leader>b", ":FzfLua buffers<CR>", { silent = true })
 map("n", "<leader>o", ":FzfLua oldfiles<CR>", { silent = true })
-map("n", "<leader>h", ":FzfLua helptags<CR>", { silent = true })
+map("n", "<leader>sh", ":FzfLua helptags<CR>", { silent = true })
 map("n", "<leader>g", ":FzfLua live_grep<CR>", { silent = true })
 map("n", "<leader>t", ":FzfLua colorschemes<CR>", { silent = true })
 map("n", "<leader>c", ":FzfLua files cwd=~/.config<CR>", { silent = true })
@@ -163,30 +159,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 })
 
-map("n", "<C-q>", ":copen<CR>", { silent = true })
-for i = 1, 9 do
-	map('n', '<leader>' .. i, ':cc ' .. i .. '<CR>', { noremap = true, silent = true })
-end
-map("n", "<leader>a",
-	function() vim.fn.setqflist({ { filename = vim.fn.expand("%"), lnum = 1, col = 1, text = vim.fn.expand("%"), } }, "a") end,
-	{ desc = "Add current file to QuickFix" })
-
-vim.api.nvim_create_autocmd("BufWinEnter", {
-	pattern = "*",
-	group = vim.api.nvim_create_augroup("qf", { clear = true }),
-	callback = function()
-		if vim.bo.buftype == "quickfix" then
-			map("n", "<C-q>", ":ccl<cr>", { buffer = true, silent = true })
-			map("n", "dd", function()
-				local idx = vim.fn.line('.')
-				local qflist = vim.fn.getqflist()
-				table.remove(qflist, idx)
-				vim.fn.setqflist(qflist, 'r')
-			end, { buffer = true })
-		end
-	end,
-})
-
 local term_win = nil
 local term_buf = nil
 
@@ -197,13 +169,13 @@ local function toggle_term()
 		return
 	end
 	if not term_buf or not vim.api.nvim_buf_is_valid(term_buf) then
-		vim.cmd("belowright 10split | terminal")
+		vim.cmd("lcd %:p:h | belowright 10split | terminal")
 
 		term_buf = vim.api.nvim_get_current_buf()
 		term_win = vim.api.nvim_get_current_win()
 
 		vim.bo[term_buf].bufhidden = "hide"
-		vim.bo[term_buf].filetype = "toggleterm" -- optional
+		vim.bo[term_buf].filetype = "toggleterm"
 	else
 		vim.cmd("belowright 10split")
 		term_win = vim.api.nvim_get_current_win()
@@ -213,3 +185,16 @@ local function toggle_term()
 end
 
 map({ "n", "t" }, "<C-s>", toggle_term)
+
+
+local harpoon = require("harpoon")
+harpoon:setup({ settings = { save_on_toggle = true, sync_on_ui_close = true, }, })
+
+map("n", "<leader>a", function() harpoon:list():add() end)
+map("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
+map("n", "<leader>h", function() harpoon:list():select(1) end)
+map("n", "<leader>j", function() harpoon:list():select(2) end)
+map("n", "<leader>k", function() harpoon:list():select(3) end)
+map("n", "<leader>l", function() harpoon:list():select(4) end)
+
+map('n', "<C-t>", "<CMD>FlutterLogToggle<CR><esc>")

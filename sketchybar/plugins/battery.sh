@@ -3,33 +3,26 @@
 PERCENTAGE="$(pmset -g batt | grep -Eo "\d+%" | cut -d% -f1)"
 CHARGING="$(pmset -g batt | grep 'AC Power')"
 
-[ "$PERCENTAGE" = "" ] && exit 0
-
-# Braille patterns grouped by number of dots (0-8 dots)
-dots_0=("⠀")
-dots_1=("⠁" "⠂" "⠄" "⠈" "⠐" "⠠" "⡀" "⢀")
-dots_2=("⠃" "⠅" "⠆" "⠉" "⠊" "⠌" "⠑" "⠒" "⠔" "⠘" "⠡" "⠢" "⠤" "⠨" "⠰" "⡁" "⡂" "⡄" "⡈" "⡐" "⡠" "⢁" "⢂" "⢄" "⢈" "⢐" "⢠" "⣀")
-dots_3=("⠇" "⠋" "⠍" "⠎" "⠓" "⠕" "⠖" "⠚" "⠜" "⠣" "⠥" "⠦" "⠩" "⠪" "⠬" "⠱" "⠲" "⠴" "⠸" "⡃" "⡅" "⡆" "⡉" "⡊" "⡌" "⡑" "⡒" "⡔" "⡘" "⡡" "⡢" "⡤" "⡨" "⡰" "⢃" "⢅" "⢆" "⢉" "⢊" "⢌" "⢑" "⢒" "⢔" "⢘" "⢡" "⢢" "⢤" "⢨" "⢰" "⣁" "⣂" "⣄" "⣈" "⣐" "⣠")
-dots_4=("⠏" "⠗" "⠛" "⠝" "⠞" "⠧" "⠫" "⠭" "⠮" "⠳" "⠵" "⠶" "⠹" "⠺" "⠼" "⡇" "⡋" "⡍" "⡎" "⡓" "⡕" "⡖" "⡚" "⡜" "⡣" "⡥" "⡦" "⡩" "⡪" "⡬" "⡱" "⡲" "⡴" "⡸" "⢇" "⢋" "⢍" "⢎" "⢓" "⢕" "⢖" "⢚" "⢜" "⢣" "⢥" "⢦" "⢩" "⢪" "⢬" "⢱" "⢲" "⢴" "⢸" "⣃" "⣅" "⣆" "⣉" "⣊" "⣌" "⣑" "⣒" "⣔" "⣘" "⣡" "⣢" "⣤" "⣨" "⣰")
-dots_5=("⠟" "⠯" "⠷" "⠻" "⠽" "⠾" "⡏" "⡗" "⡛" "⡝" "⡞" "⡧" "⡫" "⡭" "⡮" "⡳" "⡵" "⡶" "⡹" "⡺" "⡼" "⢏" "⢗" "⢛" "⢝" "⢞" "⢧" "⢫" "⢭" "⢮" "⢳" "⢵" "⢶" "⢹" "⢺" "⢼" "⣇" "⣋" "⣍" "⣎" "⣓" "⣕" "⣖" "⣚" "⣜" "⣣" "⣥" "⣦" "⣩" "⣪" "⣬" "⣱" "⣲" "⣴" "⣸")
-dots_6=("⠿" "⡟" "⡯" "⡷" "⡻" "⡽" "⡾" "⢟" "⢯" "⢷" "⢻" "⢽" "⢾" "⣏" "⣗" "⣛" "⣝" "⣞" "⣧" "⣫" "⣭" "⣮" "⣳" "⣵" "⣶" "⣹" "⣺" "⣼")
-dots_7=("⡿" "⢿" "⣟" "⣯" "⣷" "⣻" "⣽" "⣾")
-dots_8=("⣿")
-
-# Map percentage to dot level: 0->0, 1-99->1-7, 100->8
-if [ "$PERCENTAGE" -eq 0 ]; then
-    index=0
-elif [ "$PERCENTAGE" -eq 100 ]; then
-    index=8
-else
-    index=$(( (PERCENTAGE - 1) * 7 / 99 + 1 ))
+if [ "$PERCENTAGE" = "" ]; then
+  exit 0
 fi
 
-# Get random symbol from the selected dot level
-eval "dots=(\"\${dots_${index}[@]}\")"
-symbol=${dots[$((RANDOM % ${#dots[@]}))]}
+case "${PERCENTAGE}" in
+  9[0-9]|100) ICON=""
+  ;;
+  [6-8][0-9]) ICON=""
+  ;;
+  [3-5][0-9]) ICON=""
+  ;;
+  [1-2][0-9]) ICON=""
+  ;;
+  *) ICON=""
+esac
 
-# Format label
-[[ "$CHARGING" != "" ]] && LABEL="${PERCENTAGE}*" || LABEL="${PERCENTAGE}%"
+if [[ "$CHARGING" != "" ]]; then
+  ICON=""
+fi
 
-sketchybar --set "$NAME" icon="$symbol" label="$(printf "%4s" "$LABEL")"
+# The item invoking this script (name $NAME) will get its icon and label
+# updated with the current battery status
+sketchybar --set "$NAME" icon="$ICON" label="${PERCENTAGE}%"

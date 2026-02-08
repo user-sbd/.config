@@ -1,17 +1,11 @@
+config-version = 2
 enable-normalization-opposite-orientation-for-nested-containers = false
 enable-normalization-flatten-containers = false
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 start-at-login = true
 
-# after-startup-command = [
-#     'exec-and-forget sketchybar',
-# ]
-#
-# exec-on-workspace-change = ['sketchybar --trigger aerospace_workspace_change']
-
 [mode.main.binding]
 alt-p = 'exec-and-forget ~/.config/scripts/choos.sh'
-
 alt-h = 'focus --boundaries-action wrap-around-the-workspace left'
 alt-l = 'focus --boundaries-action wrap-around-the-workspace right'
 
@@ -19,29 +13,28 @@ alt-shift-m = 'macos-native-fullscreen'
 alt-e = 'layout tiles horizontal vertical'
 alt-shift-space = 'layout floating tiling'
 
-alt-shift-c = 'reload-config'
-ctrl-shift-h = 'resize smart -50'
-ctrl-shift-l = 'resize smart +50'
+alt-shift-h = 'resize smart -50'
+alt-shift-l = 'resize smart +50'
 
-alt-a = 'workspace term'
-alt-s = 'workspace browser'
-alt-d = 'workspace music'
-alt-f = 'workspace notes'
-alt-g = 'workspace disc'
-alt-j = 'workspace photo'
-alt-k= 'workspace setting'
-alt-semicolon= 'workspace rand'
-alt-quote = 'workspace rand2'
+alt-a = 'workspace 1'
+alt-s = 'workspace 2'
+alt-d = 'workspace 3'
+alt-f = 'workspace 4'
+alt-n = 'workspace 5'
+alt-j = 'workspace 6'
+alt-k = 'workspace 7'
+alt-period = 'workspace 8'
+alt-semicolon = 'workspace 9'
 
-alt-shift-a = 'move-node-to-workspace term'
-alt-shift-s = 'move-node-to-workspace browser'
-alt-shift-d = 'move-node-to-workspace music'
-alt-shift-f = 'move-node-to-workspace notes'
-alt-shift-g = 'move-node-to-workspace disc'
-alt-shift-j = 'move-node-to-workspace photo'
-alt-shift-k= 'move-node-to-workspace setting'
-alt-shift-semicolon= 'move-node-to-workspace rand'
-alt-shift-quote = 'move-node-to-workspace rand2'
+alt-shift-a = 'move-node-to-workspace 1'
+alt-shift-s = 'move-node-to-workspace 2'
+alt-shift-d = 'move-node-to-workspace 3'
+alt-shift-f = 'move-node-to-workspace 4'
+alt-shift-n = 'move-node-to-workspace 5'
+alt-shift-j = 'move-node-to-workspace 6'
+alt-shift-k = 'move-node-to-workspace 7'
+alt-shift-period = 'move-node-to-workspace 8'
+alt-shift-semicolon = 'move-node-to-workspace 9'
 
 [[on-window-detected]]
 if.app-id = 'com.apple.finder'
