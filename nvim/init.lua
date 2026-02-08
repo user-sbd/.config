@@ -7,7 +7,6 @@ vim.pack.add({
 	{ src = "https://github.com/tpope/vim-fugitive" },
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
 	{ src = "https://github.com/nvim-lua/plenary.nvim" },
-	{ src = "https://github.com/NeogitOrg/neogit" },
 	{ src = "https://github.com/ThePrimeagen/harpoon", version = 'harpoon2' },
 })
 
