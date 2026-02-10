@@ -1,13 +1,16 @@
 vim.pack.add({
 	{ src = "https://github.com/stevearc/oil.nvim" },
+	{ src = "https://github.com/nvim-flutter/flutter-tools.nvim" },
 	{ src = "https://github.com/ibhagwan/fzf-lua" },
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{ src = "https://github.com/mason-org/mason.nvim" },
-	{ src = "https://github.com/vague-theme/vague.nvim" },
+	{ src = "https://github.com/bluz71/vim-moonfly-colors" },
 	{ src = "https://github.com/tpope/vim-fugitive" },
+	{ src = "https://github.com/kdheepak/lazygit.nvim" },
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
 	{ src = "https://github.com/nvim-lua/plenary.nvim" },
-	{ src = "https://github.com/ThePrimeagen/harpoon", version = 'harpoon2' },
+	{ src = "https://github.com/leafOfTree/vim-svelte-plugin" },
+	{ src = "https://github.com/ThePrimeagen/harpoon",           version = 'harpoon2' },
 })
 
 local opt = vim.opt
@@ -35,6 +38,16 @@ opt.winborder = "rounded"
 opt.pumborder = "rounded"
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
+
+require("flutter-tools").setup {
+	dev_log = {
+		enabled = true,
+		filter = nil,
+		notify_errors = true,
+		open_cmd = "10split",
+		focus_on_open = false,
+	}
+}
 
 require('nvim-treesitter').setup {
 	install_dir = vim.fn.stdpath('data') .. '/site',
@@ -89,10 +102,35 @@ require("fzf-lua").setup({
 	file_icon_padding = "",
 })
 
-require("oil").setup({
-	skip_confirm_for_simple_edits = true,
-	delete_to_trash = true,
-	win_options = { signcolumn = "yes:1" },
+local permission_hlgroups = {
+	['-'] = 'NonText',
+	['r'] = 'DiagnosticSignWarn',
+	['w'] = 'DiagnosticSignError',
+	['x'] = 'DiagnosticSignOk',
+}
+
+require('oil').setup({
+	columns = {
+		{
+			'permissions',
+			highlight = function(permission_str)
+				local hls = {}
+				for i = 1, #permission_str do
+					local char = permission_str:sub(i, i)
+					table.insert(hls, { permission_hlgroups[char], i - 1, i })
+				end
+				return hls
+			end,
+		},
+		{ 'size',  highlight = 'Delimiter' },
+	},
+	win_options = {
+		number = false,
+		relativenumber = false,
+		signcolumn = 'yes:1',
+		foldcolumn = '0',
+	},
+    skip_confirm_for_simple_edits = true,
 })
 
 require("mason").setup()
@@ -123,7 +161,7 @@ vim.lsp.enable({
 
 vim.cmd [[set completeopt+=menuone,noselect,popup]]
 
-vim.cmd("colorscheme vague")
+vim.cmd("colorscheme moonfly")
 vim.cmd("hi ModeMsg guifg=#cdcdcd")
 vim.cmd("hi StatusLine guibg=none")
 vim.cmd("hi NormalFloat guibg=NONE ctermbg=NONE")
