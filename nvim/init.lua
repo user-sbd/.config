@@ -16,6 +16,8 @@ vim.pack.add({
 local opt = vim.opt
 local map = vim.keymap.set
 
+map("n", "<leader>lg", "<CMD>LazyGitCurrentFile<CR>")
+
 vim.cmd([[set mouse=]])
 vim.cmd([[set noswapfile]])
 opt.winborder = "rounded"
