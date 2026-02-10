@@ -21,6 +21,14 @@
       "src": "https://github.com/ThePrimeagen/harpoon",
       "version": "'harpoon2'"
     },
+    "jiejie.nvim": {
+      "rev": "7a34d3475f872265dc23ae2006c573d6b71f8fa1",
+      "src": "https://github.com/jceb/jiejie.nvim"
+    },
+    "jj.nvim": {
+      "rev": "6a3ff64116a58e00cada0b1a666ada7126a70f4b",
+      "src": "https://github.com/NicolasGB/jj.nvim"
+    },
     "lazygit.nvim": {
       "rev": "a04ad0dbc725134edbee3a5eea29290976695357",
       "src": "https://github.com/kdheepak/lazygit.nvim"

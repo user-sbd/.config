@@ -6,7 +6,6 @@ vim.pack.add({
 	{ src = "https://github.com/mason-org/mason.nvim" },
 	{ src = "https://github.com/bluz71/vim-moonfly-colors" },
 	{ src = "https://github.com/tpope/vim-fugitive" },
-	{ src = "https://github.com/kdheepak/lazygit.nvim" },
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
 	{ src = "https://github.com/nvim-lua/plenary.nvim" },
 	{ src = "https://github.com/leafOfTree/vim-svelte-plugin" },
@@ -15,8 +14,6 @@ vim.pack.add({
 
 local opt = vim.opt
 local map = vim.keymap.set
-
-map("n", "<leader>lg", "<CMD>LazyGitCurrentFile<CR>")
 
 vim.cmd([[set mouse=]])
 vim.cmd([[set noswapfile]])
@@ -224,7 +221,7 @@ local function toggle_term()
 	vim.cmd("startinsert")
 end
 
-map({ "n", "t" }, "<C-s>", toggle_term)
+map({ "n", "t" }, "<leader>t", toggle_term)
 
 
 local harpoon = require("harpoon")
