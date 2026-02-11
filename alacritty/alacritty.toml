@@ -1,6 +1,7 @@
 [window]
 decorations = "none"
 dynamic_padding = true
+option_as_alt = "Both"   # or "OnlyLeft" / "OnlyRight" if you want to preserve compose on one side
 # blur = true
 # opacity = 0.8
 

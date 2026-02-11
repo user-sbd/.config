@@ -7,9 +7,7 @@ vim.pack.add({
 	{ src = "https://github.com/bluz71/vim-moonfly-colors" },
 	{ src = "https://github.com/tpope/vim-fugitive" },
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
-	{ src = "https://github.com/nvim-lua/plenary.nvim" },
 	{ src = "https://github.com/leafOfTree/vim-svelte-plugin" },
-	{ src = "https://github.com/ThePrimeagen/harpoon",           version = 'harpoon2' },
 })
 
 local opt = vim.opt
@@ -187,8 +185,34 @@ map({ "n", "v", "x" }, "<leader>n", ":norm ")
 map({ "n", "v", "x" }, "<leader>lf", vim.lsp.buf.format, { desc = "Format current buffer" })
 map({ "v", "x", "n" }, "<C-y>", '"+y', { desc = "System clipboard yank." })
 
-map({ "n" }, "-", "<cmd>Oil<CR>")
+map("n", "-", "<cmd>Oil<CR>")
 map("n", "<C-g>", ":Git | only<CR>", { silent = true })
+
+map("n", "<C-q>", ":copen<CR>", { silent = true })
+for i = 1, 9 do
+	map('n', '<leader>' .. i, ':cc ' .. i .. '<CR>', { noremap = true, silent = true })
+end
+
+map("n", "<leader>a",
+	function() vim.fn.setqflist({ { filename = vim.fn.expand("%"), lnum = 1, col = 1, text = vim.fn.expand("%"), } }, "a") end,
+	{ desc = "Add current file to QuickFix" })
+
+vim.api.nvim_create_autocmd("BufWinEnter", {
+	pattern = "*",
+	group = vim.api.nvim_create_augroup("qf", { clear = true }),
+	callback = function()
+		if vim.bo.buftype == "quickfix" then
+			map("n", "<C-q>", ":ccl<cr>", { buffer = true, silent = true })
+			map("n", "dd", function()
+				local idx = vim.fn.line('.')
+				local qflist = vim.fn.getqflist()
+				table.remove(qflist, idx)
+				vim.fn.setqflist(qflist, 'r')
+			end, { buffer = true })
+		end
+	end,
+})
+
 
 vim.api.nvim_create_autocmd("TextYankPost", {
 	callback = function()
@@ -223,15 +247,8 @@ end
 
 map({ "n", "t" }, "<leader>t", toggle_term)
 
-
-local harpoon = require("harpoon")
-harpoon:setup({ settings = { save_on_toggle = true, sync_on_ui_close = true, }, })
-
-map("n", "<leader>a", function() harpoon:list():add() end)
-map("n", "<C-q>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
-map("n", "<leader>h", function() harpoon:list():select(1) end)
-map("n", "<leader>j", function() harpoon:list():select(2) end)
-map("n", "<leader>k", function() harpoon:list():select(3) end)
-map("n", "<leader>l", function() harpoon:list():select(4) end)
-
 map('n', "<C-t>", "<CMD>FlutterLogToggle<CR><esc>")
+
+vim.keymap.set("n", "<S-h>", "<Cmd>vertical resize -8<CR>", { desc = "Decrease width faster" })
+vim.keymap.set("n", "<S-l>", "<Cmd>vertical resize +8<CR>", { desc = "Increase width faster" })
+
