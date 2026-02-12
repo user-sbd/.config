@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+CATEGORIES=("WORK" "VIM" "WASTE" "STOP")
+
+selected=$(printf '%s\n' "${CATEGORIES[@]}" \
+    | fzf --reverse)
+
+[[ $? -eq 0 && -n "$selected" ]] || exit 0
+
+tmux set -g status-interval 5 2>/dev/null
+
+if [[ "$selected" == "STOP" ]]; then
+    timew stop >/dev/null 2>&1
+    tmux set -g status-right "" 2>/dev/null
+else
+    timew start "$selected" >/dev/null 2>&1
+    tmux set -g status-right " $selected #(timew | awk '/^ *Total/ {print \$NF}' 2>/dev/null)" 2>/dev/null
+fi
