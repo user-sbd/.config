@@ -1,17 +1,19 @@
 vim.pack.add({
 	{ src = "https://github.com/stevearc/oil.nvim" },
-	{ src = "https://github.com/nvim-flutter/flutter-tools.nvim" },
-	{ src = "https://github.com/ibhagwan/fzf-lua" },
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{ src = "https://github.com/mason-org/mason.nvim" },
-	{ src = "https://github.com/bluz71/vim-moonfly-colors" },
+	{ src = "https://github.com/ellisonleao/gruvbox.nvim" },
 	{ src = "https://github.com/tpope/vim-fugitive" },
+	{ src = "https://github.com/nvim-lua/plenary.nvim" },
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
+	{ src = "https://github.com/nvim-telescope/telescope.nvim" },
+	{ src = "https://github.com/nvim-flutter/flutter-tools.nvim" },
 	{ src = "https://github.com/leafOfTree/vim-svelte-plugin" },
 })
 
 local opt = vim.opt
 local map = vim.keymap.set
+local builtin = require("telescope.builtin")
 
 vim.cmd([[set mouse=]])
 vim.cmd([[set noswapfile]])
@@ -46,6 +48,23 @@ require("flutter-tools").setup {
 	}
 }
 
+local telescope = require("telescope")
+telescope.setup({
+	defaults = {
+		preview = { treesitter = true },
+		color_devicons = true,
+		sorting_strategy = "ascending",
+		borderchars = { "", "", "", "", "", "", "", "", },
+		path_displays = { "smart" },
+		layout_config = {
+			height = 100,
+			width = 400,
+			prompt_position = "top",
+			preview_cutoff = 40,
+		}
+	}
+})
+
 require('nvim-treesitter').setup {
 	install_dir = vim.fn.stdpath('data') .. '/site',
 	ensure_installed = { "typescript", "css", "javascript", "svelte", "html" },
@@ -54,80 +73,19 @@ require('nvim-treesitter').setup {
 	},
 }
 
-require("fzf-lua").setup({
-	fzf_args = {
-		--color=fg:#d0d0d0,fg+:#d0d0d0,bg:#141415,bg+:#6A9FB5
-		--color=hl:#6A9FB5,hl+:#5fd7ff,info:#6A9FB5,marker:#87ff00
-		--color=prompt:#6A9FB5,spinner:#141415,pointer:#ffffff,header:#141415
-		--color=gutter:#141415,border:#262626,separator:#141415,scrollbar:#141415
-		--color=preview-scrollbar:#141415,label:#aeaeae,query:#d9d9d9
-		--border="rounded" --border-label="" --preview-window="border-sharp" --prompt="> "
-		--marker=" " --pointer="." --separator="─" --scrollbar="│"
-	},
-	fzf_opts = {
-		["--ansi"] = true,
-		["--info"] = "inline-right",
-		["--height"] = "100%",
-		["--border"] = "none",
-	},
-	winopts = {
-		-- title_flags   = true,
-		height = 15,
-		width = 50,
-		row = 1,
-		col = 0,
-		-- border = { " ", " ", " ", " ", " ", " ", " ", " " },
-		border = "rounded",
-		fullscreen = true,
-		preview = {
-			border = "rounded",
-			-- border = { "", "", "", "", "", "", "", "" },
-			horizontal = "right:40%",
-			layout = "horizontal",
-		},
-	},
-	actions = {
-		files = {
-			["enter"]  = require("fzf-lua.actions").file_edit_or_qf,
-			["ctrl-v"] = require("fzf-lua.actions").file_vsplit,
-			["ctrl-q"] = require("fzf-lua.actions").file_sel_to_qf,
-		},
-	},
-	files = { prompt = "> " },
-	oldfiles = { prompt = "> " },
-	previewers = { bat = true },
-	file_icon_padding = "",
-})
-
-local permission_hlgroups = {
-	['-'] = 'NonText',
-	['r'] = 'DiagnosticSignWarn',
-	['w'] = 'DiagnosticSignError',
-	['x'] = 'DiagnosticSignOk',
-}
-
-require('oil').setup({
+require("oil").setup({
+	default_file_explorer = true,
 	columns = {
-		{
-			'permissions',
-			highlight = function(permission_str)
-				local hls = {}
-				for i = 1, #permission_str do
-					local char = permission_str:sub(i, i)
-					table.insert(hls, { permission_hlgroups[char], i - 1, i })
-				end
-				return hls
-			end,
-		},
-		{ 'size',  highlight = 'Delimiter' },
+		"icon",
+		"permissions",
+		"size",
 	},
-	win_options = {
-		number = false,
-		relativenumber = false,
-		signcolumn = 'yes:1',
-		foldcolumn = '0',
-	},
-    skip_confirm_for_simple_edits = true,
+	buf_options = { buflisted = true, },
+	win_options = { signcolumn = "yes:1", },
+	delete_to_trash = true,
+	skip_confirm_for_simple_edits = true,
+	constrain_cursor = "editable",
+	use_default_keymaps = true,
 })
 
 require("mason").setup()
@@ -158,25 +116,27 @@ vim.lsp.enable({
 
 vim.cmd [[set completeopt+=menuone,noselect,popup]]
 
-vim.cmd("colorscheme moonfly")
+vim.cmd("colorscheme gruvbox")
 vim.cmd("hi ModeMsg guifg=#cdcdcd")
-vim.cmd("hi StatusLine guibg=none")
+vim.cmd("hi StatusLine guifg=#FFFFFF guibg=none")
+vim.cmd("hi SignColumn guibg=none")
 vim.cmd("hi NormalFloat guibg=NONE ctermbg=NONE")
 vim.cmd("hi FloatBorder guibg=NONE")
 vim.cmd("hi WinSeparator guifg=NONE guibg=NONE")
 vim.cmd("hi QuickFixLine guifg = #7AA2F7")
 vim.cmd("hi Pmenu guibg=NONE")
 vim.cmd("hi PmenuBorder guibg=NONE")
-vim.cmd("hi QuickFixLine guifg = #7AA2F7")
 
-map("n", "<leader>f", ":FzfLua files<CR>", { silent = true })
-map({ "i", "n" }, "<C-f>", "<CMD>FzfLua files<CR>", { silent = true })
+map("n", "<leader>f", builtin.find_files, { desc = "Telescope live grep" })
+map({ "n", "i" }, "<C-f>", builtin.find_files)
+map("n", "<leader>g", builtin.live_grep)
+map("n", "<leader>o", builtin.oldfiles)
+map("n", "<leader>h", builtin.help_tags)
+map("n", "<leader>sm", builtin.man_pages)
+map("n", "<leader>b", builtin.buffers)
+map({ "n" }, "<leader>st", builtin.builtin)
+map('n', '<leader>c', function() require('telescope.builtin').find_files({ cwd = vim.fn.expand('~/.config') }) end)
 
-map("n", "<leader>o", ":FzfLua oldfiles<CR>", { silent = true })
-map("n", "<leader>sh", ":FzfLua helptags<CR>", { silent = true })
-map("n", "<leader>g", ":FzfLua live_grep<CR>", { silent = true })
-map("n", "<leader>t", ":FzfLua colorschemes<CR>", { silent = true })
-map("n", "<leader>c", ":FzfLua files cwd=~/.config<CR>", { silent = true })
 map("t", "<Esc>", [[<C-\><C-n>]], { noremap = true, silent = true })
 map({ "n", "v", "x" }, "<leader>v", "<Cmd>edit $MYVIMRC<CR>", { desc = "Edit " .. vim.fn.expand("$MYVIMRC") })
 map({ "n" }, "<Esc>", "<Cmd>nohlsearch<CR>")
@@ -251,4 +211,3 @@ map('n', "<C-t>", "<CMD>FlutterLogToggle<CR><esc>")
 
 vim.keymap.set("n", "<S-h>", "<Cmd>vertical resize -8<CR>", { desc = "Decrease width faster" })
 vim.keymap.set("n", "<S-l>", "<Cmd>vertical resize +8<CR>", { desc = "Increase width faster" })
-

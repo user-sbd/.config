@@ -46,11 +46,11 @@ export PATH="$PATH:/Users/nitin/.local/share/bob/nightly/bin/"
 export PATH="$PATH:/Users/nitin/.cargo/bin/"
 
 export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
-  --color=fg:#d0d0d0,fg+:#d0d0d0,bg:#080808,bg+:#6A9FB5
+  --color=fg:#d0d0d0,fg+:#d0d0d0,bg:#282828,bg+:#6A9FB5
   --color=hl:#6A9FB5,hl+:#5fd7ff,info:#6A9FB5,marker:#87ff00
-  --color=prompt:#6A9FB5,spinner:#080808,pointer:#ffffff,header:#080808
-  --color=gutter:#080808,border:#262626,separator:#080808,scrollbar:#080808
-  --color=preview-scrollbar:#080808,label:#aeaeae,query:#d9d9d9
+  --color=prompt:#6A9FB5,spinner:#282828,pointer:#ffffff,header:#282828
+  --color=gutter:#282828,border:#262626,separator:#282828,scrollbar:#282828
+  --color=preview-scrollbar:#282828,label:#aeaeae,query:#d9d9d9
   --border="rounded" --border-label="" --preview-window="border-sharp" --prompt="> "
   --marker=" " --pointer="." --separator="─" --scrollbar="│"'
 
@@ -78,3 +78,5 @@ finder() {
 }
 zle -N finder
 bindkey '^f' finder
+
+eval "$(starship init zsh)"

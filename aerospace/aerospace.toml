@@ -5,7 +5,7 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 start-at-login = true
 
 [mode.main.binding]
-alt-p = 'exec-and-forget ~/.config/scripts/choos.sh'
+alt-o = 'exec-and-forget ~/.config/scripts/choos.sh'
 alt-h = 'focus --boundaries-action wrap-around-the-workspace left'
 alt-l = 'focus --boundaries-action wrap-around-the-workspace right'
 

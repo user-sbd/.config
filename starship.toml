@@ -1,0 +1,10 @@
+add_newline = false
+
+format = ''' [$directory](#fb4934)[$git_branch](#98971a)\$ '''
+
+[character]
+success_symbol = '[\$](bold #98971a)'
+error_symbol   = '[\$](bold #cc241d)'   # optional – shows red on failed commands
+
+[package]
+disabled = true
