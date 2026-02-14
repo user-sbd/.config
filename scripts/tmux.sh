@@ -15,7 +15,7 @@ picker_dirs=$( {
 } | sort -u | sed "s|^$HOME/||")
 
 # selected=$(echo "$picker_dirs" | sk --color="bw" --margin 10)
-selected=$(echo "$picker_dirs" | fzf )
+selected=$(echo "$picker_dirs" | sk )
 
 if [ -z "$selected" ]; then
     echo "No selection made"

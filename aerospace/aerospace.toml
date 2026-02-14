@@ -20,21 +20,19 @@ alt-a = 'workspace 1'
 alt-s = 'workspace 2'
 alt-d = 'workspace 3'
 alt-f = 'workspace 4'
-alt-n = 'workspace 5'
+alt-g = 'workspace 5'
 alt-j = 'workspace 6'
 alt-k = 'workspace 7'
-alt-period = 'workspace 8'
-alt-semicolon = 'workspace 9'
+alt-semicolon= 'workspace 8'
 
 alt-shift-a = 'move-node-to-workspace 1'
 alt-shift-s = 'move-node-to-workspace 2'
 alt-shift-d = 'move-node-to-workspace 3'
 alt-shift-f = 'move-node-to-workspace 4'
-alt-shift-n = 'move-node-to-workspace 5'
+alt-shift-g = 'move-node-to-workspace 5'
 alt-shift-j = 'move-node-to-workspace 6'
 alt-shift-k = 'move-node-to-workspace 7'
-alt-shift-period = 'move-node-to-workspace 8'
-alt-shift-semicolon = 'move-node-to-workspace 9'
+alt-shift-semicolon = 'move-node-to-workspace 8'
 
 [[on-window-detected]]
 if.app-id = 'com.apple.finder'
@@ -55,3 +53,8 @@ run = ['layout floating']
 [[on-window-detected]]
 if.app-id = 'com.apple.QuickTimePlayerX'
 run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.hnc.Discord'
+run = 'move-node-to-workspace 4'
+

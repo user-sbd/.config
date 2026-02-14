@@ -10,8 +10,9 @@ live_config_reload = true
 
 [font]
 normal = {family = "ZedMono Nerd Font" }
-size = 22
+# normal = {family = "Fira Code" }
+size = 23
 
 [colors.primary]
-background = "#282828"
+background = "#1F1F28"
 

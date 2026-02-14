@@ -1,0 +1,152 @@
+#!/usr/bin/env bash
+# tmux-dir-session.sh
+# ──────────────────────────────────────────────────────────────
+# Opens a new tmux session named after the chosen directory's basename
+# The session's first window is cd'd into the selected directory
+# Usage:   tmux neww -n "pick-dir" "~/path/to/tmux-dir-session.sh"
+#          or just run it directly from shell
+# ──────────────────────────────────────────────────────────────
+
+set -euo pipefail
+
+# ─── Collect candidate directories ───────────────────────────────────────
+
+declare -a candidates
+
+candidates+=("$HOME/.config")
+
+if [ -d "$HOME/Documents" ]; then
+    candidates+=("$HOME/Documents")
+fi
+
+declare -a roots=(
+    "$HOME/Documents"
+    "$HOME/Documents/SEE"
+    "$HOME/Documents/projects"
+    "$HOME/Documents/notes"
+)
+
+for root in "${roots[@]}"; do
+    [ -d "$root" ] || continue
+    while IFS= read -r -d '' sub; do
+        candidates+=("$sub")
+    done < <(find "$root" -mindepth 1 -maxdepth 1 -type d -print0 2>/dev/null)
+done
+
+# ─── Deduplicate (no mapfile/readarray) ──────────────────────────────────
+
+declare -A seen
+declare -a dirs
+
+for d in "${candidates[@]}"; do
+    [ -z "$d" ] && continue
+    [ -n "${seen[$d]}" ] && continue
+    [ -d "$d" ] || continue
+    seen["$d"]=1
+    dirs+=("$d")
+done
+
+# ─── Prepare fzf lines: fullpath TAB display ─────────────────────────────
+
+fzf_input=""
+for d in "${dirs[@]}"; do
+    if [ "${d#"$PWD"}" != "$d" ]; then
+        # relative to current dir
+        rel="${d#"$PWD"}"
+        rel="${rel#/}"
+        [ -z "$rel" ] && rel="."
+        display="$rel"
+    else
+        # tilde home
+        display="${d#"$HOME"}"
+        display="~${display}"
+    fi
+    fzf_input="$fzf_input${d}"$'\t'"${display}"$'\n'
+done
+
+# remove leading newline if any
+fzf_input="${fzf_input#$'\n'}"
+
+# ─── Run fzf ─────────────────────────────────────────────────────────────
+
+if [ -z "$fzf_input" ]; then
+    echo "No directories found." >&2
+    exit 1
+fi
+
+selected=$(printf '%b' "$fzf_input" \
+    | sort -t $'\t' -k2 \
+    | fzf \
+        --height 60% \
+        --reverse \
+        --inline-info \
+        --with-nth 2.. \
+        --delimiter $'\t' \
+        --print-query \
+        --expect enter \
+        --header "Pick directory → new tmux session" \
+        --preview '
+            dir=$(echo {} | cut -d"\t" -f1)
+            {
+                du -sh "$dir" 2>/dev/null
+                echo
+                echo "$dir"
+                echo "───"
+                ls -laF --color=always "$dir" 2>/dev/null | head -n 100
+            } 2>/dev/null
+        ' \
+        --preview-window right:55%:wrap \
+        --bind 'ctrl-c:abort,esc:abort'
+)
+
+# ─── Parse fzf output ────────────────────────────────────────────────────
+
+query=$(echo "$selected" | sed -n 1p)
+key=$(echo "$selected" | sed -n 2p)
+line=$(echo "$selected" | sed -n 3p)
+
+chosen_dir=$(echo "$line" | cut -d $'\t' -f1)
+
+# typed something not found → treat as new path (relative to pwd)
+if [ -z "$chosen_dir" ] && [ -n "$query" ]; then
+    chosen_dir="$query"
+    case "$chosen_dir" in
+        /*) ;;  # absolute → fine
+        *)  chosen_dir="${PWD}/${chosen_dir}" ;;
+    esac
+fi
+
+# normalize path a bit
+chosen_dir="${chosen_dir//\/\///}"
+[ ! -d "$chosen_dir" ] && {
+    echo "Directory not found: $chosen_dir" >&2
+    exit 1
+}
+
+# ─── Session name = basename ─────────────────────────────────────────────
+
+session_name=$(basename -- "$chosen_dir")
+
+# sanitize (tmux session names are restrictive)
+session_name=$(echo "$session_name" | tr -s -c '[:alnum:]._- ' '_')
+
+[ -z "$session_name" ] && session_name="session_$(date +%s)"
+
+# ─── Create / switch ─────────────────────────────────────────────────────
+
+if tmux has-session -t="$session_name" 2>/dev/null; then
+    # already exists
+    if [ -n "${TMUX:-}" ]; then
+        tmux switch-client -t "$session_name"
+    else
+        tmux attach-session -t "$session_name"
+    fi
+else
+    # create new session, first window in target dir
+    if [ -n "${TMUX:-}" ]; then
+        tmux new-session -d -s "$session_name" -c "$chosen_dir"
+        tmux switch-client -t "$session_name"
+    else
+        tmux new-session -s "$session_name" -c "$chosen_dir"
+    fi
+fi

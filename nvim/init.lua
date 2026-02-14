@@ -1,14 +1,20 @@
+
+if vim.g.neovide then
+  vim.o.shell = "zsh"
+end
+
 vim.pack.add({
 	{ src = "https://github.com/stevearc/oil.nvim" },
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{ src = "https://github.com/mason-org/mason.nvim" },
-	{ src = "https://github.com/ellisonleao/gruvbox.nvim" },
 	{ src = "https://github.com/tpope/vim-fugitive" },
 	{ src = "https://github.com/nvim-lua/plenary.nvim" },
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
 	{ src = "https://github.com/nvim-telescope/telescope.nvim" },
 	{ src = "https://github.com/nvim-flutter/flutter-tools.nvim" },
 	{ src = "https://github.com/leafOfTree/vim-svelte-plugin" },
+	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
+	{ src = "https://github.com/rebelot/kanagawa.nvim" },
 })
 
 local opt = vim.opt
@@ -116,7 +122,7 @@ vim.lsp.enable({
 
 vim.cmd [[set completeopt+=menuone,noselect,popup]]
 
-vim.cmd("colorscheme gruvbox")
+vim.cmd("colorscheme kanagawa-wave")
 vim.cmd("hi ModeMsg guifg=#cdcdcd")
 vim.cmd("hi StatusLine guifg=#FFFFFF guibg=none")
 vim.cmd("hi SignColumn guibg=none")
@@ -126,6 +132,8 @@ vim.cmd("hi WinSeparator guifg=NONE guibg=NONE")
 vim.cmd("hi QuickFixLine guifg = #7AA2F7")
 vim.cmd("hi Pmenu guibg=NONE")
 vim.cmd("hi PmenuBorder guibg=NONE")
+vim.cmd("hi ColorColumn guibg=NONE")
+vim.cmd("hi LineNr guibg=NONE")
 
 map("n", "<leader>f", builtin.find_files, { desc = "Telescope live grep" })
 map({ "n", "i" }, "<C-f>", builtin.find_files)
@@ -205,9 +213,11 @@ local function toggle_term()
 	vim.cmd("startinsert")
 end
 
-map({ "n", "t" }, "<leader>t", toggle_term)
+map({ "n", "t" }, "<C-s>", toggle_term)
 
 map('n', "<C-t>", "<CMD>FlutterLogToggle<CR><esc>")
 
 vim.keymap.set("n", "<S-h>", "<Cmd>vertical resize -8<CR>", { desc = "Decrease width faster" })
 vim.keymap.set("n", "<S-l>", "<Cmd>vertical resize +8<CR>", { desc = "Increase width faster" })
+
+

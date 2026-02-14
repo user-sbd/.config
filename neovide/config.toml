@@ -2,6 +2,11 @@ neovide_macos_simple_fullscreen = true
 
 [font]
 normal = ["ZedMono Nerd Font"]
-size = 25.0
+size = 22.0
 
+neovim-bin = "ohno"
 
+[window]
+frame = "buttonless"
+title-hidden = true
+maximized = true
