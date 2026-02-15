@@ -1,8 +1,3 @@
-
-if vim.g.neovide then
-  vim.o.shell = "zsh"
-end
-
 vim.pack.add({
 	{ src = "https://github.com/stevearc/oil.nvim" },
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
@@ -10,25 +5,25 @@ vim.pack.add({
 	{ src = "https://github.com/tpope/vim-fugitive" },
 	{ src = "https://github.com/nvim-lua/plenary.nvim" },
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
-	{ src = "https://github.com/nvim-telescope/telescope.nvim" },
 	{ src = "https://github.com/nvim-flutter/flutter-tools.nvim" },
 	{ src = "https://github.com/leafOfTree/vim-svelte-plugin" },
 	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
-	{ src = "https://github.com/rebelot/kanagawa.nvim" },
+	{ src = "https://github.com/vague-theme/vague.nvim" },
+	{ src = "https://github.com/ibhagwan/fzf-lua" },
+	{ src = "https://github.com/vimpostor/vim-tpipeline" },
+	{ src = "https://github.com/michaelb/sniprun" },
 })
 
 local opt = vim.opt
 local map = vim.keymap.set
-local builtin = require("telescope.builtin")
 
 vim.cmd([[set mouse=]])
 vim.cmd([[set noswapfile]])
 opt.winborder = "rounded"
 opt.tabstop = 2
 opt.inccommand = "split"
-opt.showtabline = 0
 opt.shiftwidth = 2
-opt.cmdheight = 1
+opt.cmdheight = 0
 opt.signcolumn = "yes:1"
 opt.wrap = false
 opt.ignorecase = true
@@ -44,6 +39,49 @@ opt.pumborder = "rounded"
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
+require("fzf-lua").setup({
+	fzf_args = {
+		--color=fg:#d0d0d0,fg+:#d0d0d0,bg:#011627,bg+:#262626
+		--color=hl:#FFFFFF,hl+:#5fd7ff,info:#FFFFFF,marker:#87ff00
+		--color=prompt:#FFFFFF,spinner:#011627,pointer:#ffffff,header:#011627
+		--color=gutter:#011627,border:#262626,separator:#011627,scrollbar:#011627
+		--color=preview-scrollbar:#011627,label:#aeaeae,query:#d9d9d9
+		--border="rounded" --border-label="" --preview-window="border-sharp" --prompt="> "
+		--marker=" " --pointer="." --separator="─" --scrollbar="│"
+	},
+	fzf_opts = {
+		["--ansi"] = true,
+		["--info"] = "inline-right",
+		["--height"] = "100%",
+		["--border"] = "none",
+	},
+	winopts = {
+		title_flags = false,
+		height = 15,
+		width = 50,
+		row = 1,
+		col = 0,
+		border = { " ", " ", " ", " ", " ", " ", " ", " " },
+		fullscreen = true,
+		preview = {
+			border = { "", "", "", "", "", "", "", "" },
+			horizontal = "right:40%",
+			layout = "horizontal",
+		},
+	},
+	actions = {
+		files = {
+			["enter"]  = require("fzf-lua.actions").file_edit_or_qf,
+			["ctrl-v"] = require("fzf-lua.actions").file_vsplit,
+			["ctrl-q"] = require("fzf-lua.actions").file_sel_to_qf,
+		},
+	},
+	files = { prompt = "> ", title = "f" },
+	oldfiles = { prompt = "> " },
+	previewers = { bat = true },
+	file_icon_padding = "",
+})
+
 require("flutter-tools").setup {
 	dev_log = {
 		enabled = true,
@@ -54,21 +92,17 @@ require("flutter-tools").setup {
 	}
 }
 
-local telescope = require("telescope")
-telescope.setup({
-	defaults = {
-		preview = { treesitter = true },
-		color_devicons = true,
-		sorting_strategy = "ascending",
-		borderchars = { "", "", "", "", "", "", "", "", },
-		path_displays = { "smart" },
-		layout_config = {
-			height = 100,
-			width = 400,
-			prompt_position = "top",
-			preview_cutoff = 40,
-		}
-	}
+require 'sniprun'.setup({
+	display = { "VirtualTextOk", },
+	live_display = { "VirtualLine" }, --# display mode used in live_mode
+	cwd = '.',
+	snipruncolors = {
+		SniprunVirtualTextOk  = { bg = "#967aeb", fg = "#FFFFFF", ctermbg = "Cyan", ctermfg = "Yellow" },
+		SniprunFloatingWinOk  = { fg = "NONE", ctermfg = "Cyan" },
+		SniprunVirtualTextErr = { bg = "#967aeb", fg = "#FFFFFF", ctermbg = "DarkRed", ctermfg = "Yellow" },
+		SniprunFloatingWinErr = { fg = "NONE", ctermfg = "DarkRed", bold = true },
+	},
+	live_mode_toggle = 'off',
 })
 
 require('nvim-treesitter').setup {
@@ -91,7 +125,8 @@ require("oil").setup({
 	delete_to_trash = true,
 	skip_confirm_for_simple_edits = true,
 	constrain_cursor = "editable",
-	use_default_keymaps = true,
+	keymaps = { ['<C-s>'] = false },
+
 })
 
 require("mason").setup()
@@ -122,7 +157,7 @@ vim.lsp.enable({
 
 vim.cmd [[set completeopt+=menuone,noselect,popup]]
 
-vim.cmd("colorscheme kanagawa-wave")
+vim.cmd("colorscheme vague")
 vim.cmd("hi ModeMsg guifg=#cdcdcd")
 vim.cmd("hi StatusLine guifg=#FFFFFF guibg=none")
 vim.cmd("hi SignColumn guibg=none")
@@ -135,15 +170,23 @@ vim.cmd("hi PmenuBorder guibg=NONE")
 vim.cmd("hi ColorColumn guibg=NONE")
 vim.cmd("hi LineNr guibg=NONE")
 
-map("n", "<leader>f", builtin.find_files, { desc = "Telescope live grep" })
-map({ "n", "i" }, "<C-f>", builtin.find_files)
-map("n", "<leader>g", builtin.live_grep)
-map("n", "<leader>o", builtin.oldfiles)
-map("n", "<leader>h", builtin.help_tags)
-map("n", "<leader>sm", builtin.man_pages)
-map("n", "<leader>b", builtin.buffers)
-map({ "n" }, "<leader>st", builtin.builtin)
-map('n', '<leader>c', function() require('telescope.builtin').find_files({ cwd = vim.fn.expand('~/.config') }) end)
+map('n', '<leader>s', function()
+	vim.bo.buftype = nofile
+	vim.bo.bufhidden = hide
+end, { desc = "Eval selection" })
+
+map('v', '<leader>e', '<CMD>SnipRun<CR>', { desc = "Eval selection" })
+map('n', '<leader>e', '<CMD>SnipRunOperator<CR>', { desc = "Eval motion" })
+map('n', '<leader>ee', '<CMD>SnipRun<CR>', { desc = "Eval line" })
+map('n', '<leader>es', '<CMD>SnipClose<CR>', { desc = "Eval line" })
+
+map("n", "<leader>f", ":FzfLua files<CR>", { silent = true })
+map("n", "<leader>b", ":FzfLua buffers<CR>", { silent = true })
+map("n", "<leader>o", ":FzfLua oldfiles<CR>", { silent = true })
+map("n", "<leader>h", ":FzfLua helptags<CR>", { silent = true })
+map("n", "<leader>g", ":FzfLua live_grep<CR>", { silent = true })
+map("n", "<leader>t", ":FzfLua colorschemes<CR>", { silent = true })
+map("n", "<leader>c", ":FzfLua files cwd=~/.config<CR>", { silent = true })
 
 map("t", "<Esc>", [[<C-\><C-n>]], { noremap = true, silent = true })
 map({ "n", "v", "x" }, "<leader>v", "<Cmd>edit $MYVIMRC<CR>", { desc = "Edit " .. vim.fn.expand("$MYVIMRC") })
@@ -152,9 +195,10 @@ map({ "n", "v", "x" }, "<leader>z", "<Cmd>e ~/.zshrc<CR>", { desc = "Edit .zshrc
 map({ "n", "v", "x" }, "<leader>n", ":norm ")
 map({ "n", "v", "x" }, "<leader>lf", vim.lsp.buf.format, { desc = "Format current buffer" })
 map({ "v", "x", "n" }, "<C-y>", '"+y', { desc = "System clipboard yank." })
-
 map("n", "-", "<cmd>Oil<CR>")
 map("n", "<C-g>", ":Git | only<CR>", { silent = true })
+map("n", "<S-h>", "<Cmd>vertical resize -8<CR>", { desc = "Decrease width faster" })
+map("n", "<S-l>", "<Cmd>vertical resize +8<CR>", { desc = "Increase width faster" })
 
 map("n", "<C-q>", ":copen<CR>", { silent = true })
 for i = 1, 9 do
@@ -191,18 +235,20 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 local term_win = nil
 local term_buf = nil
 
-local function toggle_term()
+-- Make it global so ftplugins can call vim.fn.toggle_term()
+_G.toggle_term = function()
 	if term_win and vim.api.nvim_win_is_valid(term_win) then
 		vim.api.nvim_win_hide(term_win)
 		term_win = nil
-		return
+		return true -- was visible → now hidden
 	end
-	if not term_buf or not vim.api.nvim_buf_is_valid(term_buf) then
-		vim.cmd("lcd %:p:h | belowright 10split | terminal")
 
+	local cwd = vim.fn.expand("%:p:h") -- use file's dir on creation (better default)
+
+	if not term_buf or not vim.api.nvim_buf_is_valid(term_buf) then
+		vim.cmd("lcd " .. vim.fn.fnameescape(cwd) .. " | belowright 10split | terminal")
 		term_buf = vim.api.nvim_get_current_buf()
 		term_win = vim.api.nvim_get_current_win()
-
 		vim.bo[term_buf].bufhidden = "hide"
 		vim.bo[term_buf].filetype = "toggleterm"
 	else
@@ -210,14 +256,9 @@ local function toggle_term()
 		term_win = vim.api.nvim_get_current_win()
 		vim.api.nvim_win_set_buf(term_win, term_buf)
 	end
+
 	vim.cmd("startinsert")
+	return true -- opened or shown
 end
 
-map({ "n", "t" }, "<C-s>", toggle_term)
-
-map('n', "<C-t>", "<CMD>FlutterLogToggle<CR><esc>")
-
-vim.keymap.set("n", "<S-h>", "<Cmd>vertical resize -8<CR>", { desc = "Decrease width faster" })
-vim.keymap.set("n", "<S-l>", "<Cmd>vertical resize +8<CR>", { desc = "Increase width faster" })
-
-
+map({ "n", "t" }, "<C-s>", _G.toggle_term)

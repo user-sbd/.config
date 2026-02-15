@@ -1,12 +1,9 @@
 #!/bin/bash
 
 
-doc_dirs=$(find ~/Documents ~/Documents/projects/learnc/ -maxdepth 3 -type d \
+doc_dirs=$(find ~/Documents ~/Documents/projects/ -maxdepth 1 -type d \
     -not -path ~/Documents \
-    -not -path "*/Image-Line*" \
     -not -path "*/.git*" \
-    -not -path "*/Mighty*" \
-    -not -path "*/REAPER Media*" \
 	)
 
 picker_dirs=$( {
@@ -15,7 +12,7 @@ picker_dirs=$( {
 } | sort -u | sed "s|^$HOME/||")
 
 # selected=$(echo "$picker_dirs" | sk --color="bw" --margin 10)
-selected=$(echo "$picker_dirs" | sk )
+selected=$(echo "$picker_dirs" | fzf --reverse --margin 3)
 
 if [ -z "$selected" ]; then
     echo "No selection made"

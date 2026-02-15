@@ -25,7 +25,6 @@ bindkey -M menuselect 'h' vi-backward-char
 bindkey -M menuselect 'k' vi-up-line-or-history
 bindkey -M menuselect 'l' vi-forward-char
 bindkey -M menuselect 'j' vi-down-line-or-history
-alias z="cd"
 alias adminer='~/bin/adminer-temp'
 alias nv="neovide"
 alias clear="clear -x"
@@ -38,7 +37,7 @@ alias rip='yt-dlp -x --audio-format mp3'
 alias fj="tmux new -s home"
 alias g='git'
 alias ff='fastfetch'
-alias data='cd /Users/nitin/.local/share/nvim/site/pack/core/opt && vim .'
+alias data='cd /Users/nitin/.local/share/nvim/site/pack/core/opt '
 alias update='brew update && brew upgrade && brew cleanup'
 # source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 export SUDO_EDITOR="nvim"
@@ -46,11 +45,11 @@ export PATH="$PATH:/Users/nitin/.local/share/bob/nightly/bin/"
 export PATH="$PATH:/Users/nitin/.cargo/bin/"
 
 export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
-  --color=fg:#d0d0d0,fg+:#d0d0d0,bg:#1F1F28,bg+:#6A9FB5
-  --color=hl:#6A9FB5,hl+:#5fd7ff,info:#6A9FB5,marker:#87ff00
-  --color=prompt:#6A9FB5,spinner:#1F1F28,pointer:#ffffff,header:#1F1F28
-  --color=gutter:#1F1F28,border:#262626,separator:#1F1F28,scrollbar:#1F1F28
-  --color=preview-scrollbar:#1F1F28,label:#aeaeae,query:#d9d9d9
+  --color=fg:#d0d0d0,fg+:#d0d0d0,bg:#141415,bg+:#262626
+  --color=hl:#FFFFFF,hl+:#5fd7ff,info:#FFFFFF,marker:#87ff00
+  --color=prompt:#FFFFFF,spinner:#141415,pointer:#ffffff,header:#141415
+  --color=gutter:#141415,border:#262626,separator:#141415,scrollbar:#141415
+  --color=preview-scrollbar:#141415,label:#aeaeae,query:#d9d9d9
   --border="rounded" --border-label="" --preview-window="border-sharp" --prompt="> "
   --marker=" " --pointer="." --separator="─" --scrollbar="│"'
 
@@ -60,7 +59,7 @@ source ~/.config/zsh/dirswitch.zsh
 
 autoload -Uz promptinit
 setopt prompt_subst
-# PROMPT=$' %F{#7393B3}%~%f%F{#D3D3FF}%B${vcs_info_msg_0_}%b%f \n λ '
+# PROMPT=$' %F{#7393B3}%~%f%F{#D3D3FF}%B${vcs_info_msg_0_}%b%f $ '
 PROMPT=$' %F{#7393B3}%~%f%F{#D3D3FF}%B${vcs_info_msg_0_}%b%f $ '
 # PROMPT=$' %F{#7393B3}%~%f%F{#D3D3FF}%B%b%f $ '
 autoload -Uz vcs_info
@@ -68,8 +67,8 @@ precmd_vcs_info() { vcs_info }
 precmd_functions+=( precmd_vcs_info )
 zstyle ':vcs_info:git:*' formats '%F{#46464a} *%b%f'
 # zstyle ':vcs_info:git:*' formats '%F{#ab4242} *%b%f'
-# zstyle ':vcs_info:git:*' formats '%F{#46464a} %b%c %f'
-zstyle ':vcs_info:git:*' check-for-changes true
+# zstyle ':vcs_info:git:*' formats '%F{#C792EA} %b%c %f'
+# zstyle ':vcs_info:git:*' check-for-changes true
 chpwd() { vcs_info }
 
 
@@ -77,7 +76,8 @@ finder() {
     open .
 }
 zle -N finder
-bindkey '^f' finder
+bindkey '^e' finder
 
-eval "$(starship init zsh)"
+# eval "$(starship init zsh)"
 
+alias z="cd"

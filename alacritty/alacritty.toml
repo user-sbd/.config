@@ -14,5 +14,9 @@ normal = {family = "ZedMono Nerd Font" }
 size = 23
 
 [colors.primary]
-background = "#1F1F28"
+background = '#141415'
 
+[[keyboard.bindings]]
+chars = "\u001Bp"
+key = "p"
+mods = "Alt"

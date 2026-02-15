@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
-CATEGORIES=("WORK" "VIM" "WASTE" "STOP")
+CATEGORIES=("STOP" "STUDY" "CODE" "LEARN")
 
 selected=$(printf '%s\n' "${CATEGORIES[@]}" \
     | fzf --reverse)
 
 [[ $? -eq 0 && -n "$selected" ]] || exit 0
 
-tmux set -g status-interval 5 2>/dev/null
+tmux set -g status-interval 1 2>/dev/null
 
 if [[ "$selected" == "STOP" ]]; then
     timew stop >/dev/null 2>&1
