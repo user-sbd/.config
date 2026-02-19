@@ -10,8 +10,6 @@ vim.pack.add({
 	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
 	{ src = "https://github.com/vague-theme/vague.nvim" },
 	{ src = "https://github.com/ibhagwan/fzf-lua" },
-	{ src = "https://github.com/vimpostor/vim-tpipeline" },
-	{ src = "https://github.com/michaelb/sniprun" },
 })
 
 local opt = vim.opt
@@ -19,6 +17,7 @@ local map = vim.keymap.set
 
 vim.cmd([[set mouse=]])
 vim.cmd([[set noswapfile]])
+opt.scrolloff = 100
 opt.winborder = "rounded"
 opt.tabstop = 2
 opt.inccommand = "split"
@@ -45,6 +44,7 @@ require("fzf-lua").setup({
 		--color=hl:#FFFFFF,hl+:#5fd7ff,info:#FFFFFF,marker:#87ff00
 		--color=prompt:#FFFFFF,spinner:#011627,pointer:#ffffff,header:#011627
 		--color=gutter:#011627,border:#262626,separator:#011627,scrollbar:#011627
+		--hello how are you guys doing on this day
 		--color=preview-scrollbar:#011627,label:#aeaeae,query:#d9d9d9
 		--border="rounded" --border-label="" --preview-window="border-sharp" --prompt="> "
 		--marker=" " --pointer="." --separator="─" --scrollbar="│"
@@ -92,19 +92,6 @@ require("flutter-tools").setup {
 	}
 }
 
-require 'sniprun'.setup({
-	display = { "VirtualTextOk", },
-	live_display = { "VirtualLine" }, --# display mode used in live_mode
-	cwd = '.',
-	snipruncolors = {
-		SniprunVirtualTextOk  = { bg = "#967aeb", fg = "#FFFFFF", ctermbg = "Cyan", ctermfg = "Yellow" },
-		SniprunFloatingWinOk  = { fg = "NONE", ctermfg = "Cyan" },
-		SniprunVirtualTextErr = { bg = "#967aeb", fg = "#FFFFFF", ctermbg = "DarkRed", ctermfg = "Yellow" },
-		SniprunFloatingWinErr = { fg = "NONE", ctermfg = "DarkRed", bold = true },
-	},
-	live_mode_toggle = 'off',
-})
-
 require('nvim-treesitter').setup {
 	install_dir = vim.fn.stdpath('data') .. '/site',
 	ensure_installed = { "typescript", "css", "javascript", "svelte", "html" },
@@ -149,7 +136,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 vim.lsp.enable({
 	"rust_analyzer", "clangd", "ruff",
 	"intelephense", "tailwindcss", "ts_ls",
-	"emmet_language_server", "emmet_ls", "zls",
+	"emmet-language-server", "zls",
 	"marksman", "bashls", "lua_ls",
 	"cssls", "svelte", "tinymist",
 	"basedpyright",
@@ -167,18 +154,7 @@ vim.cmd("hi WinSeparator guifg=NONE guibg=NONE")
 vim.cmd("hi QuickFixLine guifg = #7AA2F7")
 vim.cmd("hi Pmenu guibg=NONE")
 vim.cmd("hi PmenuBorder guibg=NONE")
-vim.cmd("hi ColorColumn guibg=NONE")
 vim.cmd("hi LineNr guibg=NONE")
-
-map('n', '<leader>s', function()
-	vim.bo.buftype = nofile
-	vim.bo.bufhidden = hide
-end, { desc = "Eval selection" })
-
-map('v', '<leader>e', '<CMD>SnipRun<CR>', { desc = "Eval selection" })
-map('n', '<leader>e', '<CMD>SnipRunOperator<CR>', { desc = "Eval motion" })
-map('n', '<leader>ee', '<CMD>SnipRun<CR>', { desc = "Eval line" })
-map('n', '<leader>es', '<CMD>SnipClose<CR>', { desc = "Eval line" })
 
 map("n", "<leader>f", ":FzfLua files<CR>", { silent = true })
 map("n", "<leader>b", ":FzfLua buffers<CR>", { silent = true })
@@ -225,40 +201,84 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
 	end,
 })
 
-
 vim.api.nvim_create_autocmd("TextYankPost", {
 	callback = function()
 		vim.highlight.on_yank()
 	end,
 })
 
+-- ~/.config/nvim/init.lua or after/plugin/terminal.lua
 local term_win = nil
 local term_buf = nil
+local term_job_id = nil
 
--- Make it global so ftplugins can call vim.fn.toggle_term()
 _G.toggle_term = function()
+	-- If terminal window exists and is valid, close it
 	if term_win and vim.api.nvim_win_is_valid(term_win) then
 		vim.api.nvim_win_hide(term_win)
 		term_win = nil
-		return true -- was visible → now hidden
+		return
 	end
 
-	local cwd = vim.fn.expand("%:p:h") -- use file's dir on creation (better default)
+	-- Get current directory (with Oil support)
+	local cwd
+	if vim.bo.filetype == "oil" or vim.b.oil then
+		cwd = require("oil").get_current_dir(0)
+	else
+		cwd = vim.fn.expand("%:p:h")
+	end
+
+	if not cwd or cwd == "" then
+		cwd = vim.fn.getcwd()
+	end
 
 	if not term_buf or not vim.api.nvim_buf_is_valid(term_buf) then
-		vim.cmd("lcd " .. vim.fn.fnameescape(cwd) .. " | belowright 10split | terminal")
+		vim.cmd("belowright 10split | terminal")
 		term_buf = vim.api.nvim_get_current_buf()
 		term_win = vim.api.nvim_get_current_win()
+		term_job_id = vim.b.terminal_job_id
 		vim.bo[term_buf].bufhidden = "hide"
 		vim.bo[term_buf].filetype = "toggleterm"
+		vim.api.nvim_create_autocmd("BufDelete", {
+			buffer = term_buf,
+			callback = function()
+				term_buf = nil
+				term_win = nil
+				term_job_id = nil
+			end,
+			once = true
+		})
 	else
 		vim.cmd("belowright 10split")
 		term_win = vim.api.nvim_get_current_win()
 		vim.api.nvim_win_set_buf(term_win, term_buf)
 	end
-
+	vim.fn.chdir(cwd)
+	if term_job_id and vim.fn.jobwait({ term_job_id }, 0) == -1 then
+		vim.fn.chansend(term_job_id, "cd " .. vim.fn.fnameescape(cwd) .. "\n")
+	end
 	vim.cmd("startinsert")
-	return true -- opened or shown
 end
 
-map({ "n", "t" }, "<C-s>", _G.toggle_term)
+_G.run_in_terminal = function(cmd)
+	vim.cmd("write")
+	_G.toggle_term()
+	vim.defer_fn(function()
+		if term_job_id and vim.fn.jobwait({ term_job_id }, 0) == -1 then
+			vim.fn.chansend(term_job_id, cmd .. "\n")
+		else
+			vim.api.nvim_feedkeys(cmd .. "\r", "t", false)
+		end
+		vim.cmd("startinsert")
+	end, 50)
+end
+vim.keymap.set({ "n", "t" }, "<C-s>", _G.toggle_term, { desc = "Toggle terminal" })
+vim.keymap.set("n", "<leader>m", function()
+	local cmd = vim.b.run_command
+	if cmd then
+		_G.run_in_terminal(cmd)
+	else
+		vim.notify("No run command for " .. vim.bo.filetype, vim.log.levels.WARN)
+	end
+end, { desc = "Run current file" })
+

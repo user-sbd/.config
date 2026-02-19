@@ -1,5 +1,17 @@
 {
   "plugins": {
+    "betterTerm.nvim": {
+      "rev": "4467d8ab75a0133325eeb6224f20e6813256f5a3",
+      "src": "https://github.com/CRAG666/betterTerm.nvim"
+    },
+    "code_runner.nvim": {
+      "rev": "3be33a8d4ce36e453fc09258c9093f9ecf452964",
+      "src": "https://github.com/CRAG666/code_runner.nvim"
+    },
+    "compiler.nvim": {
+      "rev": "c09ab4e795b92378727d7377c03b0d5c2453957c",
+      "src": "https://github.com/Zeioth/compiler.nvim"
+    },
     "flutter-tools.nvim": {
       "rev": "677cc07c16e8b89999108d2ebeefcfc5f539b73c",
       "src": "https://github.com/nvim-flutter/flutter-tools.nvim"
@@ -43,6 +55,10 @@
     "tmux-status.nvim": {
       "rev": "d985ba67132269dedc9a5f6479f2d40f10e06315",
       "src": "https://github.com/christopher-francisco/tmux-status.nvim"
+    },
+    "transparent.nvim": {
+      "rev": "8ac59883de84e9cd1850ea25cf087031c5ba7d54",
+      "src": "https://github.com/xiyaowong/transparent.nvim"
     },
     "typst-preview.nvim": {
       "rev": "bf5d5eaf23bbfcca9f98a24ed29bd084abf89bf2",

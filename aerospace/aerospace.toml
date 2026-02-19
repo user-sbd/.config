@@ -4,6 +4,10 @@ enable-normalization-flatten-containers = false
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 start-at-login = true
 
+exec-on-workspace-change = [
+  'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
+]
+
 [mode.main.binding]
 alt-o = 'exec-and-forget ~/.config/scripts/choos.sh'
 alt-h = 'focus --boundaries-action wrap-around-the-workspace left'

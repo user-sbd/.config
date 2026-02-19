@@ -1,7 +1,6 @@
 [window]
 decorations = "none"
 dynamic_padding = true
-option_as_alt = "Both"   # or "OnlyLeft" / "OnlyRight" if you want to preserve compose on one side
 # blur = true
 # opacity = 0.8
 
@@ -16,7 +15,4 @@ size = 23
 [colors.primary]
 background = '#141415'
 
-[[keyboard.bindings]]
-chars = "\u001Bp"
-key = "p"
-mods = "Alt"
+
