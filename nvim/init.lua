@@ -17,7 +17,6 @@ local map = vim.keymap.set
 
 vim.cmd([[set mouse=]])
 vim.cmd([[set noswapfile]])
-opt.scrolloff = 100
 opt.winborder = "rounded"
 opt.tabstop = 2
 opt.inccommand = "split"
@@ -157,6 +156,7 @@ vim.cmd("hi PmenuBorder guibg=NONE")
 vim.cmd("hi LineNr guibg=NONE")
 
 map("n", "<leader>f", ":FzfLua files<CR>", { silent = true })
+map("n", "<C-f>", ":FzfLua files<CR>", { silent = true })
 map("n", "<leader>b", ":FzfLua buffers<CR>", { silent = true })
 map("n", "<leader>o", ":FzfLua oldfiles<CR>", { silent = true })
 map("n", "<leader>h", ":FzfLua helptags<CR>", { silent = true })
