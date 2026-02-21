@@ -1,6 +1,9 @@
 font-family = "Iosevka NFM SemiBold"
 adjust-cell-height = 2%
 font-size = 23
+cursor-style = block
+cursor-style-blink = false
+shell-integration-features = no-cursor
 desktop-notifications = false
 link-url = false
 confirm-close-surface = false
