@@ -7,6 +7,10 @@ start-at-login = true
 exec-on-workspace-change = [
   'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
 ]
+# Trigger Sketchybar updates on workspace changes
+exec-on-workspace-change = ["~/.config/sketchybar/scripts/aerospace_listener.sh workspace_change '{0}'"]
+exec-on-window-created = ["~/.config/sketchybar/scripts/aerospace_listener.sh window_created"]
+exec-on-window-closed = ["~/.config/sketchybar/scripts/aerospace_listener.sh window_destroyed"]
 
 [mode.main.binding]
 alt-o = 'exec-and-forget ~/.config/scripts/choos.sh'

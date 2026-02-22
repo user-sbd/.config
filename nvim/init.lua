@@ -43,7 +43,6 @@ require("fzf-lua").setup({
 		--color=hl:#FFFFFF,hl+:#5fd7ff,info:#FFFFFF,marker:#87ff00
 		--color=prompt:#FFFFFF,spinner:#011627,pointer:#ffffff,header:#011627
 		--color=gutter:#011627,border:#262626,separator:#011627,scrollbar:#011627
-		--hello how are you guys doing on this day
 		--color=preview-scrollbar:#011627,label:#aeaeae,query:#d9d9d9
 		--border="rounded" --border-label="" --preview-window="border-sharp" --prompt="> "
 		--marker=" " --pointer="." --separator="─" --scrollbar="│"
@@ -154,6 +153,7 @@ vim.cmd("hi QuickFixLine guifg = #7AA2F7")
 vim.cmd("hi Pmenu guibg=NONE")
 vim.cmd("hi PmenuBorder guibg=NONE")
 vim.cmd("hi LineNr guibg=NONE")
+vim.cmd("hi FugitiveHeader guibg=#515357 guifg=#81A2BE")
 
 map("n", "<leader>f", ":FzfLua files<CR>", { silent = true })
 map("n", "<C-f>", ":FzfLua files<CR>", { silent = true })
@@ -207,7 +207,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 })
 
--- ~/.config/nvim/init.lua or after/plugin/terminal.lua
 local term_win = nil
 local term_buf = nil
 local term_job_id = nil

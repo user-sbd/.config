@@ -81,3 +81,4 @@ bindkey '^e' finder
 # eval "$(starship init zsh)"
 
 alias z="cd"
+
