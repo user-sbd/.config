@@ -76,6 +76,10 @@
       "rev": "61b51c09b7c9ce04e821f6cf76ea4f6f903e3cf4",
       "src": "https://github.com/tpope/vim-fugitive"
     },
+    "vim-plist": {
+      "rev": "aa781a387c70a9ea30cbce8da988e19693f5aaec",
+      "src": "https://github.com/darfink/vim-plist"
+    },
     "vim-svelte-plugin": {
       "rev": "f80ff67a94e3ac279fe55ecdf55ad7342f4a5228",
       "src": "https://github.com/leafOfTree/vim-svelte-plugin"
