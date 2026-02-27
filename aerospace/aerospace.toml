@@ -4,13 +4,9 @@ enable-normalization-flatten-containers = false
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 start-at-login = true
 
-exec-on-workspace-change = [
-  'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
+exec-on-workspace-change = ['/bin/bash', '-c',
+    'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
 ]
-# Trigger Sketchybar updates on workspace changes
-exec-on-workspace-change = ["~/.config/sketchybar/scripts/aerospace_listener.sh workspace_change '{0}'"]
-exec-on-window-created = ["~/.config/sketchybar/scripts/aerospace_listener.sh window_created"]
-exec-on-window-closed = ["~/.config/sketchybar/scripts/aerospace_listener.sh window_destroyed"]
 
 [mode.main.binding]
 alt-o = 'exec-and-forget ~/.config/scripts/choos.sh'
@@ -63,6 +59,17 @@ if.app-id = 'com.apple.QuickTimePlayerX'
 run = ['layout floating']
 
 [[on-window-detected]]
+if.app-id = 'org.mozilla.firefox'
+run = 'move-node-to-workspace 2'
+
+[[on-window-detected]]
+if.app-id = 'com.mitchellh.ghostty'
+run = 'move-node-to-workspace 1'
+
+[[on-window-detected]]
+if.app-id = 'com.spotify.client'
+run = 'move-node-to-workspace 3'
+
+[[on-window-detected]]
 if.app-id = 'com.hnc.Discord'
 run = 'move-node-to-workspace 4'
-

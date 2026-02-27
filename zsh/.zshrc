@@ -10,6 +10,7 @@ export HISTIGNORE="ls:ll:la:cd:pwd:exit:clear:history:v:vim:nvim:sk:fj:gs:ga:gc:
 export EDITOR="nvim"
 export JAVA_HOME=$(/usr/libexec/java_home -v 17)
 export PATH="$JAVA_HOME/bin:$PATH"
+export PATH=$PATH:$HOME/Documents/zk/bin
 export MANPAGER="nvim +Man!"
 export SUDO_EDITOR=nvim
 setopt autocd

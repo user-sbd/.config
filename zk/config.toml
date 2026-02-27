@@ -1,0 +1,7 @@
+[notebook]
+dir = "~/Documents/vault"
+template = "Documents/vault/templates/default.md"
+
+[tools]
+editor = "nvim"
+

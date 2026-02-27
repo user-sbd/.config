@@ -1,0 +1,23 @@
+set databse sqlite
+
+set adjust-open "best-fit"
+set statusbar-home-tilde
+
+set pages-per-row 1
+
+set scroll-page-aware "true"
+set smooth-scroll "true"
+set scroll-full-overlap 0.01
+set scroll-step 20
+
+#zoom settings
+set zoom-min 10
+set guioptions ""
+
+# zathurarc-dark
+
+# set font "ZedMono Nerd Font15"
+set font "Monospace 34"
+unmap f
+map f toggle_fullscreen
+map [fullscreen] f toggle_fullscreen
