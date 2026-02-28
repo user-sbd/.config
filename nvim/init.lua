@@ -2,29 +2,25 @@ vim.pack.add({
 	{ src = "https://github.com/stevearc/oil.nvim" },
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{ src = "https://github.com/mason-org/mason.nvim" },
-	{ src = "https://github.com/vague-theme/vague.nvim" },
 	{ src = "https://github.com/tpope/vim-fugitive" },
 	{ src = "https://github.com/nvim-lua/plenary.nvim" },
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
-	{ src = "https://github.com/nvim-telescope/telescope.nvim" },
-	{ src = "https://github.com/nvim-telescope/telescope-fzy-native.nvim" },
-	{ src = "https://github.com/nvim-telescope/telescope-file-browser.nvim" },
 	{ src = "https://github.com/nvim-flutter/flutter-tools.nvim" },
-	{ src = "https://github.com/L3MON4D3/LuaSnip" },
 	{ src = "https://github.com/leafOfTree/vim-svelte-plugin" },
-	{ src = "https://github.com/darfink/vim-plist" },
+	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
+	{ src = "https://github.com/vague-theme/vague.nvim" },
+	{ src = "https://github.com/ibhagwan/fzf-lua" },
+	{ src = "https://github.com/L3MON4D3/LuaSnip" },
 })
 
 local opt = vim.opt
 local map = vim.keymap.set
-local builtin = require("telescope.builtin")
 
 vim.cmd([[set mouse=]])
 vim.cmd([[set noswapfile]])
 opt.winborder = "rounded"
 opt.tabstop = 2
 opt.inccommand = "split"
-opt.showtabline = 0
 opt.shiftwidth = 2
 opt.cmdheight = 1
 opt.signcolumn = "yes:1"
@@ -42,6 +38,49 @@ opt.pumborder = "rounded"
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
+require("fzf-lua").setup({
+	fzf_args = {
+		--color=fg:#d0d0d0,fg+:#d0d0d0,bg:#011627,bg+:#262626
+		--color=hl:#FFFFFF,hl+:#5fd7ff,info:#FFFFFF,marker:#87ff00
+		--color=prompt:#FFFFFF,spinner:#011627,pointer:#ffffff,header:#011627
+		--color=gutter:#011627,border:#262626,separator:#011627,scrollbar:#011627
+		--color=preview-scrollbar:#011627,label:#aeaeae,query:#d9d9d9
+		--border="rounded" --border-label="" --preview-window="border-sharp" --prompt="> "
+		--marker=" " --pointer="." --separator="─" --scrollbar="│"
+	},
+	fzf_opts = {
+		["--ansi"] = true,
+		["--info"] = "inline-right",
+		["--height"] = "100%",
+		["--border"] = "none",
+	},
+	winopts = {
+		title_flags = false,
+		height = 15,
+		width = 50,
+		row = 1,
+		col = 0,
+		border = { " ", " ", " ", " ", " ", " ", " ", " " },
+		fullscreen = true,
+		preview = {
+			border = { "", "", "", "", "", "", "", "" },
+			horizontal = "right:40%",
+			layout = "horizontal",
+		},
+	},
+	actions = {
+		files = {
+			["enter"]  = require("fzf-lua.actions").file_edit_or_qf,
+			["ctrl-v"] = require("fzf-lua.actions").file_vsplit,
+			["ctrl-q"] = require("fzf-lua.actions").file_sel_to_qf,
+		},
+	},
+	files = { prompt = "> ", title = "f" },
+	oldfiles = { prompt = "> " },
+	previewers = { bat = true },
+	file_icon_padding = "",
+})
+
 require("flutter-tools").setup {
 	dev_log = {
 		enabled = true,
@@ -51,79 +90,6 @@ require("flutter-tools").setup {
 		focus_on_open = false,
 	}
 }
-
-local fb_actions = require "telescope._extensions.file_browser.actions"
-local telescope = require("telescope")
-telescope.setup({
-	extensions = {
-		fzf = {
-			fuzzy = true,
-			override_generic_sorter = true,
-			override_file_sorter = true,
-			case_mode = "smart_case",
-		},
-		file_browser = {
-      files = true,
-      add_dirs = true,
-      depth = 1,
-      hidden = { file_browser = false, folder_browser = false },
-      hide_parent_dir = false,
-      collapse_dirs = false,
-      prompt_path = false,
-      quiet = false,
-      dir_icon = "",
-      display_stat = { date = false, size = true, mode = false },
-      hijack_netrw = false,
-      git_status = true,
-      mappings = {
-        ["i"] = {
-          ["<A-c>"] = fb_actions.create,
-          ["<S-CR>"] = fb_actions.create_from_prompt,
-          ["<A-r>"] = fb_actions.rename,
-          ["<A-m>"] = fb_actions.move,
-          ["<A-y>"] = fb_actions.copy,
-          ["<A-d>"] = fb_actions.remove,
-          ["<C-o>"] = fb_actions.open,
-          ["<C-g>"] = fb_actions.goto_parent_dir,
-          ["<C-e>"] = fb_actions.goto_home_dir,
-          ["<C-w>"] = fb_actions.goto_cwd,
-          ["<C-t>"] = fb_actions.change_cwd,
-          ["<C-f>"] = fb_actions.toggle_browser,
-          ["<C-h>"] = fb_actions.toggle_hidden,
-          ["<C-s>"] = fb_actions.toggle_all,
-          ["<bs>"] = fb_actions.backspace,
-        },
-        ["n"] = {
-          ["c"] = fb_actions.create,
-          ["r"] = fb_actions.rename,
-          ["m"] = fb_actions.move,
-          ["y"] = fb_actions.copy,
-          ["d"] = fb_actions.remove,
-          ["o"] = fb_actions.open,
-          ["-"] = fb_actions.goto_parent_dir,
-          ["e"] = fb_actions.goto_home_dir,
-          ["w"] = fb_actions.goto_cwd,
-          ["t"] = fb_actions.change_cwd,
-        },
-      },
-    }
-	},
-	defaults = {
-		preview = { treesitter = true },
-		color_devicons = true,
-		sorting_strategy = "ascending",
-		borderchars = { "", "", "", "", "", "", "", "", },
-		path_displays = { "smart" },
-		layout_config = {
-			height = 100,
-			width = 400,
-			prompt_position = "top",
-			preview_cutoff = 40,
-		}
-	}
-})
-require("telescope").load_extension "file_browser"
-require('telescope').load_extension('fzy_native')
 
 require('nvim-treesitter').setup {
 	install_dir = vim.fn.stdpath('data') .. '/site',
@@ -145,7 +111,8 @@ require("oil").setup({
 	delete_to_trash = true,
 	skip_confirm_for_simple_edits = true,
 	constrain_cursor = "editable",
-	use_default_keymaps = true,
+	keymaps = { ['<C-s>'] = false },
+
 })
 
 require("mason").setup()
@@ -168,7 +135,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 vim.lsp.enable({
 	"rust_analyzer", "clangd", "ruff",
 	"intelephense", "tailwindcss", "ts_ls",
-	"emmet_language_server", "emmet_ls", "zls",
+	"emmet-language-server", "zls",
 	"marksman", "bashls", "lua_ls",
 	"cssls", "svelte", "tinymist",
 	"basedpyright",
@@ -186,6 +153,8 @@ vim.cmd("hi WinSeparator guifg=NONE guibg=NONE")
 vim.cmd("hi QuickFixLine guifg = #7AA2F7")
 vim.cmd("hi Pmenu guibg=NONE")
 vim.cmd("hi PmenuBorder guibg=NONE")
+vim.cmd("hi LineNr guibg=NONE")
+vim.cmd("hi FugitiveHeader guibg=#515357 guifg=#81A2BE")
 
 require("luasnip").setup({ enable_autosnippets = true })
 require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/snippets/" })
@@ -195,16 +164,14 @@ map({ "i", "s" }, "<C-e>", function() ls.expand_or_jump(1) end, { silent = true 
 map({ "i", "s" }, "<C-J>", function() ls.jump(1) end, { silent = true })
 map({ "i", "s" }, "<C-K>", function() ls.jump(-1) end, { silent = true })
 
-map("n", "<leader>f", builtin.find_files, { desc = "Telescope live grep" })
-map("n", "<leader>e", "<CMD>Telescope file_browser<CR><esc>", { desc = "Telescope live grep" })
-map({ "n", "i" }, "<C-f>", builtin.find_files)
-map("n", "<leader>g", builtin.live_grep)
-map("n", "<leader>o", builtin.oldfiles)
-map("n", "<leader>h", builtin.help_tags)
-map("n", "<leader>sm", builtin.man_pages)
-map("n", "<leader>b", builtin.buffers)
-map({ "n" }, "<leader>st", builtin.builtin)
-map('n', '<leader>c', function() require('telescope.builtin').find_files({ cwd = vim.fn.expand('~/.config') }) end)
+map("n", "<leader>f", ":FzfLua files<CR>", { silent = true })
+map("n", "<C-f>", ":FzfLua files<CR>", { silent = true })
+map("n", "<leader>b", ":FzfLua buffers<CR>", { silent = true })
+map("n", "<leader>o", ":FzfLua oldfiles<CR>", { silent = true })
+map("n", "<leader>h", ":FzfLua helptags<CR>", { silent = true })
+map("n", "<leader>g", ":FzfLua live_grep<CR>", { silent = true })
+map("n", "<leader>t", ":FzfLua colorschemes<CR>", { silent = true })
+map("n", "<leader>c", ":FzfLua files cwd=~/.config<CR>", { silent = true })
 
 map("t", "<Esc>", [[<C-\><C-n>]], { noremap = true, silent = true })
 map({ "n", "v", "x" }, "<leader>v", "<Cmd>edit $MYVIMRC<CR>", { desc = "Edit " .. vim.fn.expand("$MYVIMRC") })
@@ -213,9 +180,10 @@ map({ "n", "v", "x" }, "<leader>z", "<Cmd>e ~/.zshrc<CR>", { desc = "Edit .zshrc
 map({ "n", "v", "x" }, "<leader>n", ":norm ")
 map({ "n", "v", "x" }, "<leader>lf", vim.lsp.buf.format, { desc = "Format current buffer" })
 map({ "v", "x", "n" }, "<C-y>", '"+y', { desc = "System clipboard yank." })
-
 map("n", "-", "<cmd>Oil<CR>")
 map("n", "<C-g>", ":Git | only<CR>", { silent = true })
+map("n", "<S-h>", "<Cmd>vertical resize -8<CR>", { desc = "Decrease width faster" })
+map("n", "<S-l>", "<Cmd>vertical resize +8<CR>", { desc = "Increase width faster" })
 
 map("n", "<C-q>", ":copen<CR>", { silent = true })
 for i = 1, 9 do
@@ -242,7 +210,6 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
 	end,
 })
 
-
 vim.api.nvim_create_autocmd("TextYankPost", {
 	callback = function()
 		vim.highlight.on_yank()
@@ -259,7 +226,6 @@ _G.toggle_term = function()
 		term_win = nil
 		return
 	end
-
 	local cwd
 	if vim.bo.filetype == "oil" or vim.b.oil then
 		cwd = require("oil").get_current_dir(0)
@@ -310,7 +276,6 @@ _G.run_in_terminal = function(cmd)
 	end, 50)
 end
 vim.keymap.set({ "n", "t" }, "<C-s>", _G.toggle_term, { desc = "Toggle terminal" })
-
 vim.keymap.set("n", "<leader>m", function()
 	local cmd = vim.b.run_command
 	if cmd then
@@ -318,33 +283,5 @@ vim.keymap.set("n", "<leader>m", function()
 	else
 		vim.notify("No run command for " .. vim.bo.filetype, vim.log.levels.WARN)
 	end
-end)
+end, { desc = "Run current file" })
 
-local function wget_in_proper_dir(args)
-	local dir
-	if vim.bo.filetype == "oil" then
-		local ok, oil = pcall(require, "oil")
-		if ok then
-			dir = oil.get_current_dir(0)
-		end
-	end
-	if not dir or dir == "" then
-		dir = vim.fn.expand("%:p:h")
-		if dir == "" or dir == "." then
-			dir = vim.fn.getcwd()
-		end
-	end
-	vim.notify("wget → " .. dir, vim.log.levels.INFO)
-	local safe_dir = vim.fn.shellescape(dir)
-	vim.cmd("!wget -P " .. safe_dir .. " " .. args)
-end
-vim.api.nvim_create_user_command("Wget", function(opts)
-	wget_in_proper_dir(opts.args)
-end, {
-	nargs = "+",
-	desc = "wget with explicit dir (file / oil / fallback)",
-})
-vim.cmd('cabbrev wget Wget')
-
-vim.keymap.set("n", "<S-h>", "<Cmd>vertical resize -8<CR>", { desc = "Decrease width faster" })
-vim.keymap.set("n", "<S-l>", "<Cmd>vertical resize +8<CR>", { desc = "Increase width faster" })

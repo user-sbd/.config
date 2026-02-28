@@ -6,3 +6,4 @@ return {
 	s("mail", t("him.nitin@icloud.com")),
 	s("gh", t("github.com/user-sbd")),
 }
+

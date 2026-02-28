@@ -28,6 +28,7 @@ bindkey -M menuselect 'l' vi-forward-char
 bindkey -M menuselect 'j' vi-down-line-or-history
 alias adminer='~/bin/adminer-temp'
 alias nv="neovide"
+alias im="nvim"
 alias clear="clear -x"
 alias vim="nvim"
 alias v="nvim"
