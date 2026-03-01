@@ -10,8 +10,7 @@ vim.pack.add({
 	{ src = "https://github.com/leafOfTree/vim-svelte-plugin" },
 	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
 	{ src = "https://github.com/ibhagwan/fzf-lua" },
-	-- { src = "https://github.com/tpope/vim-fugitive" },
-	{ src = "https://github.com/suvasanket/oz.nvim" },
+	{ src = "https://github.com/tpope/vim-fugitive" },
 	{ src = "https://github.com/L3MON4D3/LuaSnip" },
 })
 
@@ -287,51 +286,3 @@ vim.keymap.set("n", "<leader>m", function()
 	end
 end)
 
-require("oz").setup({
-    -- Git
-    oz_git = {
-        win_type = "bot",
-        mappings = { -- oz_git universal mappings
-            toggle_pick = "<C-P>",
-            unpick_all = "<C-S-P>",
-        },
-    },
-
-    -- Term
-   oz_term = {
-        efm = { "%f:%l:%c: %trror: %m" }, -- strings of errorformats
-        root_prefix = "@", -- char to specify command to run in project root
-    },
-
-    -- Make
-    oz_make = {
-        override_make = false, -- override the default :make
-        autosave_makeprg = true, -- auto save all the project scoped makeprg(:set makeprg=<cmd>)
-        transient_mappings = { -- only unlocks during the execution
-            kill_job = "<C-x>",
-            toggle_output = "<C-d>",
-        },
-        -- vim.opt.makeprg can be used to set custom make program
-    },
-
-    -- Grep
-    oz_grep = {
-        override_grep = true, -- override the default :grep
-        -- vim.opt.grepprg can be used to set custom grep program
-    },
-
-    integration = {
-    -- oil integration
-        oil = {
-            entry_exec = {
-                method = "term", -- |background, term|
-                use_fullpath = true, -- false: only file or dir name will be used
-                tail_prefix = ":", -- split LHS RHS
-            },
-            mappings = {
-                entry_exec = "<C-G>",
-                show_keybinds = "g?", -- override existing g?
-            },
-        },
-    },
-})
