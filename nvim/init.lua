@@ -2,14 +2,15 @@ vim.pack.add({
 	{ src = "https://github.com/stevearc/oil.nvim" },
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{ src = "https://github.com/mason-org/mason.nvim" },
-	{ src = "https://github.com/tpope/vim-fugitive" },
 	{ src = "https://github.com/nvim-lua/plenary.nvim" },
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
+	{ src = "https://github.com/vague-theme/vague.nvim" },
+	{ src = "https://github.com/blazkowolf/gruber-darker.nvim" },
 	{ src = "https://github.com/nvim-flutter/flutter-tools.nvim" },
 	{ src = "https://github.com/leafOfTree/vim-svelte-plugin" },
 	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
-	{ src = "https://github.com/vague-theme/vague.nvim" },
 	{ src = "https://github.com/ibhagwan/fzf-lua" },
+	{ src = "https://github.com/tpope/vim-fugitive" },
 	{ src = "https://github.com/L3MON4D3/LuaSnip" },
 })
 
@@ -283,5 +284,4 @@ vim.keymap.set("n", "<leader>m", function()
 	else
 		vim.notify("No run command for " .. vim.bo.filetype, vim.log.levels.WARN)
 	end
-end, { desc = "Run current file" })
-
+end)
