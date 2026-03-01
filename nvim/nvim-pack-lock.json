@@ -40,6 +40,10 @@
       "rev": "0fcc83805ad11cf714a949c98c605ed717e0b83e",
       "src": "https://github.com/stevearc/oil.nvim"
     },
+    "oz.nvim": {
+      "rev": "681a051f25fe09f7509690a8877e85549c152315",
+      "src": "https://github.com/suvasanket/oz.nvim"
+    },
     "peek.nvim": {
       "rev": "5820d937d5414baea5f586dc2a3d912a74636e5b",
       "src": "https://github.com/toppair/peek.nvim"
