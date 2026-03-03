@@ -5,7 +5,7 @@ pdf_dir="$HOME/Documents/pdfs"
 selected=$(find "$pdf_dir" -type f -maxdepth 1 -iname '*.pdf' 2>/dev/null \
     | sort \
     | xargs -n 1 basename -s .pdf \
-    | choose -n 5 -w 60 -s 45 -u)
+    | choose )
 
 [ -z "$selected" ] && exit 0
 

@@ -14,5 +14,5 @@ if [[ "$selected" == "STOP" ]]; then
 		tmux set -g status-right ""
 else
     timew start "$selected" >/dev/null 2>&1
-		tmux set -g status-right "$selected #(timew | awk '/^ *Total/ {print \$NF}')"
+		tmux source-file ~/.config/tmux/tmux.conf
 fi

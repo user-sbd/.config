@@ -31,7 +31,6 @@ opt.smartindent = true
 opt.termguicolors = true
 opt.undofile = true
 opt.number = true
-opt.relativenumber = true
 opt.guicursor = ""
 opt.statusline = "[%n] %<%f %w%m%r%=%-14.(%l,%c%V%) "
 opt.winborder = "rounded"
@@ -69,14 +68,17 @@ require("fzf-lua").setup({
 			layout = "horizontal",
 		},
 	},
-	actions = {
-		files = {
+	files = {
+		prompt = "> ", title = "f" ,
+		cwd_prompt    = false,
+		color_icons = true,
+		absolute_path = false,
+		actions = {
 			["enter"]  = require("fzf-lua.actions").file_edit_or_qf,
 			["ctrl-v"] = require("fzf-lua.actions").file_vsplit,
 			["ctrl-q"] = require("fzf-lua.actions").file_sel_to_qf,
-		},
+			},
 	},
-	files = { prompt = "> ", title = "f" },
 	oldfiles = { prompt = "> " },
 	previewers = { bat = true },
 	file_icon_padding = "",
@@ -90,6 +92,10 @@ require("flutter-tools").setup {
 		open_cmd = "10split",
 		focus_on_open = false,
 	}
+}
+
+require 'typst-preview'.setup {
+	invert_colors = 'always',
 }
 
 require('nvim-treesitter').setup {
@@ -286,4 +292,28 @@ vim.keymap.set("n", "<leader>m", function()
 	end
 end)
 
-
+local function wget_in_proper_dir(args)
+	local dir
+	if vim.bo.filetype == "oil" then
+		local ok, oil = pcall(require, "oil")
+		if ok then
+			dir = oil.get_current_dir(0)
+		end
+	end
+	if not dir or dir == "" then
+		dir = vim.fn.expand("%:p:h")
+		if dir == "" or dir == "." then
+			dir = vim.fn.getcwd()
+		end
+	end
+	vim.notify("wget → " .. dir, vim.log.levels.INFO)
+	local safe_dir = vim.fn.shellescape(dir)
+	vim.cmd("!wget -P " .. safe_dir .. " " .. args)
+end
+vim.api.nvim_create_user_command("Wget", function(opts)
+	wget_in_proper_dir(opts.args)
+end, {
+	nargs = "+",
+	desc = "wget with explicit dir (file / oil / fallback)",
+})
+vim.cmd('cabbrev wget Wget')

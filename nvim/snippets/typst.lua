@@ -1,12 +1,14 @@
 ---@diagnostic disable: undefined-global
 
 return {
-  -- math modes
   s({ trig = "mt", snippetType = "autosnippet" },
     fmta("$<>$ ", { i(1) })
   ),
   s({ trig = "mmt", snippetType = "autosnippet" },
     fmta("$ <> $ ", { i(1) })
+  ),
+  s({ trig = "sc" },
+    fmta("#smallcaps[<>]", { i(1) })
   ),
   s({ trig = "i" },
     fmt("==>", {})
@@ -32,5 +34,6 @@ Inductive Step: Suppose now as inductive hypothesis that $<>$. Then since <>
 #let <> = (<>) = {
 <>
 }]], { i(1), i(2), i(3) })
-  ),}
+  ),
+}
 

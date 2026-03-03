@@ -41,6 +41,7 @@ alias g='git'
 alias ff='fastfetch'
 alias data='cd /Users/nitin/.local/share/nvim/site/pack/core/opt '
 alias update='brew update && brew upgrade && brew cleanup'
+alias gem="ollama run gemma3:latest"
 # source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 export SUDO_EDITOR="nvim"
 export PATH="$PATH:/Users/nitin/.local/share/bob/nightly/bin/"

@@ -1,23 +1,47 @@
-set databse sqlite
+# # Zathura configuration file
+# # See man `man zathurarc'
+#
+#
+# # One page per row by default
+# set pages-per-row 1
+#
+# #stop at page boundries
+# set scroll-page-aware "true"
+# set scroll-full-overlap 0.01
+# set scroll-step 0.01
+#
+# # maps
+# map r reload
+# map p print
+# map i recolor
+# map J zoom out
+# map K zoom in
+# map R rotate
+#
+#
+# #zoom settings
+# set zoom-min 10
+# set guioptions ""
+#
+
+# Zathura configuration file
+# See man `man zathurarc'
 
 set adjust-open "best-fit"
-set statusbar-home-tilde
 
 set pages-per-row 1
 
+#stop at page boundries
 set scroll-page-aware "true"
-set smooth-scroll "true"
 set scroll-full-overlap 0.01
-set scroll-step 20
+set scroll-step 100
 
 #zoom settings
 set zoom-min 10
 set guioptions ""
 
-# zathurarc-dark
-
-# set font "ZedMono Nerd Font15"
-set font "Monospace 34"
+set render-loading "false"
+set scroll-step 50
 unmap f
 map f toggle_fullscreen
 map [fullscreen] f toggle_fullscreen
