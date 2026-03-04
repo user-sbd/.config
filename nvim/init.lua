@@ -5,9 +5,8 @@ vim.pack.add({
 	{ src = "https://github.com/nvim-lua/plenary.nvim" },
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
 	{ src = "https://github.com/vague-theme/vague.nvim" },
-	{ src = "https://github.com/blazkowolf/gruber-darker.nvim" },
 	{ src = "https://github.com/nvim-flutter/flutter-tools.nvim" },
-	{ src = "https://github.com/leafOfTree/vim-svelte-plugin" },
+	{ src = "https://github.com/leafOfTree/vim-svelte-plugin" }, ---TODO: Fix svelete highlighting and remove this plugin
 	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
 	{ src = "https://github.com/ibhagwan/fzf-lua" },
 	{ src = "https://github.com/tpope/vim-fugitive" },
@@ -40,7 +39,7 @@ vim.g.maplocalleader = " "
 
 require("fzf-lua").setup({
 	fzf_args = {
-		--color=fg:#d0d0d0,fg+:#d0d0d0,bg:#011627,bg+:#262626
+		--color=fg:#d0d0d0,fg+:#d0d0d0,bg:#011626,bg+:#262626
 		--color=hl:#FFFFFF,hl+:#5fd7ff,info:#FFFFFF,marker:#87ff00
 		--color=prompt:#FFFFFF,spinner:#011627,pointer:#ffffff,header:#011627
 		--color=gutter:#011627,border:#262626,separator:#011627,scrollbar:#011627
@@ -69,33 +68,29 @@ require("fzf-lua").setup({
 		},
 	},
 	files = {
-		prompt = "> ", title = "f" ,
-		cwd_prompt    = false,
-		color_icons = true,
+		prompt = "> ",
+		title = "f",
+		cwd_prompt = false,
 		absolute_path = false,
-		actions = {
+		actions       = {
 			["enter"]  = require("fzf-lua.actions").file_edit_or_qf,
 			["ctrl-v"] = require("fzf-lua.actions").file_vsplit,
 			["ctrl-q"] = require("fzf-lua.actions").file_sel_to_qf,
-			},
+		},
 	},
 	oldfiles = { prompt = "> " },
-	previewers = { bat = true },
-	file_icon_padding = "",
 })
 
 require("flutter-tools").setup {
 	dev_log = {
-		enabled = true,
-		filter = nil,
-		notify_errors = true,
-		open_cmd = "10split",
+		enabled = true, filter = nil,
+		notify_errors = true, open_cmd = "10split",
 		focus_on_open = false,
 	}
 }
 
-require 'typst-preview'.setup {
-	invert_colors = 'always',
+require('typst-preview').setup {
+	-- invert_colors = 'always', --
 }
 
 require('nvim-treesitter').setup {
@@ -110,8 +105,6 @@ require("oil").setup({
 	default_file_explorer = true,
 	columns = {
 		"icon",
-		"permissions",
-		"size",
 	},
 	buf_options = { buflisted = true, },
 	win_options = { signcolumn = "yes:1", },
@@ -171,7 +164,7 @@ map({ "i", "s" }, "<C-e>", function() ls.expand_or_jump(1) end, { silent = true 
 map({ "i", "s" }, "<C-J>", function() ls.jump(1) end, { silent = true })
 map({ "i", "s" }, "<C-K>", function() ls.jump(-1) end, { silent = true })
 
-map("n", "<leader>f", ":FzfLua files<CR>", { silent = true })
+map("n", "<leader>f", "<CMD>FzfLua files<CR>", { silent = true })
 map("n", "<C-f>", ":FzfLua files<CR>", { silent = true })
 map("n", "<leader>b", ":FzfLua buffers<CR>", { silent = true })
 map("n", "<leader>o", ":FzfLua oldfiles<CR>", { silent = true })

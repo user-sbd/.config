@@ -9,7 +9,6 @@ fcd() {
 
     local -a roots=(
         "$HOME/Documents"
-        "$HOME/Documents/SEE"
         "$HOME/Documents/projects"
         "$HOME/Documents/notes"
     )

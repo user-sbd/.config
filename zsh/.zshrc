@@ -26,7 +26,6 @@ bindkey -M menuselect 'h' vi-backward-char
 bindkey -M menuselect 'k' vi-up-line-or-history
 bindkey -M menuselect 'l' vi-forward-char
 bindkey -M menuselect 'j' vi-down-line-or-history
-alias adminer='~/bin/adminer-temp'
 alias nv="neovide"
 alias im="nvim"
 alias clear="clear -x"
@@ -42,6 +41,7 @@ alias ff='fastfetch'
 alias data='cd /Users/nitin/.local/share/nvim/site/pack/core/opt '
 alias update='brew update && brew upgrade && brew cleanup'
 alias gem="ollama run gemma3:latest"
+alias nt="cd Documents/notes/ && nvim ."
 # source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 export SUDO_EDITOR="nvim"
 export PATH="$PATH:/Users/nitin/.local/share/bob/nightly/bin/"
@@ -63,7 +63,8 @@ source ~/.config/zsh/dirswitch.zsh
 autoload -Uz promptinit
 setopt prompt_subst
 # PROMPT=$' %F{#7393B3}%~%f%F{#D3D3FF}%B${vcs_info_msg_0_}%b%f $ '
-PROMPT=$' %F{#7393B3}%~%f%F{#D3D3FF}%B${vcs_info_msg_0_}%b%f $ '
+# PROMPT=$' %F{#7393B3}%~%f%F{#D3D3FF}%B${vcs_info_msg_0_}%b%f $ '
+PROMPT=' %F{#7393B3}%1~%f%F{#D3D3FF}%B${vcs_info_msg_0_}%b%f $ '
 # PROMPT=$' %F{#7393B3}%~%f%F{#D3D3FF}%B%b%f $ '
 autoload -Uz vcs_info
 precmd_vcs_info() { vcs_info }
