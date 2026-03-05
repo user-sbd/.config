@@ -63,8 +63,8 @@ source ~/.config/zsh/dirswitch.zsh
 autoload -Uz promptinit
 setopt prompt_subst
 # PROMPT=$' %F{#7393B3}%~%f%F{#D3D3FF}%B${vcs_info_msg_0_}%b%f $ '
-# PROMPT=$' %F{#7393B3}%~%f%F{#D3D3FF}%B${vcs_info_msg_0_}%b%f $ '
-PROMPT=' %F{#7393B3}%1~%f%F{#D3D3FF}%B${vcs_info_msg_0_}%b%f $ '
+PROMPT=$' %F{#7393B3}%~%f%F{#D3D3FF}%B${vcs_info_msg_0_}%b%f $ '
+# PROMPT=' %F{#7393B3}%1~%f%F{#D3D3FF}%B${vcs_info_msg_0_}%b%f $ '
 # PROMPT=$' %F{#7393B3}%~%f%F{#D3D3FF}%B%b%f $ '
 autoload -Uz vcs_info
 precmd_vcs_info() { vcs_info }

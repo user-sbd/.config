@@ -6,7 +6,7 @@ vim.pack.add({
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
 	{ src = "https://github.com/vague-theme/vague.nvim" },
 	{ src = "https://github.com/nvim-flutter/flutter-tools.nvim" },
-	{ src = "https://github.com/leafOfTree/vim-svelte-plugin" }, ---TODO: Fix svelete highlighting and remove this plugin
+	{ src = "https://github.com/leafOfTree/vim-svelte-plugin" }, --TODO: Fix svelete highlighting and remove this plugin
 	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
 	{ src = "https://github.com/ibhagwan/fzf-lua" },
 	{ src = "https://github.com/tpope/vim-fugitive" },
@@ -72,6 +72,7 @@ require("fzf-lua").setup({
 		title = "f",
 		cwd_prompt = false,
 		absolute_path = false,
+		cmd = "fd --type f --hidden --follow --exclude .git --exclude node_modules --exclude '*.jpeg' --exclude '*.png' ",
 		actions       = {
 			["enter"]  = require("fzf-lua.actions").file_edit_or_qf,
 			["ctrl-v"] = require("fzf-lua.actions").file_vsplit,
@@ -154,7 +155,6 @@ vim.cmd("hi QuickFixLine guifg = #7AA2F7")
 vim.cmd("hi Pmenu guibg=NONE")
 vim.cmd("hi PmenuBorder guibg=NONE")
 vim.cmd("hi LineNr guibg=NONE")
-vim.cmd("hi FugitiveHeader guibg=#48484A guifg=#FFFFFF")
 
 require("luasnip").setup({ enable_autosnippets = true })
 require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/snippets/" })
@@ -166,7 +166,7 @@ map({ "i", "s" }, "<C-K>", function() ls.jump(-1) end, { silent = true })
 
 map("n", "<leader>f", "<CMD>FzfLua files<CR>", { silent = true })
 map("n", "<C-f>", ":FzfLua files<CR>", { silent = true })
-map("n", "<leader>b", ":FzfLua buffers<CR>", { silent = true })
+map("n", "<C-b>", ":FzfLua buffers<CR>", { silent = true })
 map("n", "<leader>o", ":FzfLua oldfiles<CR>", { silent = true })
 map("n", "<leader>h", ":FzfLua helptags<CR>", { silent = true })
 map("n", "<leader>g", ":FzfLua live_grep<CR>", { silent = true })
@@ -310,3 +310,4 @@ end, {
 	desc = "wget with explicit dir (file / oil / fallback)",
 })
 vim.cmd('cabbrev wget Wget')
+
