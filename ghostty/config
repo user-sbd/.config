@@ -15,3 +15,4 @@ macos-titlebar-style = hidden
 macos-icon = chalkboard
 custom-shader = ~/.config/ghostty/warp.glsl
 
+window-padding-y = 0

@@ -6,7 +6,7 @@ vim.pack.add({
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
 	{ src = "https://github.com/vague-theme/vague.nvim" },
 	{ src = "https://github.com/nvim-flutter/flutter-tools.nvim" },
-	{ src = "https://github.com/leafOfTree/vim-svelte-plugin" }, --TODO: Fix svelete highlighting and remove this plugin
+	{ src = "https://github.com/leafOfTree/vim-svelte-plugin" }, -- TODO: Fix svelete highlighting and remove this plugin
 	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
 	{ src = "https://github.com/ibhagwan/fzf-lua" },
 	{ src = "https://github.com/tpope/vim-fugitive" },

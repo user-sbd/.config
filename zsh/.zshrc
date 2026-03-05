@@ -26,22 +26,20 @@ bindkey -M menuselect 'h' vi-backward-char
 bindkey -M menuselect 'k' vi-up-line-or-history
 bindkey -M menuselect 'l' vi-forward-char
 bindkey -M menuselect 'j' vi-down-line-or-history
-alias nv="neovide"
 alias im="nvim"
-alias clear="clear -x"
 alias vim="nvim"
 alias v="nvim"
+alias clear="clear -x"
 alias l="ls -C -t -U -A -p --color=auto"
 alias ll="ls -lh --color=auto"
 alias yt="yt-dlp -t mp4"
 alias rip='yt-dlp -x --audio-format mp3'
 alias fj="tmux new -s home"
-alias g='git'
 alias ff='fastfetch'
 alias data='cd /Users/nitin/.local/share/nvim/site/pack/core/opt '
 alias update='brew update && brew upgrade && brew cleanup'
 alias gem="ollama run gemma3:latest"
-alias nt="cd Documents/notes/ && nvim ."
+alias nt="cd ~/Documents/notes/ && nvim ."
 # source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 export SUDO_EDITOR="nvim"
 export PATH="$PATH:/Users/nitin/.local/share/bob/nightly/bin/"
@@ -86,3 +84,4 @@ bindkey '^e' finder
 
 alias z="cd"
 
+alias cdrive='cd /Users/nitin/CXPBottles/bot/drive_c/users'
