@@ -1,0 +1,8 @@
+/nix/
+/System/
+/Library/
+/private/
+/usr/
+/Users/nitin/Library/*
+/Users/nitin/!/Library/CloudStorage/
+/Users/nitin/**/*.photoslibrary/
