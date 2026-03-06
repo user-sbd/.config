@@ -16,6 +16,10 @@
       "rev": "44d1e90e1f66e077268191e3ee9d2ac97cc18e65",
       "src": "https://github.com/mason-org/mason.nvim"
     },
+    "note2cal.nvim": {
+      "rev": "66ecdb91fd6c8674948b393a38dae87758cd3da7",
+      "src": "https://github.com/lfilho/note2cal.nvim"
+    },
     "nvim-lspconfig": {
       "rev": "ead0f5f342d8d323441e7d4b88f0fc436a81ad5f",
       "src": "https://github.com/neovim/nvim-lspconfig"
@@ -27,6 +31,10 @@
     "oil.nvim": {
       "rev": "0fcc83805ad11cf714a949c98c605ed717e0b83e",
       "src": "https://github.com/stevearc/oil.nvim"
+    },
+    "orgmode": {
+      "rev": "f3ea61f6d71486c9062d40efe3c882050758e9b3",
+      "src": "https://github.com/nvim-orgmode/orgmode"
     },
     "plenary.nvim": {
       "rev": "b9fd5226c2f76c951fc8ed5923d85e4de065e509",

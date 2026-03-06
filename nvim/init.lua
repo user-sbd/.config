@@ -68,11 +68,11 @@ require("fzf-lua").setup({
 		},
 	},
 	files = {
-		prompt = "> ",
-		title = "f",
-		cwd_prompt = false,
+		prompt        = "> ",
+		title         = "f",
+		cwd_prompt    = false,
 		absolute_path = false,
-		cmd = "fd --type f --hidden --follow --exclude .git --exclude node_modules --exclude '*.jpeg' --exclude '*.png' ",
+		cmd           = "fd --type f --hidden --follow --exclude .git --exclude node_modules --exclude '*.jpeg' --exclude '*.png' ",
 		actions       = {
 			["enter"]  = require("fzf-lua.actions").file_edit_or_qf,
 			["ctrl-v"] = require("fzf-lua.actions").file_vsplit,
