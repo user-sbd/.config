@@ -78,10 +78,8 @@ finder() {
     open .
 }
 zle -N finder
-bindkey '^e' finder
+bindkey '^f' finder
 
 # eval "$(starship init zsh)"
 
 alias z="cd"
-
-alias cdrive='cd /Users/nitin/CXPBottles/bot/drive_c/users'

@@ -5,12 +5,13 @@ vim.pack.add({
 	{ src = "https://github.com/nvim-lua/plenary.nvim" },
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
 	{ src = "https://github.com/vague-theme/vague.nvim" },
-	{ src = "https://github.com/nvim-flutter/flutter-tools.nvim" },
-	{ src = "https://github.com/leafOfTree/vim-svelte-plugin" }, -- TODO: Fix svelete highlighting and remove this plugin
+	{ src = "https://github.com/nvim-flutter/flutter-tools.nvim" }, -- TODO: Fix this and replace
+	{ src = "https://github.com/leafOfTree/vim-svelte-plugin" },   -- TODO: Fix svelete highlighting and remove this plugin
 	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
 	{ src = "https://github.com/ibhagwan/fzf-lua" },
 	{ src = "https://github.com/tpope/vim-fugitive" },
 	{ src = "https://github.com/L3MON4D3/LuaSnip" },
+	{ src = "https://github.com/tpope/vim-surround" },
 })
 
 local opt = vim.opt
@@ -20,6 +21,7 @@ vim.cmd([[set mouse=]])
 vim.cmd([[set noswapfile]])
 opt.winborder = "rounded"
 opt.tabstop = 2
+opt.showtabline = 2
 opt.inccommand = "split"
 opt.shiftwidth = 2
 opt.cmdheight = 1
@@ -72,11 +74,13 @@ require("fzf-lua").setup({
 		title         = "f",
 		cwd_prompt    = false,
 		absolute_path = false,
-		cmd           = "fd --type f --hidden --follow --exclude .git --exclude node_modules --exclude '*.jpeg' --exclude '*.png' ",
+		cmd           =
+		"fd --type f --hidden --follow --exclude .git --exclude node_modules --exclude '*.jpeg' --exclude '*.png' --exclude '*.pdf' --exclude '*.jpg' --exclude '*.session' ",
 		actions       = {
 			["enter"]  = require("fzf-lua.actions").file_edit_or_qf,
 			["ctrl-v"] = require("fzf-lua.actions").file_vsplit,
 			["ctrl-q"] = require("fzf-lua.actions").file_sel_to_qf,
+			["ctrl-t"] = require("fzf-lua.actions").file_tabedit,
 		},
 	},
 	oldfiles = { prompt = "> " },
@@ -91,7 +95,7 @@ require("flutter-tools").setup {
 }
 
 require('typst-preview').setup {
-	-- invert_colors = 'always', --
+	invert_colors = 'always', --
 }
 
 require('nvim-treesitter').setup {
@@ -113,7 +117,6 @@ require("oil").setup({
 	skip_confirm_for_simple_edits = true,
 	constrain_cursor = "editable",
 	keymaps = { ['<C-s>'] = false },
-
 })
 
 require("mason").setup()
@@ -155,6 +158,7 @@ vim.cmd("hi QuickFixLine guifg = #7AA2F7")
 vim.cmd("hi Pmenu guibg=NONE")
 vim.cmd("hi PmenuBorder guibg=NONE")
 vim.cmd("hi LineNr guibg=NONE")
+vim.cmd("hi TabLine guibg=NONE")
 
 require("luasnip").setup({ enable_autosnippets = true })
 require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/snippets/" })
@@ -181,14 +185,11 @@ map({ "n", "v", "x" }, "<leader>n", ":norm ")
 map({ "n", "v", "x" }, "<leader>lf", vim.lsp.buf.format, { desc = "Format current buffer" })
 map({ "v", "x", "n" }, "<C-y>", '"+y', { desc = "System clipboard yank." })
 map("n", "-", "<cmd>Oil<CR>")
+map("n", "<C-n>", "<CMD>tabnext<CR>")
+map("n", "<C-p>", "<CMD>tabprevious<CR>")
 map("n", "<C-g>", ":Git | only<CR>", { silent = true })
 map("n", "<S-h>", "<Cmd>vertical resize -8<CR>", { desc = "Decrease width faster" })
 map("n", "<S-l>", "<Cmd>vertical resize +8<CR>", { desc = "Increase width faster" })
-
-map("n", "<C-q>", ":copen<CR>", { silent = true })
-for i = 1, 9 do
-	map('n', '<leader>' .. i, ':cc ' .. i .. '<CR>', { noremap = true, silent = true })
-end
 
 map("n", "<leader>a",
 	function() vim.fn.setqflist({ { filename = vim.fn.expand("%"), lnum = 1, col = 1, text = vim.fn.expand("%"), } }, "a") end,
@@ -310,4 +311,10 @@ end, {
 	desc = "wget with explicit dir (file / oil / fallback)",
 })
 vim.cmd('cabbrev wget Wget')
+
+map({ "n", "t" }, "<leader>x", "<Cmd>tabclose<CR>")
+map({ "n", "t" }, "<leader>t", "<Cmd>tabnew<CR>")
+for i = 1, 8 do
+	map({ "n", "t" }, "<Leader>" .. i, "<Cmd>tabnext " .. i .. "<CR>")
+end
 

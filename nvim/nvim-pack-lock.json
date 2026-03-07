@@ -40,6 +40,10 @@
       "rev": "b9fd5226c2f76c951fc8ed5923d85e4de065e509",
       "src": "https://github.com/nvim-lua/plenary.nvim"
     },
+    "preview.nvim": {
+      "rev": "d1fd2b2a730518cee3906e37b7e1eda8052f867a",
+      "src": "https://github.com/barrettruth/preview.nvim"
+    },
     "typst-preview.nvim": {
       "rev": "bf5d5eaf23bbfcca9f98a24ed29bd084abf89bf2",
       "src": "https://github.com/chomosuke/typst-preview.nvim"
@@ -51,6 +55,10 @@
     "vim-fugitive": {
       "rev": "61b51c09b7c9ce04e821f6cf76ea4f6f903e3cf4",
       "src": "https://github.com/tpope/vim-fugitive"
+    },
+    "vim-surround": {
+      "rev": "3d188ed2113431cf8dac77be61b842acb64433d9",
+      "src": "https://github.com/tpope/vim-surround"
     },
     "vim-svelte-plugin": {
       "rev": "f80ff67a94e3ac279fe55ecdf55ad7342f4a5228",

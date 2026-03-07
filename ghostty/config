@@ -13,6 +13,6 @@ cursor-style-blink = false
 cursor-click-to-move = false
 macos-titlebar-style = hidden
 macos-icon = chalkboard
-custom-shader = ~/.config/ghostty/warp.glsl
+# custom-shader = ~/.config/ghostty/warp.glsl
 
 window-padding-y = 0
