@@ -1,8 +1,7 @@
 #!/bin/bash
 
 
-doc_dirs=$(find ~/Documents ~/Documents/projects/ -maxdepth 1 -type d \
-    -not -path ~/Documents \
+doc_dirs=$(find ~/Documents/projects/ ~/Documents/notes/ -maxdepth 1 -type d \
     -not -path "*/.git*" \
 	)
 
@@ -12,7 +11,7 @@ picker_dirs=$( {
 } | sort -u | sed "s|^$HOME/||")
 
 # selected=$(echo "$picker_dirs" | sk --color="bw" --margin 10)
-selected=$(echo "$picker_dirs" | fzf --reverse )
+selected=$(echo "$picker_dirs" | fzf --layout=reverse-list )
 
 if [ -z "$selected" ]; then
     echo "No selection made"

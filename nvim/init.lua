@@ -12,6 +12,7 @@ vim.pack.add({
 	{ src = "https://github.com/tpope/vim-fugitive" },
 	{ src = "https://github.com/L3MON4D3/LuaSnip" },
 	{ src = "https://github.com/tpope/vim-surround" },
+	{ src = "https://github.com/nvim-orgmode/orgmode" },
 })
 
 local opt = vim.opt
@@ -33,7 +34,6 @@ opt.termguicolors = true
 opt.undofile = true
 opt.number = true
 opt.guicursor = ""
-opt.statusline = "[%n] %<%f %w%m%r%=%-14.(%l,%c%V%) "
 opt.winborder = "rounded"
 opt.pumborder = "rounded"
 vim.g.mapleader = " "
@@ -51,7 +51,6 @@ require("fzf-lua").setup({
 	},
 	fzf_opts = {
 		["--ansi"] = true,
-		["--info"] = "inline-right",
 		["--height"] = "100%",
 		["--border"] = "none",
 	},
@@ -75,7 +74,7 @@ require("fzf-lua").setup({
 		cwd_prompt    = false,
 		absolute_path = false,
 		cmd           =
-		"fd --type f --hidden --follow --exclude .git --exclude node_modules --exclude '*.jpeg' --exclude '*.png' --exclude '*.pdf' --exclude '*.jpg' --exclude '*.session' ",
+		"fd --type f --hidden --follow --exclude .git --exclude node_modules --exclude '*.jpeg' --exclude '*.png' --exclude '*.pdf' --exclude '*.jpg' --exclude '*.session'  --exclude '*.webp'",
 		actions       = {
 			["enter"]  = require("fzf-lua.actions").file_edit_or_qf,
 			["ctrl-v"] = require("fzf-lua.actions").file_vsplit,
@@ -95,7 +94,7 @@ require("flutter-tools").setup {
 }
 
 require('typst-preview').setup {
-	invert_colors = 'always', --
+	-- invert_colors = 'always', --
 }
 
 require('nvim-treesitter').setup {
@@ -174,8 +173,10 @@ map("n", "<C-b>", ":FzfLua buffers<CR>", { silent = true })
 map("n", "<leader>o", ":FzfLua oldfiles<CR>", { silent = true })
 map("n", "<leader>h", ":FzfLua helptags<CR>", { silent = true })
 map("n", "<leader>g", ":FzfLua live_grep<CR>", { silent = true })
-map("n", "<leader>t", ":FzfLua colorschemes<CR>", { silent = true })
 map("n", "<leader>c", ":FzfLua files cwd=~/.config<CR>", { silent = true })
+
+map("n", "<leader>a", "<CMD>Org agenda<CR>a", { silent = true })
+map("n", "<leader>t", "<CMD>Org capture<CR>t", { silent = true })
 
 map("t", "<Esc>", [[<C-\><C-n>]], { noremap = true, silent = true })
 map({ "n", "v", "x" }, "<leader>v", "<Cmd>edit $MYVIMRC<CR>", { desc = "Edit " .. vim.fn.expand("$MYVIMRC") })
@@ -185,11 +186,7 @@ map({ "n", "v", "x" }, "<leader>n", ":norm ")
 map({ "n", "v", "x" }, "<leader>lf", vim.lsp.buf.format, { desc = "Format current buffer" })
 map({ "v", "x", "n" }, "<C-y>", '"+y', { desc = "System clipboard yank." })
 map("n", "-", "<cmd>Oil<CR>")
-map("n", "<C-n>", "<CMD>tabnext<CR>")
-map("n", "<C-p>", "<CMD>tabprevious<CR>")
 map("n", "<C-g>", ":Git | only<CR>", { silent = true })
-map("n", "<S-h>", "<Cmd>vertical resize -8<CR>", { desc = "Decrease width faster" })
-map("n", "<S-l>", "<Cmd>vertical resize +8<CR>", { desc = "Increase width faster" })
 
 map("n", "<leader>a",
 	function() vim.fn.setqflist({ { filename = vim.fn.expand("%"), lnum = 1, col = 1, text = vim.fn.expand("%"), } }, "a") end,
@@ -313,8 +310,15 @@ end, {
 vim.cmd('cabbrev wget Wget')
 
 map({ "n", "t" }, "<leader>x", "<Cmd>tabclose<CR>")
-map({ "n", "t" }, "<leader>t", "<Cmd>tabnew<CR>")
+map({ "n", "t" }, "<C-x>", "<Cmd>tabclose<CR>")
+map({ "n", "t" }, "<C-t>", "<Cmd>tabnew<CR>")
+map("n", "<C-n>", "<CMD>tabnext<CR>")
+map("n", "<C-p>", "<CMD>tabprevious<CR>")
 for i = 1, 8 do
 	map({ "n", "t" }, "<Leader>" .. i, "<Cmd>tabnext " .. i .. "<CR>")
 end
 
+require('orgmode').setup({
+	org_agenda_files = '~/Documents/notes/agendas/**/*',
+	org_default_notes_file = '~/Documents/notes/agendas/main.org',
+})
