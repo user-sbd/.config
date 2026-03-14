@@ -10,8 +10,8 @@ picker_dirs=$( {
     echo ".config"
 } | sort -u | sed "s|^$HOME/||")
 
-# selected=$(echo "$picker_dirs" | sk --color="bw" --margin 10)
-selected=$(echo "$picker_dirs" | fzf --layout=reverse-list )
+selected=$(echo "$picker_dirs" | sk --color="bw" --margin 10)
+# selected=$(echo "$picker_dirs" | fzf --layout=reverse-list )
 
 if [ -z "$selected" ]; then
     echo "No selection made"

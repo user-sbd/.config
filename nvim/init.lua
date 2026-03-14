@@ -5,14 +5,16 @@ vim.pack.add({
 	{ src = "https://github.com/nvim-lua/plenary.nvim" },
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
 	{ src = "https://github.com/vague-theme/vague.nvim" },
-	{ src = "https://github.com/nvim-flutter/flutter-tools.nvim" }, -- TODO: Fix this and replace
-	{ src = "https://github.com/leafOfTree/vim-svelte-plugin" },   -- TODO: Fix svelete highlighting and remove this plugin
+	{ src = "https://github.com/nvim-flutter/flutter-tools.nvim" },
+	{ src = "https://github.com/leafOfTree/vim-svelte-plugin" },
 	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
-	{ src = "https://github.com/ibhagwan/fzf-lua" },
 	{ src = "https://github.com/tpope/vim-fugitive" },
+	{ src = "https://github.com/nvim-telescope/telescope.nvim"},
+	{ src = "https://github.com/nvim-telescope/telescope-fzf-native.nvim"},
 	{ src = "https://github.com/L3MON4D3/LuaSnip" },
 	{ src = "https://github.com/tpope/vim-surround" },
 	{ src = "https://github.com/nvim-orgmode/orgmode" },
+	{ src = "https://github.com/nvim-tree/nvim-web-devicons" },
 })
 
 local opt = vim.opt
@@ -39,51 +41,24 @@ opt.pumborder = "rounded"
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
-require("fzf-lua").setup({
-	fzf_args = {
-		--color=fg:#d0d0d0,fg+:#d0d0d0,bg:#011626,bg+:#262626
-		--color=hl:#FFFFFF,hl+:#5fd7ff,info:#FFFFFF,marker:#87ff00
-		--color=prompt:#FFFFFF,spinner:#011627,pointer:#ffffff,header:#011627
-		--color=gutter:#011627,border:#262626,separator:#011627,scrollbar:#011627
-		--color=preview-scrollbar:#011627,label:#aeaeae,query:#d9d9d9
-		--border="rounded" --border-label="" --preview-window="border-sharp" --prompt="> "
-		--marker=" " --pointer="." --separator="─" --scrollbar="│"
-	},
-	fzf_opts = {
-		["--ansi"] = true,
-		["--height"] = "100%",
-		["--border"] = "none",
-	},
-	winopts = {
-		title_flags = false,
-		height = 15,
-		width = 50,
-		row = 1,
-		col = 0,
-		border = { " ", " ", " ", " ", " ", " ", " ", " " },
-		fullscreen = true,
-		preview = {
-			border = { "", "", "", "", "", "", "", "" },
-			horizontal = "right:40%",
-			layout = "horizontal",
-		},
-	},
-	files = {
-		prompt        = "> ",
-		title         = "f",
-		cwd_prompt    = false,
-		absolute_path = false,
-		cmd           =
-		"fd --type f --hidden --follow --exclude .git --exclude node_modules --exclude '*.jpeg' --exclude '*.png' --exclude '*.pdf' --exclude '*.jpg' --exclude '*.session'  --exclude '*.webp'",
-		actions       = {
-			["enter"]  = require("fzf-lua.actions").file_edit_or_qf,
-			["ctrl-v"] = require("fzf-lua.actions").file_vsplit,
-			["ctrl-q"] = require("fzf-lua.actions").file_sel_to_qf,
-			["ctrl-t"] = require("fzf-lua.actions").file_tabedit,
-		},
-	},
-	oldfiles = { prompt = "> " },
+require('telescope').setup({
+	extensions = {
+    fzf = { fuzzy = true, override_generic_sorter = true, override_file_sorter = true, case_mode = "smart_case", } },
+	defaults = {
+		preview = { treesitter = true },
+		color_devicons = true,
+		sorting_strategy = "ascending",
+		borderchars = { "", "", "", "", "", "", "", "", },
+		path_displays = { "smart" },
+		layout_config = {
+			height = 100,
+			width = 400,
+			prompt_position = "top",
+			preview_cutoff = 40,
+		}
+	}
 })
+require('telescope').load_extension('fzf')
 
 require("flutter-tools").setup {
 	dev_log = {
@@ -115,7 +90,11 @@ require("oil").setup({
 	delete_to_trash = true,
 	skip_confirm_for_simple_edits = true,
 	constrain_cursor = "editable",
-	keymaps = { ['<C-s>'] = false },
+	keymaps = {
+		['<C-s>'] = false,
+    ["<C-t>"] = { "actions.select", opts = { tab = true } },
+    ["g\\"] = { "actions.toggle_trash", mode = "n" },
+  },
 })
 
 require("mason").setup()
@@ -167,13 +146,14 @@ map({ "i", "s" }, "<C-e>", function() ls.expand_or_jump(1) end, { silent = true 
 map({ "i", "s" }, "<C-J>", function() ls.jump(1) end, { silent = true })
 map({ "i", "s" }, "<C-K>", function() ls.jump(-1) end, { silent = true })
 
-map("n", "<leader>f", "<CMD>FzfLua files<CR>", { silent = true })
-map("n", "<C-f>", ":FzfLua files<CR>", { silent = true })
-map("n", "<C-b>", ":FzfLua buffers<CR>", { silent = true })
-map("n", "<leader>o", ":FzfLua oldfiles<CR>", { silent = true })
-map("n", "<leader>h", ":FzfLua helptags<CR>", { silent = true })
-map("n", "<leader>g", ":FzfLua live_grep<CR>", { silent = true })
-map("n", "<leader>c", ":FzfLua files cwd=~/.config<CR>", { silent = true })
+map("n", "<leader>f", "<CMD>Telescope find_files<CR>", { silent = true })
+map("n", "<C-f>", "<CMD> Telescope find_files<CR>", { silent = true })
+map("n", "<C-b>", "<CMD>Telescope buffers<CR>", { silent = true })
+map("n", "<leader>of", "<CMD>Telescope oldfiles<CR>", { silent = true })
+map("n", "<leader>h", "<CMD>Telsecope helptags<CR>", { silent = true })
+map("n", "<leader>gs", "<CMD>Telescope live_grep<CR>", { silent = true })
+map("n", "<leader>c", "<CMD>cd ~/.config | Telescope find_files<CR>", { silent = true })
+map("n", "<leader>sn", "<CMD>cd ~/Documents/notes | Telescope find_files<CR>", { silent = true })
 
 map("n", "<leader>a", "<CMD>Org agenda<CR>a", { silent = true })
 map("n", "<leader>t", "<CMD>Org capture<CR>t", { silent = true })
@@ -322,3 +302,9 @@ require('orgmode').setup({
 	org_agenda_files = '~/Documents/notes/agendas/**/*',
 	org_default_notes_file = '~/Documents/notes/agendas/main.org',
 })
+
+vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' })
+vim.api.nvim_set_hl(0, 'NormalNC', { bg = 'none' })
+vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'none' })
+vim.api.nvim_set_hl(0, 'FloatBorder', { bg = 'none' })
+
