@@ -8,6 +8,10 @@ exec-on-workspace-change = ['/bin/bash', '-c',
     'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
 ]
 
+after-startup-command = [
+	'exec-and-forget /opt/homebrew/bin/sketchybar'
+]
+
 [mode.main.binding]
 alt-o = 'exec-and-forget ~/.config/scripts/choos.sh'
 alt-h = 'focus --boundaries-action wrap-around-the-workspace left'
@@ -56,6 +60,10 @@ run = ['layout floating']
 
 [[on-window-detected]]
 if.app-id = 'com.apple.QuickTimePlayerX'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.Preview'
 run = ['layout floating']
 
 [[on-window-detected]]
