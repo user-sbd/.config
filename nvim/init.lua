@@ -10,6 +10,10 @@ vim.pack.add({
   { src = "https://github.com/vague-theme/vague.nvim" },
   { src = "https://github.com/ej-shafran/compile-mode.nvim" },
   { src = "https://github.com/nvim-tree/nvim-web-devicons" },
+  { src = "https://github.com/nvim-telescope/telescope.nvim" },
+  { src = "https://github.com/nvim-telescope/telescope-file-browser.nvim" },
+  { src = "https://github.com/nvim-telescope/telescope-fzf-native.nvim" },
+  { src = "https://github.com/nvim-lua/plenary.nvim" },
 })
 
 local opt = vim.opt
@@ -31,11 +35,37 @@ opt.smartindent = true
 opt.termguicolors = true
 opt.undofile = true
 opt.number = true
+opt.relativenumber = true
 opt.guicursor = ""
 opt.winborder = "rounded"
 opt.pumborder = "rounded"
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
+
+require('telescope').setup({
+	extensions = {
+    fzf = { fuzzy = true, override_generic_sorter = true, override_file_sorter = true, case_mode = "smart_case", },
+     file_browser = {
+      theme = "ivy",
+      hijack_netrw = true,
+    },
+  },
+	defaults = {
+		preview = { treesitter = true },
+		color_devicons = true,
+		sorting_strategy = "ascending",
+		borderchars = { "", "", "", "", "", "", "", "", },
+		path_displays = { "smart" },
+		layout_config = {
+			height = 100,
+			width = 400,
+			prompt_position = "top",
+			preview_cutoff = 40,
+		}
+	}
+})
+require('telescope').load_extension('fzf')
+require("telescope").load_extension "file_browser"
 
 require('typst-preview').setup {
   -- invert_colors = 'always', --
@@ -115,6 +145,16 @@ map({ "i", "s" }, "<C-e>", function() ls.expand_or_jump(1) end, { silent = true 
 map({ "i", "s" }, "<C-J>", function() ls.jump(1) end, { silent = true })
 map({ "i", "s" }, "<C-K>", function() ls.jump(-1) end, { silent = true })
 
+map("n", "<leader>f", "<CMD>Telescope find_files<CR>", { silent = true })
+map("n", "<leader>e", "<CMD>Telescope file_browser<CR>", { silent = true })
+map("n", "<C-f>", "<CMD> Telescope find_files<CR>", { silent = true })
+map("n", "<C-b>", "<CMD>Telescope buffers<CR>", { silent = true })
+map("n", "<leader>of", "<CMD>Telescope oldfiles<CR>", { silent = true })
+map("n", "<leader>h", "<CMD>Telescope helptags<CR>", { silent = true })
+map("n", "<leader>gs", "<CMD>Telescope live_grep<CR>", { silent = true })
+map("n", "<leader>c", "<CMD>cd ~/.config | Telescope find_files<CR>", { silent = true })
+map("n", "<leader>sn", "<CMD>cd ~/Documents/notes | Telescope find_files<CR>", { silent = true })
+
 map("t", "<Esc>", [[<C-\><C-n>]], { noremap = true, silent = true })
 map({ "n", "v", "x" }, "<leader>v", "<Cmd>edit $MYVIMRC<CR>", { desc = "Edit " .. vim.fn.expand("$MYVIMRC") })
 map({ "n" }, "<Esc>", "<Cmd>nohlsearch<CR>")
@@ -124,7 +164,6 @@ map({ "n", "v", "x" }, "<leader>lf", vim.lsp.buf.format, { desc = "Format curren
 map({ "v", "x", "n" }, "<C-y>", '"+y', { desc = "System clipboard yank." })
 map("n", "-", "<cmd>Oil<CR>")
 map("n", "<C-g>", ":Git | only<CR>", { silent = true })
-map("n", "<leader>f", ":find ")
 
 vim.api.nvim_create_autocmd("TextYankPost", {
   callback = function()
@@ -146,40 +185,3 @@ vim.api.nvim_set_hl(0, 'NormalNC', { bg = 'none' })
 vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'none' })
 vim.api.nvim_set_hl(0, 'FloatBorder', { bg = 'none' })
 
-if vim.fn.executable "rg" == 1 then
-  function _G.RgFindFiles(cmdarg)
-    local fnames = vim.fn.systemlist('rg --files --hidden --color=never --glob="!.git"')
-    if #cmdarg == 0 then
-      return fnames
-    else
-      return vim.fn.matchfuzzy(fnames, cmdarg)
-    end
-  end
-
-  vim.o.findfunc = 'v:lua.RgFindFiles'
-end
-local function is_cmdline_type_find()
-  local cmdline_cmd = vim.fn.split(vim.fn.getcmdline(), ' ')[1]
-  return cmdline_cmd == 'find' or cmdline_cmd == 'fin'
-end
-vim.api.nvim_create_autocmd({ 'CmdlineChanged', 'CmdlineLeave' }, {
-  pattern = { '*' },
-  group = vim.api.nvim_create_augroup('CmdlineAutocompletion', { clear = true }),
-  callback = function(ev)
-    local function should_enable_autocomplete()
-      local cmdline_cmd = vim.fn.split(vim.fn.getcmdline(), ' ')[1]
-      return is_cmdline_type_find() or cmdline_cmd == 'help' or cmdline_cmd == 'h'
-    end
-    if ev.event == 'CmdlineChanged' and should_enable_autocomplete() then
-      vim.opt.wildmode = 'noselect:lastused,full'
-      vim.fn.wildtrigger()
-    end
-    if ev.event == 'CmdlineLeave' then
-      vim.opt.wildmode = 'full'
-    end
-  end
-})
-map('n', '<C-f>', ':find<space>', { desc = 'Fuzzy find' })
-map('c', '<C-v>', '<home><s-right><c-w>vs<end>', { desc = 'Change command to :vs' })
-map('c', '<C-t>', '<home><s-right><c-w>tabe<end>', { desc = 'Change command to :tabe' })
-map('c', '<C-e>', '<home><s-right><c-w>edit<end>', { desc = 'Change command to :edit' })

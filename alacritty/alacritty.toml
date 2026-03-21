@@ -1,8 +1,8 @@
 [window]
 decorations = "none"
 dynamic_padding = true
-blur = true
-opacity = 0.6
+# blur = true
+# opacity = 0.6
 
 [general]
 live_config_reload = true
@@ -14,5 +14,4 @@ size = 20
 
 [colors.primary]
 background = '#141415'
-
 

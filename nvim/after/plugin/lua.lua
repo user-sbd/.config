@@ -2,8 +2,8 @@ vim.g.compile_mode = {
   default_command = {
     python    = "python3 %",
     python3   = "python3 %",
-    c         = "gcc -std=c17 -Wall -Wextra -o %:r % && ./%:r",
-    cpp       = "g++ -std=c++23 -Wall -Wextra -o %:r % && ./%:r",
+    c   = "gcc -std=c17 -Wall -Wextra -o %:t:r % && ./%:t:r",
+    cpp = "g++ -std=c++23 -Wall -Wextra -o %:t:r % && ./%:t:r",
     java      = "javac % && java %:r",
     go        = "go run %",
     rust      = "cargo run",
@@ -29,32 +29,45 @@ _G.run_in_terminal = function(raw_cmd)
     vim.notify("No command provided", vim.log.levels.WARN)
     return
   end
-  local expanded_cmd = vim.fn.expandcmd(raw_cmd)
+
+  local expanded = vim.fn.expandcmd(raw_cmd)
+
+  -- Remove redundant ./ or .// that appear before filename/root
+  -- This fixes ././file  → ./file    and  .//full/path → /full/path
+  local cleaned_cmd = expanded:gsub("%.%/?%./", "./"):gsub("^%./+", "")
+
+  -- Also collapse any multiple slashes that might remain (rare)
+  cleaned_cmd = cleaned_cmd:gsub("//+", "/")
+
   local needs_recreate = true
   if term_buf and vim.api.nvim_buf_is_valid(term_buf) then
     if term_job_id and vim.fn.jobwait({ term_job_id }, 0)[1] == -1 then
       needs_recreate = false
     end
   end
+
   if needs_recreate then
     if term_buf and vim.api.nvim_buf_is_valid(term_buf) then
       pcall(vim.api.nvim_buf_delete, term_buf, { force = true })
     end
-    term_buf    = nil
-    term_win    = nil
+    term_buf = nil
+    term_win = nil
     term_job_id = nil
+
     vim.cmd("belowright 10split | terminal")
-    term_buf    = vim.api.nvim_get_current_buf()
-    term_win    = vim.api.nvim_get_current_win()
+    term_buf = vim.api.nvim_get_current_buf()
+    term_win = vim.api.nvim_get_current_win()
     term_job_id = vim.b.terminal_job_id
+
     vim.bo[term_buf].bufhidden = "hide"
-    vim.bo[term_buf].filetype  = "toggleterm"
+    vim.bo[term_buf].filetype = "toggleterm"
+
     vim.api.nvim_create_autocmd("BufDelete", {
       buffer = term_buf,
-      once   = true,
+      once = true,
       callback = function()
-        term_buf    = nil
-        term_win    = nil
+        term_buf = nil
+        term_win = nil
         term_job_id = nil
       end,
     })
@@ -67,31 +80,30 @@ _G.run_in_terminal = function(raw_cmd)
       vim.api.nvim_set_current_win(term_win)
     end
   end
+
   local cwd
   if vim.bo.filetype == "oil" then
     local ok, oil = pcall(require, "oil")
-    if ok then
-      cwd = oil.get_current_dir(0)
-    end
+    if ok then cwd = oil.get_current_dir(0) end
   end
-  if not cwd or cwd == "" then
-    cwd = vim.fn.expand("%:p:h")
-  end
-  if not cwd or cwd == "" then
-    cwd = vim.fn.getcwd()
-  end
+  if not cwd or cwd == "" then cwd = vim.fn.expand("%:p:h") end
+  if not cwd or cwd == "" then cwd = vim.fn.getcwd() end
+
   if cwd and cwd ~= "" and vim.fn.isdirectory(cwd) == 1 then
     local ok, err = pcall(vim.fn.chdir, cwd)
     if not ok then
       vim.notify("chdir failed to: " .. cwd .. "\n" .. tostring(err), vim.log.levels.WARN)
     end
   end
+
   if term_job_id and vim.fn.jobwait({ term_job_id }, 0)[1] == -1 then
     if cwd and cwd ~= "" then
       vim.fn.chansend(term_job_id, "cd " .. vim.fn.fnameescape(cwd) .. " 2>/dev/null\n")
     end
   end
-  vim.fn.chansend(term_job_id, expanded_cmd .. "\n")
+
+  -- Use the cleaned version
+  vim.fn.chansend(term_job_id, cleaned_cmd .. "\n")
   vim.cmd("startinsert")
 end
 

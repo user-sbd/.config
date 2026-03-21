@@ -32,6 +32,10 @@
       "rev": "44d1e90e1f66e077268191e3ee9d2ac97cc18e65",
       "src": "https://github.com/mason-org/mason.nvim"
     },
+    "md-agenda.nvim": {
+      "rev": "d1b6bfbab327d9fbb230ebf6c3f1345bdd774908",
+      "src": "https://github.com/zenarvus/md-agenda.nvim"
+    },
     "nvim-lspconfig": {
       "rev": "2163c54bb6cfec53e3e555665ada945b8c8331b9",
       "src": "https://github.com/neovim/nvim-lspconfig"
@@ -63,6 +67,10 @@
     "startup.nvim": {
       "rev": "9ca3b9a55f2f2196ef90b39a52029b46fdde5226",
       "src": "https://github.com/max397574/startup.nvim"
+    },
+    "telescope-file-browser.nvim": {
+      "rev": "3610dc7dc91f06aa98b11dca5cc30dfa98626b7e",
+      "src": "https://github.com/nvim-telescope/telescope-file-browser.nvim"
     },
     "telescope-fzf-native.nvim": {
       "rev": "6fea601bd2b694c6f2ae08a6c6fab14930c60e2c",
