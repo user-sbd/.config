@@ -1,0 +1,10 @@
+{
+  "save_interval": 20,
+  "backups_interval": null,
+  "backups_path": null,
+  "backup_dates": {},
+  "runtime_backups_interval": null,
+  "default_start_side": "Right",
+  "default_end_side": "Right",
+  "edit_modal": false
+}

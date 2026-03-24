@@ -7,7 +7,7 @@ vim.pack.add({
   { src = "https://github.com/tpope/vim-fugitive" },
   { src = "https://github.com/L3MON4D3/LuaSnip" },
   { src = "https://github.com/chomosuke/typst-preview.nvim" },
-  { src = "https://github.com/vague-theme/vague.nvim" },
+  { src = "https://github.com/rose-pine/neovim" },
   { src = "https://github.com/ej-shafran/compile-mode.nvim" },
   { src = "https://github.com/nvim-tree/nvim-web-devicons" },
   { src = "https://github.com/nvim-telescope/telescope.nvim" },
@@ -124,18 +124,20 @@ vim.lsp.enable({
 
 vim.cmd [[set completeopt+=menuone,noselect,popup]]
 
-vim.cmd("colorscheme vague")
-vim.cmd("hi ModeMsg guifg=#cdcdcd")
-vim.cmd("hi StatusLine guifg=#FFFFFF guibg=none")
-vim.cmd("hi SignColumn guibg=none")
+vim.cmd("colorscheme rose-pine-main")
+-- vim.cmd("hi ModeMsg guifg=#cdcdcd")
+-- vim.cmd("hi SignColumn guibg=none")
 vim.cmd("hi NormalFloat guibg=NONE ctermbg=NONE")
-vim.cmd("hi FloatBorder guibg=NONE")
-vim.cmd("hi WinSeparator guifg=NONE guibg=NONE")
-vim.cmd("hi QuickFixLine guifg = #7AA2F7")
-vim.cmd("hi Pmenu guibg=NONE")
-vim.cmd("hi PmenuBorder guibg=NONE")
-vim.cmd("hi LineNr guibg=NONE")
+-- vim.cmd("hi FloatBorder guibg=NONE")
+-- vim.cmd("hi WinSeparator guifg=NONE guibg=NONE")
+-- vim.cmd("hi QuickFixLine guifg = #7AA2F7")
+-- vim.cmd("hi Pmenu guibg=NONE")
+-- vim.cmd("hi PmenuBorder guibg=NONE")
+-- vim.cmd("hi LineNr guibg=NONE")
+vim.cmd("hi StatusLine guifg=#FFFFFF guibg=none")
 vim.cmd("hi TabLine guibg=NONE")
+vim.cmd("hi TermStatusNC guibg=NONE")
+vim.cmd("hi TabLineFill guibg=#191724")
 
 require("luasnip").setup({ enable_autosnippets = true })
 require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/snippets/" })
@@ -150,7 +152,7 @@ map("n", "<leader>e", "<CMD>Telescope file_browser<CR>", { silent = true })
 map("n", "<C-f>", "<CMD> Telescope find_files<CR>", { silent = true })
 map("n", "<C-b>", "<CMD>Telescope buffers<CR>", { silent = true })
 map("n", "<leader>of", "<CMD>Telescope oldfiles<CR>", { silent = true })
-map("n", "<leader>h", "<CMD>Telescope helptags<CR>", { silent = true })
+map("n", "<leader>h", "<CMD>Telescope help_tags<CR>", { silent = true })
 map("n", "<leader>gs", "<CMD>Telescope live_grep<CR>", { silent = true })
 map("n", "<leader>c", "<CMD>cd ~/.config | Telescope find_files<CR>", { silent = true })
 map("n", "<leader>sn", "<CMD>cd ~/Documents/notes | Telescope find_files<CR>", { silent = true })
@@ -177,11 +179,6 @@ map({ "n", "t" }, "<C-t>", "<Cmd>tabnew<CR>")
 map("n", "<C-n>", "<CMD>tabnext<CR>")
 map("n", "<C-p>", "<CMD>tabprevious<CR>")
 for i = 1, 8 do
-  map({ "n", "t" }, "<Leader>" .. i, "<Cmd>tabnext " .. i .. "<CR>")
+  map("n", "<Leader>" .. i, "<Cmd>tabnext " .. i .. "<CR>")
 end
-
-vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' })
-vim.api.nvim_set_hl(0, 'NormalNC', { bg = 'none' })
-vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'none' })
-vim.api.nvim_set_hl(0, 'FloatBorder', { bg = 'none' })
 
