@@ -1,221 +1,148 @@
-scan_timeout = 3600
-
-"$schema" = 'https://starship.rs/config-schema.json'
-
-add_newline = false
-
-format = """
- ➜\
-$directory\
-${custom.giturl}\
-$git_branch\
-$git_state\
-$git_status\
-$line_break\
-$character
-"""
-
-right_format = """$all"""
-
-palette = "catppuccin_mocha"
-
-[palettes.catppuccin_mocha]
-rosewater = "#f5e0dc"
-flamingo = "#f2cdcd"
-pink = "#f5c2e7"
-mauve = "#cba6f7"
-red = "#f38ba8"
-maroon = "#eba0ac"
-peach = "#fab387"
-yellow = "#f9e2af"
-green = "#a6e3a1"
-teal = "#94e2d5"
-sky = "#89dceb"
-sapphire = "#74c7ec"
-blue = "#89b4fa"
-lavender = "#b4befe"
-text = "#cdd6f4"
-subtext1 = "#bac2de"
-subtext0 = "#a6adc8"
-overlay2 = "#9399b2"
-overlay1 = "#7f849c"
-overlay0 = "#6c7086"
-surface2 = "#585b70"
-surface1 = "#45475a"
-surface0 = "#313244"
-base = "#1e1e2e"
-mantle = "#181825"
-crust = "#11111b"
-
-# [palettes.custom]
-# rosewater = "#f5e0dc"
-# flamingo = "#eb6f92"
-# pink = "#f5c2e7"
-# orange = "#cba6f7"
-# color_red = '#cc241d'
-# red = "#f38ba8"
-# maroon = "#eba0ac"
-# peach = "#fab387"
-# yellow = "#f9e2af"
-# green = "#a6e3a1"
-# teal = "#94e2d5"
-# sky = "#89dceb"
-# sapphire = "#74c7ec"
-# blue = "#89b4fa"
-# lavender = "#b4befe"
-# foam = "#9ccfd8"
-# pine = "#31748f"
-# gold = "#f6c177"
-# rose = "#ebbcba"
-# text = "#cdd6f4"
-# subtext1 = "#bac2de"
-# subtext0 = "#a6adc8"
-# overlay2 = "#9399b2"
-# overlay1 = "#7f849c"
-# overlay0 = "#6c7086"
-# surface2 = "#585b70"
-# surface1 = "#45475a"
-# surface0 = "#313244"
-# base = "#1e1e2e"
-# mantle = "#181825"
-# crust = "#11111b"
-
-[os.symbols]
-Windows = "󰍲"
-Ubuntu = "󰕈"
-SUSE = ""
-Raspbian = "󰐿"
-Mint = "󰣭"
-Macos = " "
-Manjaro = ""
-Linux = "󰌽"
-Gentoo = "󰣨"
-Fedora = "󰣛"
-Alpine = ""
-Amazon = ""
-Android = ""
-Arch = "󰣇"
-Artix = "󰣇"
-CentOS = ""
-Debian = "󰣚"
-Redhat = "󱄛"
-RedHatEnterprise = "󱄛"
-
+## FIRST LINE/ROW: Info & Status
+# First param ─┌
 [username]
-#show_always = true
-#style_user = "bg:surface0 fg:text"
-#style_root = "bg:surface0 fg:text"
-#format = '[ $user ]($style)'
+format = " [╭─ $user]($style) "
+style_user = "bold blue"
+style_root = "bold blue"
+show_always = true
 
-[directory]
-style = "sapphire"
-format = "[ $path ]($style)"
-#truncation_length = 4
-#truncation_symbol = "…/"
-
-[directory.substitutions]
-"Documents" = "󰈙 "
-"Downloads" = " "
-"Music" = " "
-"Pictures" = " "
-"Developer" = "󰲋 "
-"Others" = " "
-
-[os]
+# Second param
+[hostname]
+format = "[$hostname]($style) in "
+style = "bold dimmed blue"
+trim_at = "-"
+ssh_only = false
 disabled = true
-#style = "bg:surface0 fg:text"
 
-[custom.giturl]
-# disabled = true
-description = "Display symbol for remote Git server"
-command = """
-GIT_REMOTE=$(command git ls-remote --get-url 2> /dev/null)
-if [[ "$GIT_REMOTE" =~ "github" ]]; then
-    GIT_REMOTE_SYMBOL=" "
-elif [[ "$GIT_REMOTE" =~ "gitlab" ]]; then
-    GIT_REMOTE_SYMBOL=" "
-elif [[ "$GIT_REMOTE" =~ "bitbucket" ]]; then
-    GIT_REMOTE_SYMBOL=" "
-elif [[ "$GIT_REMOTE" =~ "git" ]]; then
-    GIT_REMOTE_SYMBOL=" "
-else
-    GIT_REMOTE_SYMBOL=" "
-fi
-echo "$GIT_REMOTE_SYMBOL "
-"""
-when = 'git rev-parse --is-inside-work-tree 2> /dev/null'
-format = "at $output"
-ignore_timeout = true
-require_repo = true
+# Third param
+[directory]
+style = "purple"
+truncation_length = 0
 
+# Before all the version info (python, nodejs, php, etc.)
+[git_status]
+style = "white"
+ahead = "⇡${count}"
+behind = "⇣${count}"
+deleted = "x"
+
+# Last param in the first line/row
+[cmd_duration]
+min_time = 1
+format = "took [$duration]($style)"
+disabled = true
+
+
+## SECOND LINE/ROW: Prompt
+# Somethere at the beginning
+# Prompt: optional param 1
+[time]
+format = " 🕙 $time($style)\n"
+time_format = "%T"
+style = "bright-white"
+disabled = true
+
+# Prompt: param 2 └─
+[character]
+success_symbol = " [╰─](bold blue)"
+error_symbol = " [×](bold blue)"
+
+# SYMBOLS
+[status]
+symbol = "🔴"
+format = '[\[$symbol$status_common_meaning$status_signal_name$status_maybe_int\]]($style)'
+map_symbol = true
+disabled = false
+
+[aws]
+symbol = "  "
+
+[conda]
+symbol = " "
+
+[dart]
+symbol = " "
+
+#[directory]
+#read_only = " "
+
+[docker_context]
+symbol = " "
+format = "via [$symbol$context]($style) "
+style = "blue bold"
+only_with_files = true
+detect_files = ["docker-compose.yml", "docker-compose.yaml", "Dockerfile"]
+detect_folders = []
+disabled = false
+
+[elixir]
+symbol = " "
+
+[elm]
+symbol = " "
 
 [git_branch]
-symbol = "[](black) "
-# format =  ' [$symbol$branch(:$remote_branch)]($style)[]'
-style = "fg:lavender bg:black"
-format =  '  on [$symbol$branch]($style)[](black)'
-
-[git_status]
-format = ' [($all_status$ahead_behind )]($style)'
-
-[nodejs]
-symbol = ""
-format = '[ $symbol( $version) ]($style)'
-
-[c]
-symbol = " "
-format = '[ $symbol( $version) ]($style)'
-
-[rust]
-symbol = ""
-format = '[ $symbol( $version) ]($style)'
+symbol = " "
 
 [golang]
-symbol = ""
-format = '[ $symbol( $version) ]($style)'
-detect_files = ["go.mod"]
+symbol = " "
 
-[php]
-symbol = ""
-format = '[ $symbol( $version) ]($style)'
+[hg_branch]
+symbol = " "
 
 [java]
 symbol = " "
-format = '[ $symbol( $version) ]($style)'
 
-[kotlin]
-symbol = ""
-format = '[ $symbol( $version) ]($style)'
+[julia]
+symbol = " "
 
 [haskell]
-symbol = ""
-format = '[ $symbol( $version) ]($style)'
+symbol = "λ "
+
+[memory_usage]
+symbol = " "
+
+[nim]
+symbol = " "
+
+[nix_shell]
+symbol = " "
+
+[package]
+symbol = " "
+
+[perl]
+symbol = " "
+
+[php]
+symbol = " "
 
 [python]
-symbol = ""
-format = '[ $symbol( $version) ]($style)'
+symbol = " "
+#pyenv_version_name = true
+format = 'via [${symbol}python (${version} )(\($virtualenv\) )]($style)'
+style = "bold yellow"
+pyenv_prefix = "venv "
+python_binary = ["./venv/bin/python", "python", "python3", "python2"]
+detect_extensions = ["py"]
+version_format = "v${raw}"
 
-[docker_context]
-symbol = ""
-format = '[ $symbol( $context) ]($style)'
+[ruby]
+symbol = " "
 
-[time]
-disabled = true
-time_format = "%R"
-style = "bg:peach"
-format = '[[  $time ](fg:mantle bg:foam)]($style)'
+[rust]
+symbol = " "
 
-[line_break]
-disabled = true
+[scala]
+symbol = " "
 
-[character]
-disabled = false
-success_symbol = '[ ](bold fg:green)'
-error_symbol = '[✘ ](bold fg:red)'
-vimcmd_symbol = "[ :](bold yellow)"
-vimcmd_replace_one_symbol = "[󰝿 :](bold purple)"
-vimcmd_replace_symbol = "[  :](bold purple)"
-vimcmd_visual_symbol = "[  :](bold cyan)"
+[shlvl]
+symbol = " "
 
-# success_symbol = "[󰇙](bold cyan)"
+[swift]
+symbol = "ﯣ "
 
+[nodejs]
+format = "via [ Node.js $version](bold green) "
+detect_files = ["package.json", ".node-version"]
+detect_folders = ["node_modules"]

@@ -1,5 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-source "$CONFIG_DIR/colors.sh"
+sketchybar -m --set $NAME label="$(date '+%d/%m/%y [%R]')"
 
-sketchybar --set "$NAME" label="$(date '+%d %b %H.%M')" icon.color="$CLOCK_COLOR" label.color="$CLOCK_COLOR"

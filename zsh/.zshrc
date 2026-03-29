@@ -31,6 +31,7 @@ alias im="nvim"
 alias vim="nvim"
 alias v="nvim"
 alias clear="clear -x"
+alias card="hascard"
 alias l="ls -C -t -U -A -p --color=auto"
 alias ll="ls -lh --color=auto"
 alias yt="yt-dlp -t mp4"
@@ -48,11 +49,11 @@ export PATH="$PATH:/Users/nitin/.local/share/bob/nightly/bin/"
 export PATH="$PATH:/Users/nitin/.cargo/bin/"
 
 export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
-  --color=fg:#d0d0d0,fg+:#d0d0d0,bg:#191724,bg+:#202227
+  --color=fg:#d0d0d0,fg+:#d0d0d0,bg:#141415,bg+:#202227
   --color=hl:#FFFFFF,hl+:#5fd7ff,info:#FFFFFF,marker:#87ff00
-  --color=prompt:#FFFFFF,spinner:#191724,pointer:#ffffff,header:#191724
-  --color=gutter:#191724,border:#202227,separator:#191724,scrollbar:#191724
-  --color=preview-scrollbar:#191724,label:#aeaeae,query:#d9d9d9
+  --color=prompt:#FFFFFF,spinner:#141415,pointer:#ffffff,header:#282828
+  --color=gutter:#141415,border:#202227,separator:#282828,scrollbar:#282828
+  --color=preview-scrollbar:#141415,label:#aeaeae,query:#d9d9d9
   --border="rounded" --border-label="" --preview-window="border-sharp" --prompt="> "
   --marker=" " --pointer="." --separator="─" --scrollbar="│"'
 
@@ -60,18 +61,18 @@ source ~/.config/zsh/dirswitch.zsh
 
 autoload -Uz promptinit
 setopt prompt_subst
-PROMPT=$' %F{#7393B3}%~%f%F{#D3D3FF}%B${vcs_info_msg_0_}%b%f $ '
+# PROMPT=$' %F{#7393B3}%~%f%F{#D3D3FF}%B${vcs_info_msg_0_}%b%f $ '
 # PROMPT=$' %F{#9E7E9D}%~%f%F{#9E7E9D}%B${vcs_info_msg_0_}%b%f $ '
 # PROMPT=' %F{#7393B3}%1~%f%F{#D3D3FF}%B${vcs_info_msg_0_}%b%f $ '
-# PROMPT=$' %F{#7393B3}%~%f%F{#D3D3FF}%B%b%f $ '
-autoload -Uz vcs_info
-precmd_vcs_info() { vcs_info }
-precmd_functions+=( precmd_vcs_info )
+PROMPT=$' %F{#7393B3}%~%f%F{#D3D3FF}%B%b%f $ '
+# autoload -Uz vcs_info
+# precmd_vcs_info() { vcs_info }
+# precmd_functions+=( precmd_vcs_info )
 # zstyle ':vcs_info:git:*' formats '%F{#606079} *%b%f'
 # zstyle ':vcs_info:git:*' formats '%F{#ab4242} *%b%f'
-zstyle ':vcs_info:git:*' formats '%F{#4C4C4C} %b%c %f'
-zstyle ':vcs_info:git:*' check-for-changes true
-chpwd() { vcs_info }
+# zstyle ':vcs_info:git:*' formats '%F{#4C4C4C} %b%c %f'
+# zstyle ':vcs_info:git:*' check-for-changes true
+# chpwd() { vcs_info }
 
 
 finder() {
@@ -83,3 +84,5 @@ bindkey '^f' finder
 # eval "$(starship init zsh)"
 
 alias z="cd"
+
+# PROMPT=' %F{blue}%1~ %F{white}$%f '

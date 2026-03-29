@@ -3,19 +3,13 @@ enable-normalization-opposite-orientation-for-nested-containers = false
 enable-normalization-flatten-containers = false
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 start-at-login = true
-
-exec-on-workspace-change = ['/bin/bash', '-c',
-    'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
-]
-
-after-startup-command = [
-	'exec-and-forget /opt/homebrew/bin/sketchybar'
-]
+automatically-unhide-macos-hidden-apps = true
 
 [mode.main.binding]
 alt-o = 'exec-and-forget ~/.config/scripts/choos.sh'
 alt-h = 'focus --boundaries-action wrap-around-the-workspace left'
 alt-l = 'focus --boundaries-action wrap-around-the-workspace right'
+alt-semicolon = 'exec-and-forget ~/.config/aerospace/floating-notes.sh'
 
 alt-shift-m = 'macos-native-fullscreen'
 alt-e = 'layout tiles horizontal vertical'
@@ -31,7 +25,7 @@ alt-f = 'workspace 4'
 alt-g = 'workspace 5'
 alt-j = 'workspace 6'
 alt-k = 'workspace 7'
-alt-semicolon= 'workspace 8'
+alt-quote = 'workspace 8'
 
 alt-shift-a = 'move-node-to-workspace 1'
 alt-shift-s = 'move-node-to-workspace 2'
@@ -81,3 +75,8 @@ run = 'move-node-to-workspace 3'
 [[on-window-detected]]
 if.app-id = 'com.hnc.Discord'
 run = 'move-node-to-workspace 4'
+
+[[on-window-detected]]
+if.app-id = 'com.github.wez.wezterm'
+if.window-title-regex-substring = 'FLOATING_NOTES'
+run = 'layout floating'

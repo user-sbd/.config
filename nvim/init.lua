@@ -7,13 +7,10 @@ vim.pack.add({
   { src = "https://github.com/tpope/vim-fugitive" },
   { src = "https://github.com/L3MON4D3/LuaSnip" },
   { src = "https://github.com/chomosuke/typst-preview.nvim" },
-  { src = "https://github.com/rose-pine/neovim" },
   { src = "https://github.com/ej-shafran/compile-mode.nvim" },
-  { src = "https://github.com/nvim-tree/nvim-web-devicons" },
-  { src = "https://github.com/nvim-telescope/telescope.nvim" },
-  { src = "https://github.com/nvim-telescope/telescope-file-browser.nvim" },
-  { src = "https://github.com/nvim-telescope/telescope-fzf-native.nvim" },
-  { src = "https://github.com/nvim-lua/plenary.nvim" },
+  { src = "https://github.com/vague-theme/vague.nvim" },
+  { src = "https://github.com/ibhagwan/fzf-lua" },
+  { src = "https://github.com/SalarAlo/rndr.nvim" },
 })
 
 local opt = vim.opt
@@ -42,30 +39,49 @@ opt.pumborder = "rounded"
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
-require('telescope').setup({
-	extensions = {
-    fzf = { fuzzy = true, override_generic_sorter = true, override_file_sorter = true, case_mode = "smart_case", },
-     file_browser = {
-      theme = "ivy",
-      hijack_netrw = true,
+require("fzf-lua").setup({
+  fzf_args = {
+    --color=fg:#d0d0d0,fg+:#d0d0d0,bg:#011627,bg+:#262626
+    --color=hl:#FFFFFF,hl+:#5fd7ff,info:#FFFFFF,marker:#87ff00
+    --color=prompt:#FFFFFF,spinner:#011627,pointer:#ffffff,header:#011627
+    --color=gutter:#011627,border:#262626,separator:#011627,scrollbar:#011627
+    --color=preview-scrollbar:#011627,label:#aeaeae,query:#d9d9d9
+    --border="rounded" --border-label="" --preview-window="border-sharp" --prompt="> "
+    --marker=" " --pointer="." --separator="─" --scrollbar="│"
+  },
+  fzf_opts = {
+    ["--ansi"] = true,
+    ["--info"] = "inline-right",
+    ["--height"] = "100%",
+    ["--border"] = "none",
+  },
+  winopts = {
+    title_flags = false,
+    height = 15,
+    width = 50,
+    row = 1,
+    col = 0,
+    border = { " ", " ", " ", " ", " ", " ", " ", " " },
+    fullscreen = true,
+    preview = {
+      border = { "", "", "", "", "", "", "", "" },
+      horizontal = "right:40%",
+      layout = "horizontal",
     },
   },
-	defaults = {
-		preview = { treesitter = true },
-		color_devicons = true,
-		sorting_strategy = "ascending",
-		borderchars = { "", "", "", "", "", "", "", "", },
-		path_displays = { "smart" },
-		layout_config = {
-			height = 100,
-			width = 400,
-			prompt_position = "top",
-			preview_cutoff = 40,
-		}
-	}
+  actions = {
+    files = {
+      ["enter"]  = require("fzf-lua.actions").file_edit_or_qf,
+      ["ctrl-v"] = require("fzf-lua.actions").file_vsplit,
+      ["ctrl-q"] = require("fzf-lua.actions").file_sel_to_qf,
+    },
+  },
+  files = { prompt = "> ", title = "f" },
+  oldfiles = { prompt = "> " },
+  previewers = { bat = true },
+  file_icon_padding = "",
 })
-require('telescope').load_extension('fzf')
-require("telescope").load_extension "file_browser"
+
 
 require('typst-preview').setup {
   -- invert_colors = 'always', --
@@ -119,25 +135,22 @@ vim.lsp.enable({
   "emmet-language-server", "zls",
   "marksman", "bashls", "lua_ls",
   "cssls", "svelte", "tinymist",
-  "basedpyright",
+  "basedpyright", "vscode-css-language-server",
 })
 
 vim.cmd [[set completeopt+=menuone,noselect,popup]]
 
-vim.cmd("colorscheme rose-pine-main")
--- vim.cmd("hi ModeMsg guifg=#cdcdcd")
+vim.cmd("colorscheme vague")
+vim.cmd("hi ModeMsg guifg=#cdcdcd")
 -- vim.cmd("hi SignColumn guibg=none")
 vim.cmd("hi NormalFloat guibg=NONE ctermbg=NONE")
 -- vim.cmd("hi FloatBorder guibg=NONE")
 -- vim.cmd("hi WinSeparator guifg=NONE guibg=NONE")
 -- vim.cmd("hi QuickFixLine guifg = #7AA2F7")
--- vim.cmd("hi Pmenu guibg=NONE")
--- vim.cmd("hi PmenuBorder guibg=NONE")
--- vim.cmd("hi LineNr guibg=NONE")
 vim.cmd("hi StatusLine guifg=#FFFFFF guibg=none")
 vim.cmd("hi TabLine guibg=NONE")
 vim.cmd("hi TermStatusNC guibg=NONE")
-vim.cmd("hi TabLineFill guibg=#191724")
+vim.cmd("hi TabLineFill guibg=#141415")
 
 require("luasnip").setup({ enable_autosnippets = true })
 require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/snippets/" })
@@ -147,15 +160,12 @@ map({ "i", "s" }, "<C-e>", function() ls.expand_or_jump(1) end, { silent = true 
 map({ "i", "s" }, "<C-J>", function() ls.jump(1) end, { silent = true })
 map({ "i", "s" }, "<C-K>", function() ls.jump(-1) end, { silent = true })
 
-map("n", "<leader>f", "<CMD>Telescope find_files<CR>", { silent = true })
-map("n", "<leader>e", "<CMD>Telescope file_browser<CR>", { silent = true })
-map("n", "<C-f>", "<CMD> Telescope find_files<CR>", { silent = true })
-map("n", "<C-b>", "<CMD>Telescope buffers<CR>", { silent = true })
-map("n", "<leader>of", "<CMD>Telescope oldfiles<CR>", { silent = true })
-map("n", "<leader>h", "<CMD>Telescope help_tags<CR>", { silent = true })
-map("n", "<leader>gs", "<CMD>Telescope live_grep<CR>", { silent = true })
-map("n", "<leader>c", "<CMD>cd ~/.config | Telescope find_files<CR>", { silent = true })
-map("n", "<leader>sn", "<CMD>cd ~/Documents/notes | Telescope find_files<CR>", { silent = true })
+map("n", "<leader>f", ":FzfLua files<CR>", { silent = true })
+map("n", "<C-f>", ":FzfLua files<CR>", { silent = true })
+map("n", "<leader>o", ":FzfLua oldfiles<CR>", { silent = true })
+map("n", "<leader>h", ":FzfLua helptags<CR>", { silent = true })
+map("n", "<leader>g", ":FzfLua live_grep<CR>", { silent = true })
+map("n", "<leader>c", ":FzfLua files cwd=~/.config<CR>", { silent = true })
 
 map("t", "<Esc>", [[<C-\><C-n>]], { noremap = true, silent = true })
 map({ "n", "v", "x" }, "<leader>v", "<Cmd>edit $MYVIMRC<CR>", { desc = "Edit " .. vim.fn.expand("$MYVIMRC") })
@@ -182,3 +192,41 @@ for i = 1, 8 do
   map("n", "<Leader>" .. i, "<Cmd>tabnext " .. i .. "<CR>")
 end
 
+require("rndr").setup({
+  preview = {
+    auto_open = true,
+    events = { "BufReadPost" },
+    render_on_resize = true,
+  },
+  assets = {
+    images = { "png", "jpg", "jpeg", "gif", "bmp", "webp" },
+    vectors = { "svg", "svgz" },
+    models = { "obj", "fbx", "glb", "gltf", "dae", "blend", "ply", "stl" },
+  },
+  window = {
+    termguicolors = true,
+    size = { width_offset = 0, height_offset = 0, min_width = 1, min_height = 1, },
+    options = { number = false, relativenumber = false, wrap = false, signcolumn = "no", },
+  },
+  renderer = {
+    bin = "/Users/nitin/.local/share/nvim/site/pack/core/opt/rndr.nvim/renderer/build/rndr",
+    supersample = 2,
+    brightness = 1.0,
+    saturation = 1.18,
+    contrast = 1.08,
+    gamma = 0.92,
+    background = "0d0f14",
+  },
+  controls = {
+    rotate_step = 15,
+    keymaps = {
+      close = "q",
+      rerender = "R",
+      reset_view = "0",
+      rotate_left = "h",
+      rotate_right = "l",
+      rotate_up = "k",
+      rotate_down = "j",
+    },
+  },
+})
