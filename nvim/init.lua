@@ -9,7 +9,6 @@ vim.pack.add({
   { src = "https://github.com/chomosuke/typst-preview.nvim" },
   { src = "https://github.com/ej-shafran/compile-mode.nvim" },
   { src = "https://github.com/marko-cerovac/material.nvim" },
-  { src = "https://github.com/ibhagwan/fzf-lua" },
   { src = "https://github.com/folke/snacks.nvim" },
 })
 
@@ -20,8 +19,9 @@ vim.cmd([[set mouse=]])
 vim.cmd([[set noswapfile]])
 opt.winborder = "rounded"
 opt.tabstop = 2
+opt.statusline = '[%n] %<%f %h%w%m%r%=%-14.(%l,%c%V%) %P'
 opt.expandtab = true
-opt.showtabline = 2
+opt.showtabline = 0
 opt.inccommand = "split"
 opt.shiftwidth = 2
 opt.cmdheight = 1
@@ -38,41 +38,6 @@ opt.winborder = "rounded"
 opt.pumborder = "rounded"
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
-
-require("fzf-lua").setup({
-  fzf_opts = {
-    ["--ansi"] = true,
-    ["--info"] = "inline-right",
-    ["--height"] = "100%",
-    ["--border"] = "none",
-  },
-  winopts = {
-    title_flags = false,
-    height = 15,
-    width = 50,
-    row = 1,
-    col = 0,
-    -- border = { " ", " ", " ", " ", " ", " ", " ", " " },
-    fullscreen = true,
-    preview = {
-      -- border = { "", "", "", "", "", "", "", "" },
-      horizontal = "right:40%",
-      layout = "horizontal",
-    },
-  },
-  actions = {
-    files = {
-      ["enter"]  = require("fzf-lua.actions").file_edit_or_qf,
-      ["ctrl-v"] = require("fzf-lua.actions").file_vsplit,
-      ["ctrl-q"] = require("fzf-lua.actions").file_sel_to_qf,
-    },
-  },
-  files = { prompt = "> ", title = "f" },
-  oldfiles = { prompt = "> " },
-  previewers = { bat = true },
-  file_icon_padding = "",
-})
-
 
 require('typst-preview').setup {
   -- invert_colors = 'always', --
@@ -134,7 +99,6 @@ vim.cmd [[set completeopt+=menuone,noselect,popup]]
 vim.cmd("colorscheme material-darker")
 vim.cmd("hi ModeMsg guifg=#cdcdcd")
 vim.cmd("hi NormalFloat guibg=NONE ctermbg=NONE")
-vim.cmd("hi Cursor guibg=#E8E8E9")
 vim.cmd("hi StatusLine guifg=#FFFFFF guibg=none")
 vim.cmd("hi TabLine guibg=none")
 vim.cmd("hi TabLineSel guibg=#82AAFF")
@@ -148,13 +112,6 @@ local ls = require("luasnip")
 map({ "i", "s" }, "<C-e>", function() ls.expand_or_jump(1) end, { silent = true })
 map({ "i", "s" }, "<C-J>", function() ls.jump(1) end, { silent = true })
 map({ "i", "s" }, "<C-K>", function() ls.jump(-1) end, { silent = true })
-
-map("n", "<leader>f", ":FzfLua files<CR>", { silent = true })
-map("n", "<C-f>", ":FzfLua files<CR>", { silent = true })
-map("n", "<leader>o", ":FzfLua oldfiles<CR>", { silent = true })
-map("n", "<leader>h", ":FzfLua helptags<CR>", { silent = true })
-map("n", "<leader>g", ":FzfLua live_grep<CR>", { silent = true })
-map("n", "<leader>c", ":FzfLua files cwd=~/.config<CR>", { silent = true })
 
 map("t", "<Esc>", [[<C-\><C-n>]], { noremap = true, silent = true })
 map({ "n", "v", "x" }, "<leader>v", "<Cmd>edit $MYVIMRC<CR>", { desc = "Edit " .. vim.fn.expand("$MYVIMRC") })
@@ -173,59 +130,46 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 map({ "n" }, "<leader>x", "<Cmd>tabclose<CR>")
-map({ "n", "t" }, "<C-x>", "<Cmd>tabclose<CR>")
-map({ "n", "t" }, "<C-t>", "<Cmd>tabnew<CR>")
-map("n", "<C-n>", "<CMD>tabnext<CR>")
-map("n", "<C-p>", "<CMD>tabprevious<CR>")
-for i = 1, 8 do
-  map("n", "<Leader>" .. i, "<Cmd>tabnext " .. i .. "<CR>")
-end
+map({ "n", "t" }, "<C-x>", "<Cmd>bdelete<CR>")
+map({ "n", "t" }, "<C-t>", "<Cmd>enew<CR>")
+map("n", "<C-n>", "<CMDBNext><CR>")
+map("n", "<C-p>", "<CMD>bprevious<CR>")
+
+require('snacks').setup({
+  bigfile = { enabled = true },
+  explorer = { enabled = true },
+  notifier = {
+    enabled = true,
+    timeout = 3000,
+  },
+  picker = { layout = {
+    preset = "telescope",
+  },
+},
+  quickfile = { enabled = true },
+  styles = {
+  }
+})
 
 
-  require('snacks').setup({
-    bigfile = { enabled = true },
-    explorer = { enabled = true },
-    notifier = {
-      enabled = true,
-      timeout = 3000,
-    },
-    picker = { enabled = true },
-    quickfile = { enabled = true },
-    styles = {
-    }
-  })
-
-
-  -- Top Pickers & Explorer
-map("n", "<leader><space>", function() Snacks.picker.smart() end, { desc = "Smart Find Files" })
+local Snacks = require("snacks")
 map("n", "<leader>,", function() Snacks.picker.buffers() end, { desc = "Buffers" })
 map("n", "<leader>/", function() Snacks.picker.grep() end, { desc = "Grep" })
 map("n", "<leader>n", function() Snacks.picker.notifications() end, { desc = "Notification History" })
-
--- Find
-map("n", "<leader>fb", function() Snacks.picker.buffers() end, { desc = "Buffers" })
-map("n", "<leader>fc", function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, { desc = "Find Config File" })
-map("n", "<leader>ff", function() Snacks.picker.files() end, { desc = "Find Files" })
-map("n", "<leader>fg", function() Snacks.picker.git_files() end, { desc = "Find Git Files" })
-map("n", "<leader>fp", function() Snacks.picker.projects() end, { desc = "Projects" })
-map("n", "<leader>fr", function() Snacks.picker.recent() end, { desc = "Recent" })
-
+map("n", "<leader>b", function() Snacks.picker.buffers() end, { desc = "Buffers" })
+map("n", "<leader>c", function() Snacks.picker.files({ cwd = '~/.config' }) end,
+  { desc = "Find Config File" })
+map("n", "<leader>f", function() Snacks.picker.files() end, { desc = "Find Files" })
+map("n", "<C-f>", function() Snacks.picker.files() end, { desc = "Find Files" })
+map("n", "<leader>gf", function() Snacks.picker.git_files() end, { desc = "Find Git Files" })
+map("n", "<leader>of", function() Snacks.picker.recent() end, { desc = "Recent" })
 map("n", "<leader>gl", function() Snacks.picker.git_log() end, { desc = "Git Log" })
 map("n", "<leader>gd", function() Snacks.picker.git_diff() end, { desc = "Git Diff (Hunks)" })
-
--- Grep
-map("n", "<leader>g", function() Snacks.picker.grep() end, { desc = "Grep" })
-
--- Search
+map("n", "<leader>gs", function() Snacks.picker.grep() end, { desc = "Grep" })
 map("n", "<leader>sh", function() Snacks.picker.help() end, { desc = "Help Pages" })
-map("n", "<leader>sH", function() Snacks.picker.highlights() end, { desc = "Highlights" })
-map("n", "<leader>sM", function() Snacks.picker.man() end, { desc = "Man Pages" })
-map("n", "<leader>uC", function() Snacks.picker.colorschemes() end, { desc = "Colorschemes" })
-
--- Other
-map("n", "<leader>z", function() Snacks.zen() end, { desc = "Toggle Zen Mode" })
+map("n", "<leader>hs", function() Snacks.picker.highlights() end, { desc = "Highlights" })
 map("n", "<leader>.", function() Snacks.scratch() end, { desc = "Toggle Scratch Buffer" })
-map("n", "<leader>S", function() Snacks.scratch.select() end, { desc = "Select Scratch Buffer" })
-map("n", "<leader>gg", function() Snacks.lazygit() end, { desc = "Lazygit" })
+map("n", "<leader>ss", function() Snacks.scratch.select() end, { desc = "Select Scratch Buffer" })
+map("n", "<leader>lg", function() Snacks.lazygit() end, { desc = "Lazygit" })
 map("n", "<leader>un", function() Snacks.notifier.hide() end, { desc = "Dismiss All Notifications" })
 
