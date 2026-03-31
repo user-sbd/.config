@@ -8,9 +8,9 @@ vim.pack.add({
   { src = "https://github.com/L3MON4D3/LuaSnip" },
   { src = "https://github.com/chomosuke/typst-preview.nvim" },
   { src = "https://github.com/ej-shafran/compile-mode.nvim" },
-  { src = "https://github.com/vague-theme/vague.nvim" },
+  { src = "https://github.com/marko-cerovac/material.nvim" },
   { src = "https://github.com/ibhagwan/fzf-lua" },
-  { src = "https://github.com/SalarAlo/rndr.nvim" },
+  { src = "https://github.com/folke/snacks.nvim" },
 })
 
 local opt = vim.opt
@@ -40,15 +40,6 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 require("fzf-lua").setup({
-  fzf_args = {
-    --color=fg:#d0d0d0,fg+:#d0d0d0,bg:#011627,bg+:#262626
-    --color=hl:#FFFFFF,hl+:#5fd7ff,info:#FFFFFF,marker:#87ff00
-    --color=prompt:#FFFFFF,spinner:#011627,pointer:#ffffff,header:#011627
-    --color=gutter:#011627,border:#262626,separator:#011627,scrollbar:#011627
-    --color=preview-scrollbar:#011627,label:#aeaeae,query:#d9d9d9
-    --border="rounded" --border-label="" --preview-window="border-sharp" --prompt="> "
-    --marker=" " --pointer="." --separator="─" --scrollbar="│"
-  },
   fzf_opts = {
     ["--ansi"] = true,
     ["--info"] = "inline-right",
@@ -61,10 +52,10 @@ require("fzf-lua").setup({
     width = 50,
     row = 1,
     col = 0,
-    border = { " ", " ", " ", " ", " ", " ", " ", " " },
+    -- border = { " ", " ", " ", " ", " ", " ", " ", " " },
     fullscreen = true,
     preview = {
-      border = { "", "", "", "", "", "", "", "" },
+      -- border = { "", "", "", "", "", "", "", "" },
       horizontal = "right:40%",
       layout = "horizontal",
     },
@@ -140,17 +131,15 @@ vim.lsp.enable({
 
 vim.cmd [[set completeopt+=menuone,noselect,popup]]
 
-vim.cmd("colorscheme vague")
+vim.cmd("colorscheme material-darker")
 vim.cmd("hi ModeMsg guifg=#cdcdcd")
--- vim.cmd("hi SignColumn guibg=none")
 vim.cmd("hi NormalFloat guibg=NONE ctermbg=NONE")
--- vim.cmd("hi FloatBorder guibg=NONE")
--- vim.cmd("hi WinSeparator guifg=NONE guibg=NONE")
--- vim.cmd("hi QuickFixLine guifg = #7AA2F7")
+vim.cmd("hi Cursor guibg=#E8E8E9")
 vim.cmd("hi StatusLine guifg=#FFFFFF guibg=none")
-vim.cmd("hi TabLine guibg=NONE")
+vim.cmd("hi TabLine guibg=none")
+vim.cmd("hi TabLineSel guibg=#82AAFF")
 vim.cmd("hi TermStatusNC guibg=NONE")
-vim.cmd("hi TabLineFill guibg=#141415")
+vim.cmd("hi TabLineFill guibg=141415")
 
 require("luasnip").setup({ enable_autosnippets = true })
 require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/snippets/" })
@@ -192,41 +181,51 @@ for i = 1, 8 do
   map("n", "<Leader>" .. i, "<Cmd>tabnext " .. i .. "<CR>")
 end
 
-require("rndr").setup({
-  preview = {
-    auto_open = true,
-    events = { "BufReadPost" },
-    render_on_resize = true,
-  },
-  assets = {
-    images = { "png", "jpg", "jpeg", "gif", "bmp", "webp" },
-    vectors = { "svg", "svgz" },
-    models = { "obj", "fbx", "glb", "gltf", "dae", "blend", "ply", "stl" },
-  },
-  window = {
-    termguicolors = true,
-    size = { width_offset = 0, height_offset = 0, min_width = 1, min_height = 1, },
-    options = { number = false, relativenumber = false, wrap = false, signcolumn = "no", },
-  },
-  renderer = {
-    bin = "/Users/nitin/.local/share/nvim/site/pack/core/opt/rndr.nvim/renderer/build/rndr",
-    supersample = 2,
-    brightness = 1.0,
-    saturation = 1.18,
-    contrast = 1.08,
-    gamma = 0.92,
-    background = "0d0f14",
-  },
-  controls = {
-    rotate_step = 15,
-    keymaps = {
-      close = "q",
-      rerender = "R",
-      reset_view = "0",
-      rotate_left = "h",
-      rotate_right = "l",
-      rotate_up = "k",
-      rotate_down = "j",
+
+  require('snacks').setup({
+    bigfile = { enabled = true },
+    explorer = { enabled = true },
+    notifier = {
+      enabled = true,
+      timeout = 3000,
     },
-  },
-})
+    picker = { enabled = true },
+    quickfile = { enabled = true },
+    styles = {
+    }
+  })
+
+
+  -- Top Pickers & Explorer
+map("n", "<leader><space>", function() Snacks.picker.smart() end, { desc = "Smart Find Files" })
+map("n", "<leader>,", function() Snacks.picker.buffers() end, { desc = "Buffers" })
+map("n", "<leader>/", function() Snacks.picker.grep() end, { desc = "Grep" })
+map("n", "<leader>n", function() Snacks.picker.notifications() end, { desc = "Notification History" })
+
+-- Find
+map("n", "<leader>fb", function() Snacks.picker.buffers() end, { desc = "Buffers" })
+map("n", "<leader>fc", function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, { desc = "Find Config File" })
+map("n", "<leader>ff", function() Snacks.picker.files() end, { desc = "Find Files" })
+map("n", "<leader>fg", function() Snacks.picker.git_files() end, { desc = "Find Git Files" })
+map("n", "<leader>fp", function() Snacks.picker.projects() end, { desc = "Projects" })
+map("n", "<leader>fr", function() Snacks.picker.recent() end, { desc = "Recent" })
+
+map("n", "<leader>gl", function() Snacks.picker.git_log() end, { desc = "Git Log" })
+map("n", "<leader>gd", function() Snacks.picker.git_diff() end, { desc = "Git Diff (Hunks)" })
+
+-- Grep
+map("n", "<leader>g", function() Snacks.picker.grep() end, { desc = "Grep" })
+
+-- Search
+map("n", "<leader>sh", function() Snacks.picker.help() end, { desc = "Help Pages" })
+map("n", "<leader>sH", function() Snacks.picker.highlights() end, { desc = "Highlights" })
+map("n", "<leader>sM", function() Snacks.picker.man() end, { desc = "Man Pages" })
+map("n", "<leader>uC", function() Snacks.picker.colorschemes() end, { desc = "Colorschemes" })
+
+-- Other
+map("n", "<leader>z", function() Snacks.zen() end, { desc = "Toggle Zen Mode" })
+map("n", "<leader>.", function() Snacks.scratch() end, { desc = "Toggle Scratch Buffer" })
+map("n", "<leader>S", function() Snacks.scratch.select() end, { desc = "Select Scratch Buffer" })
+map("n", "<leader>gg", function() Snacks.lazygit() end, { desc = "Lazygit" })
+map("n", "<leader>un", function() Snacks.notifier.hide() end, { desc = "Dismiss All Notifications" })
+

@@ -13,5 +13,5 @@ normal = {family = "ZedMono Nerd Font" }
 size = 20
 
 [colors.primary]
-background = '#141415'
+background = '#212121'
 
