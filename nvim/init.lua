@@ -137,18 +137,17 @@ map("n", "<C-p>", "<CMD>bprevious<CR>")
 
 require('snacks').setup({
   bigfile = { enabled = true },
-  explorer = { enabled = true },
   notifier = {
     enabled = true,
     timeout = 3000,
   },
-  picker = { layout = {
-    preset = "telescope",
+  picker = {
+    layout = {
+      preset = "telescope",
+    },
   },
-},
   quickfile = { enabled = true },
-  styles = {
-  }
+  styles = {}
 })
 
 
@@ -173,3 +172,4 @@ map("n", "<leader>ss", function() Snacks.scratch.select() end, { desc = "Select 
 map("n", "<leader>lg", function() Snacks.lazygit() end, { desc = "Lazygit" })
 map("n", "<leader>un", function() Snacks.notifier.hide() end, { desc = "Dismiss All Notifications" })
 
+opt.guicursor = "n-v-c-i:block"

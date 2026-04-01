@@ -171,7 +171,6 @@ vim.keymap.set("n", "<leader>m", function()
   end
 end, { desc = "Re-run last compile/run command" })
 
-vim.keymap.set({"n","t"}, "<C-h>", _G.toggle_term, { desc = "Toggle persistent terminal" })
 vim.keymap.set({"n","t"}, "<C-s>", _G.toggle_term, { desc = "Toggle persistent terminal" })
 
 vim.keymap.set("n", "<C-q>", ":copen<CR>", { silent = true })
