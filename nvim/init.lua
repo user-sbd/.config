@@ -144,12 +144,12 @@ require('snacks').setup({
   picker = {
     layout = {
       preset = "telescope",
+      -- preset = "ivy",
     },
   },
   quickfile = { enabled = true },
   styles = {}
 })
-
 
 local Snacks = require("snacks")
 map("n", "<leader>,", function() Snacks.picker.buffers() end, { desc = "Buffers" })
