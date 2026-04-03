@@ -129,9 +129,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
-map({ "n" }, "<leader>x", "<Cmd>tabclose<CR>")
-map({ "n", "t" }, "<C-x>", "<Cmd>bdelete<CR>")
-map({ "n", "t" }, "<C-t>", "<Cmd>enew<CR>")
 map("n", "<C-n>", "<CMDBNext><CR>")
 map("n", "<C-p>", "<CMD>bprevious<CR>")
 
@@ -163,7 +160,6 @@ map("n", "<C-f>", function() Snacks.picker.files() end, { desc = "Find Files" })
 map("n", "<leader>gf", function() Snacks.picker.git_files() end, { desc = "Find Git Files" })
 map("n", "<leader>of", function() Snacks.picker.recent() end, { desc = "Recent" })
 map("n", "<leader>gl", function() Snacks.picker.git_log() end, { desc = "Git Log" })
-map("n", "<leader>gd", function() Snacks.picker.git_diff() end, { desc = "Git Diff (Hunks)" })
 map("n", "<leader>gs", function() Snacks.picker.grep() end, { desc = "Grep" })
 map("n", "<leader>sh", function() Snacks.picker.help() end, { desc = "Help Pages" })
 map("n", "<leader>hs", function() Snacks.picker.highlights() end, { desc = "Highlights" })
