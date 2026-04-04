@@ -2,3 +2,4 @@ macos-titlebar-style = hidden
 font-size = 21
 background = #212121
 font-family = "ZedMono Nerd Font"
+custom-shader = ~/.config/ghostty/shader.glsl
