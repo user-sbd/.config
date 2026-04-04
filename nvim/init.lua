@@ -9,6 +9,7 @@ vim.pack.add({
   { src = "https://github.com/chomosuke/typst-preview.nvim" },
   { src = "https://github.com/ej-shafran/compile-mode.nvim" },
   { src = "https://github.com/marko-cerovac/material.nvim" },
+  { src = "https://github.com/bluz71/vim-moonfly-colors" },
   { src = "https://github.com/folke/snacks.nvim" },
 })
 
@@ -96,7 +97,7 @@ vim.lsp.enable({
 
 vim.cmd [[set completeopt+=menuone,noselect,popup]]
 
-vim.cmd("colorscheme material-darker")
+vim.cmd("colorscheme moonfly")
 vim.cmd("hi ModeMsg guifg=#cdcdcd")
 vim.cmd("hi NormalFloat guibg=NONE ctermbg=NONE")
 vim.cmd("hi StatusLine guifg=#FFFFFF guibg=none")
@@ -145,8 +146,11 @@ require('snacks').setup({
   },
   picker = {
     layout = {
-      layout = { position = "right" },
       preset = "telescope",
+      layout = {
+        width = 0,
+        height = 0,
+      },
     },
   },
   quickfile = { enabled = true },
