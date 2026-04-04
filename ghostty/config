@@ -1,18 +1,4 @@
-font-family = "Iosevka NFM SemiBold"
-adjust-cell-height = 2%
-font-size = 22
-cursor-style = block
-cursor-style-blink = false
-shell-integration-features = no-cursor
-desktop-notifications = false
-link-url = false
-confirm-close-surface = false
-window-title-font-family = 0
-background = #141415
-cursor-style-blink = false
-cursor-click-to-move = false
 macos-titlebar-style = hidden
-macos-icon = chalkboard
-# custom-shader = ~/.config/ghostty/warp.glsl
-
-window-padding-y = 0
+font-size = 21
+background = #212121
+font-family = "ZedMono Nerd Font"

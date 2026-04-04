@@ -138,10 +138,15 @@ require('snacks').setup({
     enabled = true,
     timeout = 3000,
   },
+  explorer = {
+    layout = {
+      preset = "sidebar", preview = false,
+    },
+  },
   picker = {
     layout = {
+      layout = { position = "right" },
       preset = "telescope",
-      -- preset = "ivy",
     },
   },
   quickfile = { enabled = true },
@@ -153,6 +158,7 @@ map("n", "<leader>,", function() Snacks.picker.buffers() end, { desc = "Buffers"
 map("n", "<leader>/", function() Snacks.picker.grep() end, { desc = "Grep" })
 map("n", "<leader>n", function() Snacks.picker.notifications() end, { desc = "Notification History" })
 map("n", "<leader>b", function() Snacks.picker.buffers() end, { desc = "Buffers" })
+map("n","<leader>e", function() Snacks.explorer() end, {desc = "File Explorer"} )
 map("n", "<leader>c", function() Snacks.picker.files({ cwd = '~/.config' }) end,
   { desc = "Find Config File" })
 map("n", "<leader>f", function() Snacks.picker.files() end, { desc = "Find Files" })
@@ -161,11 +167,20 @@ map("n", "<leader>gf", function() Snacks.picker.git_files() end, { desc = "Find 
 map("n", "<leader>of", function() Snacks.picker.recent() end, { desc = "Recent" })
 map("n", "<leader>gl", function() Snacks.picker.git_log() end, { desc = "Git Log" })
 map("n", "<leader>gs", function() Snacks.picker.grep() end, { desc = "Grep" })
-map("n", "<leader>sh", function() Snacks.picker.help() end, { desc = "Help Pages" })
-map("n", "<leader>hs", function() Snacks.picker.highlights() end, { desc = "Highlights" })
+map("n", "<leader>h", function() Snacks.picker.help() end, { desc = "Help Pages" })
+map("n", "<C-h>", function() Snacks.picker.help() end, { desc = "Help Pages" })
+map("n", "<C-b>", function() Snacks.picker.help() end, { desc = "Help Pages" })
+map("n", "<leader>H", function() Snacks.picker.highlights() end, { desc = "Highlights" })
 map("n", "<leader>.", function() Snacks.scratch() end, { desc = "Toggle Scratch Buffer" })
 map("n", "<leader>ss", function() Snacks.scratch.select() end, { desc = "Select Scratch Buffer" })
-map("n", "<leader>lg", function() Snacks.lazygit() end, { desc = "Lazygit" })
+map("n", "<leader>lg", function()
+  local dir = vim.fn.expand("%:p:h")
+  if dir == "" then
+    dir = vim.fn.getcwd()
+  end
+  Snacks.lazygit({ cwd = dir })
+end, { desc = "Lazygit (current file dir)" })
 map("n", "<leader>un", function() Snacks.notifier.hide() end, { desc = "Dismiss All Notifications" })
 
 opt.guicursor = "n-v-c-i:block"
+

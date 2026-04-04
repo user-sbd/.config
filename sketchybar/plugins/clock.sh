@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
+DATE=$(date +"%a %-d %b %-l:%M")
 
-sketchybar -m --set $NAME label="$(date '+%d/%m/%y [%R]')"
-
+sketchybar --set $NAME label="$DATE" \

@@ -1,92 +1,130 @@
-source "$HOME/.config/sketchybar/icons.sh"
+PLUGIN_DIR="$CONFIG_DIR/plugins"
+source "/Users/nitin/.config/sketchybar/colors.sh"
 
-ifont="Hack Nerd Font:Bold:12.0"
-idfont="FontAwesome:Regular:11.0"
-lfont="Tamzen:Medium:13.0"
-bcolor="0x883a3a3a"
-bdcolor="0xff606060"
-lcolor="0xffa8a8a8"
-hcolor="0xfff0f0f0"
+# main bar
+sketchybar --bar \
+  position=top \
+  height=33 \
+  y_offset=12 \
+  margin=12 \
+  corner_radius=11 \
+  blur_radius=30 \
+  border_width=1 \
+  border_color="$BACKGROUND" \
+  background=on \
+  shadow=on \
+  color=0x60333333\
+  sticky=on \
+  display=all
 
-bar=(
-  height=24
-  position=top
-  padding_left=2
-  padding_right=2
-  margin=2
-  y_offset=2
-  border_width=1
-  color="$bcolor"
-  border_color="$bdcolor"
-)
-
+# default styles
 default=(
-  drawing=on
-  icon.font="$ifont"
-  icon.color="$lcolor"
-  icon.highlight_color="$hcolor" 
-  icon.padding_left=6
-  icon.padding_right=2
-  label.font="$lfont"
-  label.color="$lcolor"
-  label.highlight_color="$hcolor" 
-  label.padding_left=2
-  label.padding_right=6
-  background.drawing=on
-  background.color=0xff3a3a3a 
-  background.corner_radius=3
-  background.padding_left=2
-  background.padding_right=2
+  padding_left=6
+  padding_right=4
+  label.padding_left=4
+  label.padding_right=1
+  icon.padding_left=0
+  icon.padding_right=4
+  background.color=
+  background.corner_radius=6
+  background.height=23
+  background.width=18
+  label.color="${TEXT}"
+  icon.color="${TEXT}"
+  icon.font="Menlo:Bold:14.5"
+  label.font="Menlo:Bold:14.5"
 )
 
-sketchybar --bar "${bar[@]}"
 sketchybar --default "${default[@]}"
 
-for i in {1..5}; do
-  sketchybar --add space space.$i left --set space.$i associated_display=1 associated_space=$i 
-  sketchybar --set space.$i script="~/.config/sketchybar/plugins/space.sh" \
-             --subscribe space.$i space_change
+# init vimspoon indicator
+sketchybar --add item vim left
+
+# do not disturb indicator
+sketchybar --add item focus left\
+           --set focus script="$PLUGIN_DIR/focus_status.sh" \
+             update_freq=5 \
+             label.drawing=on \
+             label.padding_left=0 \
+						 padding.left=0 \
+             label.padding_right=6
+
+# this is so dumb... but it looks nice. drawing the background first
+# then hacking the padding of the spaces to overlap it
+# if you do a negative left padding and a positive right padding
+# you can change the absolute position of the item since there is no
+# x_offset property.
+
+# spaces
+sketchybar --add item space-background left \
+					 --set space-background \
+					 background.drawing=on \
+					 width=160
+
+SPACE_ICONS=("1" "2" "3" "4" "5" "6")
+KEYCODES=(18 19 20 21 23 22 26 28 25)
+
+for i in "${!SPACE_ICONS[@]}"; do
+  sid="$((i+1))"
+
+  space=(
+    space="$sid"
+    icon="${SPACE_ICONS[i]}"
+    icon.padding_left=8
+    icon.padding_right=8
+  	padding_left=-160
+    padding_right=157
+    label.drawing=off
+    script="$PLUGIN_DIR/space.sh"
+)
+
+  sketchybar --add space space."$sid" left \
+             --set space."$sid" "${space[@]}" \
+             associated_item=spaces.container
 done
 
-sketchybar --set space.1 icon=${ICONS_SPACE[0]} label="$ICON_TERM term"
-sketchybar --set space.2 icon=${ICONS_SPACE[1]} label="$ICON_CHAT slack"
-sketchybar --set space.3 icon=${ICONS_SPACE[2]} label="$ICON_WEB web"
-sketchybar --set space.4 icon=${ICONS_SPACE[3]} label="$ICON_MAIL mail"
-sketchybar --set space.5 icon=${ICONS_SPACE[4]} label="$ICON_LIST todo"
+# focused app
+sketchybar --add item front_app left \
+    		   --animate sin 10 \
+           --set front_app \
+					 icon.drawing=off \
+					 background.drawing=off \
+                     background.color="" \
+					 padding_left=-155 \
+					 script="$PLUGIN_DIR/front_app.sh" \
+           --subscribe front_app front_app_switched
 
-sketchybar --add bracket spaces '/space\..*/' \
-		   --set spaces background.color=0xff686868 \
-		   background.corner_radius=0 \
-		   background.border_width=1 \
-		   background.border_color="$bdcolor" \
-		   background.height=24
+# notch items
+sketchybar --add item battery e \
+           --set battery \
+           update_freq=60 \
+			     padding_right=8 \
+			     padding_left=16 \
+				 icon.padding_right=6 \
+           script="$PLUGIN_DIR/battery.sh"
 
+sketchybar --add item cpu e \
+           --set cpu \
+           script="$PLUGIN_DIR/cpu.sh" \
+           icon.drawing=off \
+           update_freq=5 
+
+sketchybar --add item mem e \
+           --set mem \
+           label.drawing=on \
+		   label.padding_right=4 \
+           script="$PLUGIN_DIR/memory.sh" \
+		       update_freq=15
+
+# right items
+sketchybar --add item clock right \
+           --set clock update_freq=15 script="$PLUGIN_DIR/clock.sh" \
+		       padding_left=8 \
+		       padding_right=4 \
+		       label.padding_left=0 \
+		       update_freq=1
+
+# force init
 sketchybar --update
 
-sketchybar --add item title center \
-           --set title script="~/.config/sketchybar/plugins/window_title.sh" \
-           --subscribe title front_app_switched space_change 
-
-sketchybar --add item time right \
-           --set time update_freq=10 \
-                 icon=$ICON_CLOCK  \
-                 script="~/.config/sketchybar/plugins/time.sh"
-
-sketchybar --add item date right \
-           --set date update_freq=10 \
-                 icon=$ICON_CALENDAR  \
-                 script="~/.config/sketchybar/plugins/date.sh"
-
-sketchybar --add item battery right \
-           --set battery update_freq=30 \
-                 script="~/.config/sketchybar/plugins/batt.sh"
-
-sketchybar --add bracket r time date battery \
-           --set r background.color=0xff686868 \
-                   background.corner_radius=3 \
-		   background.border_width=1 \
-                   background.border_color="$bdcolor" \
-                   background.height=24
-
-sketchybar --update
-
+# bootstraps
