@@ -173,26 +173,26 @@ end, { desc = "Re-run last compile/run command" })
 
 vim.keymap.set({"n","t"}, "<C-s>", _G.toggle_term, { desc = "Toggle persistent terminal" })
 
-vim.keymap.set("n", "<C-q>", ":copen<CR>", { silent = true })
-for i = 1, 9 do
-	vim.keymap.set('n', '<leader>' .. i, ':cc ' .. i .. '<CR>', { noremap = true, silent = true })
-end
-vim.keymap.set("n", "<leader>a",
-	function() vim.fn.setqflist({ { filename = vim.fn.expand("%"), lnum = 1, col = 1, text = vim.fn.expand("%"), } }, "a") end,
-	{ desc = "Add current file to QuickFix" })
-
-vim.api.nvim_create_autocmd("BufWinEnter", {
-	pattern = "*",
-	group = vim.api.nvim_create_augroup("qf", { clear = true }),
-	callback = function()
-		if vim.bo.buftype == "quickfix" then
-			vim.keymap.set("n", "<C-q>", ":ccl<cr>", { buffer = true, silent = true })
-			vim.keymap.set("n", "dd", function()
-				local idx = vim.fn.line('.')
-				local qflist = vim.fn.getqflist()
-				table.remove(qflist, idx)
-				vim.fn.setqflist(qflist, 'r')
-			end, { buffer = true })
-		end
-	end,
-})
+-- vim.keymap.set("n", "<C-q>", ":copen<CR>", { silent = true })
+-- for i = 1, 9 do
+-- 	vim.keymap.set('n', '<leader>' .. i, ':cc ' .. i .. '<CR>', { noremap = true, silent = true })
+-- end
+-- vim.keymap.set("n", "<leader>a",
+-- 	function() vim.fn.setqflist({ { filename = vim.fn.expand("%"), lnum = 1, col = 1, text = vim.fn.expand("%"), } }, "a") end,
+-- 	{ desc = "Add current file to QuickFix" })
+--
+-- vim.api.nvim_create_autocmd("BufWinEnter", {
+-- 	pattern = "*",
+-- 	group = vim.api.nvim_create_augroup("qf", { clear = true }),
+-- 	callback = function()
+-- 		if vim.bo.buftype == "quickfix" then
+-- 			vim.keymap.set("n", "<C-q>", ":ccl<cr>", { buffer = true, silent = true })
+-- 			vim.keymap.set("n", "dd", function()
+-- 				local idx = vim.fn.line('.')
+-- 				local qflist = vim.fn.getqflist()
+-- 				table.remove(qflist, idx)
+-- 				vim.fn.setqflist(qflist, 'r')
+-- 			end, { buffer = true })
+-- 		end
+-- 	end,
+-- })

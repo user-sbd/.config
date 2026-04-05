@@ -104,6 +104,7 @@ vim.cmd("hi StatusLine guifg=#FFFFFF guibg=none")
 vim.cmd("hi TabLine guibg=none")
 vim.cmd("hi TabLineSel guibg=#82AAFF")
 vim.cmd("hi TermStatusNC guibg=NONE")
+vim.cmd("hi FloatBorder guibg=NONE")
 vim.cmd("hi TabLineFill guibg=141415")
 
 require("luasnip").setup({ enable_autosnippets = true })
@@ -188,4 +189,3 @@ end, { desc = "Lazygit (current file dir)" })
 map("n", "<leader>un", function() Snacks.notifier.hide() end, { desc = "Dismiss All Notifications" })
 
 opt.guicursor = "n-v-c-i:block"
-

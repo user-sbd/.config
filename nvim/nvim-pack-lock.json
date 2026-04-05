@@ -12,6 +12,10 @@
       "rev": "c9e7b7bfbd01f949164988ee1684035468e1995c",
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
+    "harpoon-core.nvim": {
+      "rev": "1bb6da6ea0b1501458c89c4c3947d10c454e2ae4",
+      "src": "https://github.com/MeanderingProgrammer/harpoon-core.nvim"
+    },
     "mason.nvim": {
       "rev": "44d1e90e1f66e077268191e3ee9d2ac97cc18e65",
       "src": "https://github.com/mason-org/mason.nvim"
@@ -39,6 +43,14 @@
     "snacks.nvim": {
       "rev": "ad9ede6a9cddf16cedbd31b8932d6dcdee9b716e",
       "src": "https://github.com/folke/snacks.nvim"
+    },
+    "store.nvim": {
+      "rev": "bd894bd538c013c04d2b5bdae4eb5c83d3d38758",
+      "src": "https://github.com/alex-popov-tech/store.nvim"
+    },
+    "typst-concealer": {
+      "rev": "3d2e72ce7fc06bd0db0dafbdd1e17d3c9e343d53",
+      "src": "https://github.com/PartyWumpus/typst-concealer"
     },
     "typst-preview.nvim": {
       "rev": "5f3068df703a40fa4b8ac1c13a7d18ed78483be9",
