@@ -16,6 +16,10 @@
       "rev": "1bb6da6ea0b1501458c89c4c3947d10c454e2ae4",
       "src": "https://github.com/MeanderingProgrammer/harpoon-core.nvim"
     },
+    "img-clip.nvim": {
+      "rev": "b6ddfb97b5600d99afe3452d707444afda658aca",
+      "src": "https://github.com/HakonHarnes/img-clip.nvim"
+    },
     "mason.nvim": {
       "rev": "44d1e90e1f66e077268191e3ee9d2ac97cc18e65",
       "src": "https://github.com/mason-org/mason.nvim"
@@ -47,6 +51,10 @@
     "store.nvim": {
       "rev": "bd894bd538c013c04d2b5bdae4eb5c83d3d38758",
       "src": "https://github.com/alex-popov-tech/store.nvim"
+    },
+    "tabby.nvim": {
+      "rev": "3c130e1fcb598ce39a9c292847e32d7c3987cf11",
+      "src": "https://github.com/nanozuki/tabby.nvim"
     },
     "typst-concealer": {
       "rev": "3d2e72ce7fc06bd0db0dafbdd1e17d3c9e343d53",

@@ -98,14 +98,14 @@ vim.lsp.enable({
 vim.cmd [[set completeopt+=menuone,noselect,popup]]
 
 vim.cmd("colorscheme moonfly")
-vim.cmd("hi ModeMsg guifg=#cdcdcd")
-vim.cmd("hi NormalFloat guibg=NONE ctermbg=NONE")
-vim.cmd("hi StatusLine guifg=#FFFFFF guibg=none")
-vim.cmd("hi TabLine guibg=none")
-vim.cmd("hi TabLineSel guibg=#82AAFF")
-vim.cmd("hi TermStatusNC guibg=NONE")
-vim.cmd("hi FloatBorder guibg=NONE")
-vim.cmd("hi TabLineFill guibg=141415")
+-- vim.cmd("hi ModeMsg guifg=#cdcdcd")
+-- vim.cmd("hi NormalFloat guibg=NONE ctermbg=NONE")
+-- vim.cmd("hi StatusLine guifg=#FFFFFF guibg=none")
+-- vim.cmd("hi TabLine guibg=none")
+-- vim.cmd("hi TabLineSel guibg=#82AAFF")
+-- vim.cmd("hi TermStatusNC guibg=NONE")
+-- vim.cmd("hi FloatBorder guibg=NONE")
+-- vim.cmd("hi TabLineFill guibg=141415")
 
 require("luasnip").setup({ enable_autosnippets = true })
 require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/snippets/" })
@@ -124,15 +124,13 @@ map({ "n", "v", "x" }, "<leader>lf", vim.lsp.buf.format, { desc = "Format curren
 map({ "v", "x", "n" }, "<C-y>", '"+y', { desc = "System clipboard yank." })
 map("n", "-", "<cmd>Oil<CR>")
 map("n", "<C-g>", ":Git | only<CR>", { silent = true })
+map("n", "<C-t>", ":Term | <CR>", { silent = true })
 
 vim.api.nvim_create_autocmd("TextYankPost", {
   callback = function()
     vim.highlight.on_yank()
   end,
 })
-
-map("n", "<C-n>", "<CMDBNext><CR>")
-map("n", "<C-p>", "<CMD>bprevious<CR>")
 
 require('snacks').setup({
   bigfile = { enabled = true },
@@ -146,13 +144,10 @@ require('snacks').setup({
     },
   },
   picker = {
-    layout = {
-      preset = "telescope",
-      layout = {
-        width = 0,
-        height = 0,
-      },
-    },
+    -- layout = {
+    --   preset = "telescope",
+    --   fullscreen = true,
+    -- },
   },
   quickfile = { enabled = true },
   styles = {}
