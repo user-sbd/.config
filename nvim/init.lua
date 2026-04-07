@@ -2,15 +2,15 @@ vim.pack.add({
   { src = "https://github.com/stevearc/oil.nvim" },
   { src = "https://github.com/neovim/nvim-lspconfig" },
   { src = "https://github.com/mason-org/mason.nvim" },
-  { src = "https://github.com/nvim-lua/plenary.nvim" },
   { src = "https://github.com/nvim-treesitter/nvim-treesitter" },
   { src = "https://github.com/tpope/vim-fugitive" },
   { src = "https://github.com/L3MON4D3/LuaSnip" },
   { src = "https://github.com/chomosuke/typst-preview.nvim" },
   { src = "https://github.com/ej-shafran/compile-mode.nvim" },
-  { src = "https://github.com/marko-cerovac/material.nvim" },
   { src = "https://github.com/bluz71/vim-moonfly-colors" },
-  { src = "https://github.com/folke/snacks.nvim" },
+  { src = "https://github.com/nvim-telescope/telescope.nvim" },
+	{ src = "https://github.com/nvim-lua/plenary.nvim" },
+	{ src = "https://github.com/nvim-telescope/telescope-fzf-native.nvim" },
 })
 
 local opt = vim.opt
@@ -39,6 +39,32 @@ opt.winborder = "rounded"
 opt.pumborder = "rounded"
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
+
+require('telescope').setup({
+	defaults = {
+		preview = { treesitter = true },
+		color_devicons = true,
+		sorting_strategy = "ascending",
+		borderchars = {
+			"", -- top
+			"", -- right
+			"", -- bottom
+			"", -- left
+			"", -- top-left
+			"", -- top-right
+			"", -- bottom-right
+			"", -- bottom-left
+		},
+		path_displays = { "smart" },
+		layout_config = {
+			height = 100,
+			width = 400,
+			prompt_position = "top",
+			preview_cutoff = 40,
+		}
+	}
+})
+require('telescope').load_extension('fzf')
 
 require('typst-preview').setup {
   -- invert_colors = 'always', --
@@ -99,13 +125,14 @@ vim.cmd [[set completeopt+=menuone,noselect,popup]]
 
 vim.cmd("colorscheme moonfly")
 -- vim.cmd("hi ModeMsg guifg=#cdcdcd")
--- vim.cmd("hi NormalFloat guibg=NONE ctermbg=NONE")
--- vim.cmd("hi StatusLine guifg=#FFFFFF guibg=none")
+vim.cmd("hi StatusLine guifg=#FFFFFF guibg=none")
+vim.cmd("hi StatusLineNC guifg=#FFFFFF guibg=none")
+-- vim.cmd("hi TermStatusNC guibg=NONE")
 -- vim.cmd("hi TabLine guibg=none")
 -- vim.cmd("hi TabLineSel guibg=#82AAFF")
--- vim.cmd("hi TermStatusNC guibg=NONE")
--- vim.cmd("hi FloatBorder guibg=NONE")
 -- vim.cmd("hi TabLineFill guibg=141415")
+vim.cmd("hi NormalFloat guibg=NONE ctermbg=NONE")
+vim.cmd("hi FloatBorder guibg=NONE")
 
 require("luasnip").setup({ enable_autosnippets = true })
 require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/snippets/" })
@@ -124,7 +151,18 @@ map({ "n", "v", "x" }, "<leader>lf", vim.lsp.buf.format, { desc = "Format curren
 map({ "v", "x", "n" }, "<C-y>", '"+y', { desc = "System clipboard yank." })
 map("n", "-", "<cmd>Oil<CR>")
 map("n", "<C-g>", ":Git | only<CR>", { silent = true })
-map("n", "<C-t>", ":Term | <CR>", { silent = true })
+
+local builtin = require("telescope.builtin")
+map({ "n" }, "<leader>f", builtin.find_files, { desc = "Telescope live grep" })
+map({ "n" }, "<C-f>", builtin.find_files, { desc = "Telescope live grep" })
+map({ "n" }, "<leader>c", "<CMD>cd ~/.config || Telescope find_files<CR>", { desc = "Telescope live grep" })
+map({ "n" }, "<leader>g", builtin.live_grep)
+map({ "n" }, "<leader>s", builtin.grep_string)
+map({ "n" }, "<leader>o", builtin.oldfiles)
+map({ "n" }, "<leader>h", builtin.help_tags)
+map({ "n" }, "<leader>M", builtin.man_pages)
+map({ "n" }, "<leader>bi", builtin.builtin)
+map({ "n" }, "<leader>k", builtin.keymaps)
 
 vim.api.nvim_create_autocmd("TextYankPost", {
   callback = function()
@@ -132,55 +170,5 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
-require('snacks').setup({
-  bigfile = { enabled = true },
-  notifier = {
-    enabled = true,
-    timeout = 3000,
-  },
-  explorer = {
-    layout = {
-      preset = "sidebar", preview = false,
-    },
-  },
-  picker = {
-    -- layout = {
-    --   preset = "telescope",
-    --   fullscreen = true,
-    -- },
-  },
-  quickfile = { enabled = true },
-  styles = {}
-})
-
-local Snacks = require("snacks")
-map("n", "<leader>,", function() Snacks.picker.buffers() end, { desc = "Buffers" })
-map("n", "<leader>/", function() Snacks.picker.grep() end, { desc = "Grep" })
-map("n", "<leader>n", function() Snacks.picker.notifications() end, { desc = "Notification History" })
-map("n", "<leader>b", function() Snacks.picker.buffers() end, { desc = "Buffers" })
-map("n","<leader>e", function() Snacks.explorer() end, {desc = "File Explorer"} )
-map("n", "<leader>c", function() Snacks.picker.files({ cwd = '~/.config' }) end,
-  { desc = "Find Config File" })
-map("n", "<leader>f", function() Snacks.picker.files() end, { desc = "Find Files" })
-map("n", "<C-f>", function() Snacks.picker.files() end, { desc = "Find Files" })
-map("n", "<leader>gf", function() Snacks.picker.git_files() end, { desc = "Find Git Files" })
-map("n", "<leader>of", function() Snacks.picker.recent() end, { desc = "Recent" })
-map("n", "<leader>gl", function() Snacks.picker.git_log() end, { desc = "Git Log" })
-map("n", "<leader>gl", "<CMD>0Gclog<CR>",{ desc = "git log (QF)" })
-map("n", "<leader>gs", function() Snacks.picker.grep() end, { desc = "Grep" })
-map("n", "<leader>h", function() Snacks.picker.help() end, { desc = "Help Pages" })
-map("n", "<C-h>", function() Snacks.picker.help() end, { desc = "Help Pages" })
-map("n", "<C-b>", function() Snacks.picker.help() end, { desc = "Help Pages" })
-map("n", "<leader>H", function() Snacks.picker.highlights() end, { desc = "Highlights" })
-map("n", "<leader>.", function() Snacks.scratch() end, { desc = "Toggle Scratch Buffer" })
-map("n", "<leader>ss", function() Snacks.scratch.select() end, { desc = "Select Scratch Buffer" })
-map("n", "<leader>lg", function()
-  local dir = vim.fn.expand("%:p:h")
-  if dir == "" then
-    dir = vim.fn.getcwd()
-  end
-  Snacks.lazygit({ cwd = dir })
-end, { desc = "Lazygit (current file dir)" })
-map("n", "<leader>un", function() Snacks.notifier.hide() end, { desc = "Dismiss All Notifications" })
-
 opt.guicursor = "n-v-c-i:block"
+
