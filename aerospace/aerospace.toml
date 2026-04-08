@@ -5,6 +5,13 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 start-at-login = true
 automatically-unhide-macos-hidden-apps = true
 
+after-startup-command = ['exec-and-forget sketchybar']
+
+exec-on-workspace-change = [
+    '/bin/bash', '-c',
+    'sketchybar --trigger aerospace_workspace_change FOCUSED=$AEROSPACE_FOCUSED_WORKSPACE'
+]
+
 [mode.main.binding]
 alt-o = 'exec-and-forget ~/.config/scripts/choos.sh'
 alt-h = 'focus --boundaries-action wrap-around-the-workspace left'

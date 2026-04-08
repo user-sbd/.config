@@ -3,3 +3,5 @@ font-size = 21
 background = #080808
 font-family = "ZedMono Nerd Font"
 # custom-shader = ~/.config/ghostty/shader.glsl
+
+keybind = super+f=text:\x01f

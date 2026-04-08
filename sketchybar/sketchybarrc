@@ -1,130 +1,84 @@
-PLUGIN_DIR="$CONFIG_DIR/plugins"
-source "/Users/nitin/.config/sketchybar/colors.sh"
+#!/bin/bash
 
-# main bar
-sketchybar --bar \
-  position=top \
-  height=33 \
-  y_offset=12 \
-  margin=12 \
-  corner_radius=11 \
-  blur_radius=30 \
-  border_width=1 \
-  border_color="$BACKGROUND" \
-  background=on \
-  shadow=on \
-  color=0x60333333\
-  sticky=on \
-  display=all
+# Filename: ~/dotfiles/sketchybar/felixkratz/sketchybarrc
 
-# default styles
-default=(
-  padding_left=6
-  padding_right=4
-  label.padding_left=4
-  label.padding_right=1
-  icon.padding_left=0
-  icon.padding_right=4
-  background.color=
-  background.corner_radius=6
-  background.height=23
-  background.width=18
-  label.color="${TEXT}"
-  icon.color="${TEXT}"
-  icon.font="Menlo:Bold:14.5"
-  label.font="Menlo:Bold:14.5"
+source "$CONFIG_DIR/colors.sh" # Loads all defined colors
+source "$CONFIG_DIR/icons.sh"  # Loads all defined icons
+
+ITEM_DIR="$CONFIG_DIR/items"     # Directory where the items are configured
+PLUGIN_DIR="$CONFIG_DIR/plugins" # Directory where all the plugin scripts are stored
+
+FONT="JetBrainsMono Nerd Font"
+
+# All paddings use this value (icon, label, background), default is 3 but I
+# decreased it
+PADDINGS=1
+
+# Setting up and starting the helper process (export colors so helper gets theme)
+export RED ORANGE YELLOW LABEL_COLOR WHITE
+HELPER=git.felix.helper
+killall helper
+(cd $CONFIG_DIR/helper && make)
+$CONFIG_DIR/helper/helper $HELPER >/dev/null 2>&1 &
+
+# Setting up the general bar appearance of the bar
+bar=(
+  height=45
+  color=$BAR_COLOR
+  border_width=2
+  border_color=$BAR_BORDER_COLOR
+  shadow=off
+  position=top
+  sticky=on
+  padding_right=10
+  padding_left=10
+  y_offset=-5
+  margin=-2
+  topmost=window
 )
 
-sketchybar --default "${default[@]}"
+sketchybar --bar "${bar[@]}"
 
-# init vimspoon indicator
-sketchybar --add item vim left
-
-# do not disturb indicator
-sketchybar --add item focus left\
-           --set focus script="$PLUGIN_DIR/focus_status.sh" \
-             update_freq=5 \
-             label.drawing=on \
-             label.padding_left=0 \
-						 padding.left=0 \
-             label.padding_right=6
-
-# this is so dumb... but it looks nice. drawing the background first
-# then hacking the padding of the spaces to overlap it
-# if you do a negative left padding and a positive right padding
-# you can change the absolute position of the item since there is no
-# x_offset property.
-
-# spaces
-sketchybar --add item space-background left \
-					 --set space-background \
-					 background.drawing=on \
-					 width=160
-
-SPACE_ICONS=("1" "2" "3" "4" "5" "6")
-KEYCODES=(18 19 20 21 23 22 26 28 25)
-
-for i in "${!SPACE_ICONS[@]}"; do
-  sid="$((i+1))"
-
-  space=(
-    space="$sid"
-    icon="${SPACE_ICONS[i]}"
-    icon.padding_left=8
-    icon.padding_right=8
-  	padding_left=-160
-    padding_right=157
-    label.drawing=off
-    script="$PLUGIN_DIR/space.sh"
+# Setting up default values
+defaults=(
+  updates=when_shown
+  icon.font="$FONT:Bold:14.0"
+  icon.color=$ICON_COLOR
+  icon.padding_left=$PADDINGS
+  icon.padding_right=$PADDINGS
+  label.font="$FONT:Semibold:13.0"
+  label.color=$LABEL_COLOR
+  label.padding_left=$PADDINGS
+  label.padding_right=$PADDINGS
+  padding_right=$PADDINGS
+  padding_left=$PADDINGS
+  background.height=26
+  background.corner_radius=9
+  background.border_width=2
+  popup.background.border_width=2
+  popup.background.corner_radius=9
+  popup.background.border_color=$POPUP_BORDER_COLOR
+  popup.background.color=$POPUP_BACKGROUND_COLOR
+  popup.blur_radius=20
+  popup.background.shadow.drawing=on
+  scroll_texts=on
 )
 
-  sketchybar --add space space."$sid" left \
-             --set space."$sid" "${space[@]}" \
-             associated_item=spaces.container
-done
+sketchybar --default "${defaults[@]}"
 
-# focused app
-sketchybar --add item front_app left \
-    		   --animate sin 10 \
-           --set front_app \
-					 icon.drawing=off \
-					 background.drawing=off \
-                     background.color="" \
-					 padding_left=-155 \
-					 script="$PLUGIN_DIR/front_app.sh" \
-           --subscribe front_app front_app_switched
+###############################################################################
+# Items: active / experimental / legacy 由 load_items.sh 统一加载，见 items/README.md
+###############################################################################
+source "$CONFIG_DIR/load_items.sh"
 
-# notch items
-sketchybar --add item battery e \
-           --set battery \
-           update_freq=60 \
-			     padding_right=8 \
-			     padding_left=16 \
-				 icon.padding_right=6 \
-           script="$PLUGIN_DIR/battery.sh"
+###############################################################################
 
-sketchybar --add item cpu e \
-           --set cpu \
-           script="$PLUGIN_DIR/cpu.sh" \
-           icon.drawing=off \
-           update_freq=5 
+sketchybar --hotload on
 
-sketchybar --add item mem e \
-           --set mem \
-           label.drawing=on \
-		   label.padding_right=4 \
-           script="$PLUGIN_DIR/memory.sh" \
-		       update_freq=15
-
-# right items
-sketchybar --add item clock right \
-           --set clock update_freq=15 script="$PLUGIN_DIR/clock.sh" \
-		       padding_left=8 \
-		       padding_right=4 \
-		       label.padding_left=0 \
-		       update_freq=1
-
-# force init
+# Forcing all item scripts to run (never do this outside of sketchybarrc)
 sketchybar --update
 
-# bootstraps
+# Initial workspace strip state (AeroSpace triggers this on workspace change)
+sketchybar --trigger aerospace_workspace_change
+
+echo "sketchybar configuration loaded."

@@ -1,55 +1,40 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-export WHITE=0xffffffff
-export BLACK=0xff000000
-export RED=0xfffda7a6
-export GREEN=0xffa6da95
-export BLUE=0xff8aadf4
-export YELLOW=0xffffe4bf
-export ORANGE=0xfff5a97f
-export MAGENTA=0xffc6a0f6
-export GREY=0xff939ab7
-export GREY_TRANSP=0x11000000
+# Source the active colorscheme (DOTFILES_DIR defaults to ~/dotfiles if unset)
+DOTFILES_DIR="${DOTFILES_DIR:-$HOME/dotfiles}"
+
+export MIC_LEVEL=40
+
+# Linkarzu Theme
+export BLACK=0xff${linkarzu_color10#\#}
+export WHITE=0xff${linkarzu_color14#\#}
+export RED=0xff${linkarzu_color11#\#}
+export GREEN=0xff${linkarzu_color02#\#}
+export BLUE=0xff${linkarzu_color03#\#}
+export YELLOW=0xff${linkarzu_color12#\#}
+export ORANGE=0xff${linkarzu_color04#\#}
+export MAGENTA=0xff${linkarzu_color01#\#}
+export GREY=0xff${linkarzu_color09#\#}
 export TRANSPARENT=0x00000000
+export BG0=0xff${linkarzu_color10#\#}
+export BG0O50=0x80${linkarzu_color10#\#}
+export BG0O60=0x99${linkarzu_color10#\#}
+export BG0O70=0xb2${linkarzu_color10#\#}
+export BG0O80=0xcc${linkarzu_color10#\#}
+# This sets the color of the bar
+# Eldritch dark
+export BG0O85=0x55${linkarzu_color10#\#}
+# Eldritch light
+export BG1=0x60${linkarzu_color13#\#}
+export BG2=0x60${linkarzu_color07#\#}
 
-# Color Palette - Shared between borders and sketchybar
-export ACCENT=$WHITE
-export ACCENT_TRANSPARENT=0x44ffffff # Transparent version of accent
-
-export BAR_COLOR=0xff000000     # Bar background
-export ITEM_BG_COLOR=0x44ffffff # Item background
-
-# Semantic colors
-export TEXT_PRIMARY=$WHITE
-export TEXT_MUTED=0xffffffff
-
-export DEFAULT_ICON_COLOR=$TEXT_PRIMARY
-export DEFAULT_LABEL_COLOR=$TEXT_PRIMARY
-
-export SPACE_ACTIVE_COLOR=$ACCENT
-export SPACE_ACTIVE_BG_COLOR=$ACCENT_TRANSPARENT
-export SPACE_HIGHLIGHT_COLOR=$ACCENT
-export SPACE_INACTIVE_COLOR=$TEXT_MUTED
-
-export FRONT_APP_LAYOUT_ICON_COLOR=$GREEN
-export FRONT_APP_LAYOUT_BG_COLOR=$GREY_TRANSP
-
-export CLOCK_COLOR=$TEXT_MUTED
-
-export VOLUME_COLOR=$GREY
-
-export BATTERY_COLOR_NORMAL=$GREY
-export BATTERY_COLOR_WARNING=$YELLOW
-export BATTERY_COLOR_LOW=$ORANGE
-export BATTERY_COLOR_CRITICAL=$RED
-export BATTERY_COLOR_CHARGING=$GREY
-
-export CAL_EVENT_ICON_COLOR=$RED
-export CAL_EVENT_LABEL_COLOR=$TEXT_PRIMARY
-export CAL_EVENT_BG_COLOR=$GREY_TRANSP
-
-export THINGS_TODO_ICON_COLOR=$YELLOW
-export THINGS_TODO_LABEL_COLOR=$TEXT_PRIMARY
-
-export BORDER_ACTIVE_COLOR=0xff3729ac
-export BORDER_BACKGROUND_COLOR=0x000000
+# General bar colors
+export BAR_COLOR=$BG0O85
+export BAR_BORDER_COLOR=$BG2
+export BACKGROUND_1=$BG1
+export BACKGROUND_2=$BG2
+export ICON_COLOR=$WHITE  # Color of all icons
+export LABEL_COLOR=$WHITE # Color of all labels
+export POPUP_BACKGROUND_COLOR=$BAR_COLOR
+export POPUP_BORDER_COLOR=$WHITE
+export SHADOW_COLOR=$BLACK
