@@ -1,41 +1,47 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-source "$HOME/.config/sketchybar/colors.sh"
+sketchybar --add item aerospace_mode left \
+  --subscribe aerospace_mode aerospace_mode_change \
+  --set aerospace_mode icon="󰘧" \
+  script="$CONFIG_DIR/plugins/aerospace_mode.sh" \
+  icon.color="$ACCENT_COLOR" \
+  icon.padding_left=4 \
+  drawing=on
 
-# Remove old space items
-for item in $(sketchybar --query bar | jq -r '.items[] | select(startswith("space."))'); do
-    sketchybar --remove "$item" 2>/dev/null || true
+for sid in $(aerospace list-workspaces --all); do
+  monitor=$(aerospace list-windows --workspace "$sid" --format "%{monitor-appkit-nsscreen-screens-id}")
+
+  if [ -z "$monitor" ]; then
+    monitor="1"
+  fi
+
+  sketchybar --add item space."$sid" left \
+    --subscribe space."$sid" aerospace_workspace_change space_windows_change display_change system_woke mouse.entered mouse.exited \
+    --set space."$sid" \
+    display="$monitor" \
+    padding_right=0 \
+    icon="$sid" \
+    label.padding_right=7 \
+    icon.padding_left=7 \
+    icon.padding_right=4 \
+    background.drawing=on \
+    label.font="sketchybar-app-font:Regular:16.0" \
+    background.color="$ACCENT_COLOR" \
+    icon.color="$BACKGROUND" \
+    icon.y_offset=1\
+    label.color="$BACKGROUND" \
+    background.corner_radius=5 \
+    background.height=25 \
+    label.drawing=on \
+    click_script="aerospace workspace $sid" \
+    script="$CONFIG_DIR/plugins/aerospace.sh $sid"
 done
 
-# Get current AeroSpace workspaces
-WORKSPACES=$(aerospace list-workspaces --all)
-
-for sid in $WORKSPACES; do
-    sketchybar --add item "space.$sid" left \
-        --set "space.$sid" \
-            icon="$sid" \
-            icon.font="$FONT:Bold:14.0" \
-            icon.padding_left=9 \
-            icon.padding_right=9 \
-            padding_left=2 \
-            padding_right=2 \
-            icon.highlight_color=$RED \
-            label.drawing=off \
-            \
-            background.drawing=off \           # Important: start with off
-            background.color=$BACKGROUND_2 \
-            background.height=24 \
-            background.corner_radius=7 \
-            --subscribe "space.$sid" aerospace_workspace_change \
-            click_script="aerospace workspace $sid"
-done
-
-# Outer bracket (subtle container for all workspaces)
-sketchybar --add bracket spaces '/space\..*/' \
-    --set spaces \
-        background.color=$BACKGROUND_1 \
-        background.border_color=$BACKGROUND_2 \
-        background.border_width=2 \
-        background.height=28 \
-        background.corner_radius=9 \
-        background.drawing=on
+sketchybar --add item space_separator left \
+  --set space_separator icon="|" \
+  icon.color="$ACCENT_COLOR" \
+  icon.padding_left=4 \
+  icon.padding_right=7 \
+  y_offset=1  \
+  label.drawing=off \
+  background.drawing=off

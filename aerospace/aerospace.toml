@@ -5,7 +5,7 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 start-at-login = true
 automatically-unhide-macos-hidden-apps = true
 
-after-startup-command = ['exec-and-forget sketchybar']
+# after-startup-command = ['exec-and-forget sketchybar']
 
 exec-on-workspace-change = [
     '/bin/bash', '-c',
@@ -13,10 +13,13 @@ exec-on-workspace-change = [
 ]
 
 [mode.main.binding]
+alt-n= 'workspace prev'
+alt-p= 'workspace next'
+
 alt-o = 'exec-and-forget ~/.config/scripts/choos.sh'
+alt-shift-p = 'exec-and-forget brew services restart sketchybar'
 alt-h = 'focus --boundaries-action wrap-around-the-workspace left'
 alt-l = 'focus --boundaries-action wrap-around-the-workspace right'
-alt-semicolon = 'exec-and-forget ~/.config/aerospace/floating-notes.sh'
 
 alt-shift-m = 'macos-native-fullscreen'
 alt-e = 'layout tiles horizontal vertical'
@@ -32,7 +35,7 @@ alt-f = 'workspace 4'
 alt-g = 'workspace 5'
 alt-j = 'workspace 6'
 alt-k = 'workspace 7'
-alt-quote = 'workspace 8'
+alt-semicolon = 'workspace 8'
 
 alt-shift-a = 'move-node-to-workspace 1'
 alt-shift-s = 'move-node-to-workspace 2'
@@ -73,7 +76,7 @@ run = 'move-node-to-workspace 2'
 
 [[on-window-detected]]
 if.app-id = 'com.mitchellh.ghostty'
-run = 'move-node-to-workspace 1'
+run = 'move-node-to-workspace 6'
 
 [[on-window-detected]]
 if.app-id = 'com.spotify.client'
@@ -83,7 +86,3 @@ run = 'move-node-to-workspace 3'
 if.app-id = 'com.hnc.Discord'
 run = 'move-node-to-workspace 4'
 
-[[on-window-detected]]
-if.app-id = 'com.github.wez.wezterm'
-if.window-title-regex-substring = 'FLOATING_NOTES'
-run = 'layout floating'

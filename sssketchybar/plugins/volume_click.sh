@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 WIDTH=100
 
@@ -21,25 +21,37 @@ toggle_detail() {
 
 toggle_devices() {
   which SwitchAudioSource >/dev/null || exit 0
+  # shellcheck disable=SC1091
   source "$HOME/.config/sketchybar/colors.sh"
 
   args=(--remove '/volume.device\.*/' --set "$NAME" popup.drawing=toggle)
   COUNTER=0
-  CURRENT="$(SwitchAudioSource -t output -c)"
-  while IFS= read -r device; do
-    COLOR=$GREY
-    if [ "${device}" = "$CURRENT" ]; then
-      COLOR=$WHITE
-    fi
-    args+=(--add item volume.device.$COUNTER popup."$NAME"
-      --set volume.device.$COUNTER label="${device}"
-      label.color="$COLOR"
-      click_script="SwitchAudioSource -s \"${device}\" && sketchybar --set /volume.device\.*/ label.color=$GREY --set \$NAME label.color=$WHITE --set $NAME popup.drawing=off")
-    COUNTER=$((COUNTER + 1))
-  done <<<"$(SwitchAudioSource -a -t output)"
 
-  sketchybar -m "${args[@]}" >/dev/null
+  CURRENT="$(SwitchAudioSource -t output -c)"
+  DEVICE_LIST="$(SwitchAudioSource -a -t output)"
+
+  # If current device (e.g., AirPlay) is not in the list, prepend it
+  if ! grep -Fxq "$CURRENT" <<< "$DEVICE_LIST"; then
+    DEVICE_LIST="$CURRENT"$'\n'"$DEVICE_LIST"
+  fi
+
+  while IFS= read -r device; do
+    COLOR="$DISABLED_COLOR"
+    if [ "${device}" = "$CURRENT" ]; then
+      COLOR="$ACCENT_COLOR"
+    fi
+
+    args+=(--add item volume.device."$COUNTER" popup."$NAME" \
+           --set volume.device."$COUNTER" \
+                 label="${device}" \
+                 label.color="$COLOR" \
+                 click_script="SwitchAudioSource -s \"${device}\" && sketchybar --set /volume.device\\.*/ label.color=$DISABLED_COLOR --set \$NAME label.color=$ACCENT_COLOR --set $NAME popup.drawing=off")
+    COUNTER=$((COUNTER+1))
+  done <<< "$DEVICE_LIST"
+
+  sketchybar -m "${args[@]}" > /dev/null
 }
+
 
 if [ "$BUTTON" = "right" ] || [ "$MODIFIER" = "shift" ]; then
   toggle_devices

@@ -2,6 +2,19 @@ macos-titlebar-style = hidden
 font-size = 21
 background = #080808
 font-family = "ZedMono Nerd Font"
-# custom-shader = ~/.config/ghostty/shader.glsl
+
+# Cmd+number → Ctrl-a <number> (tmux window switching)
+keybind = cmd+digit1=text:\x01\x31
+keybind = cmd+digit2=text:\x01\x32
+keybind = cmd+digit3=text:\x01\x33
+keybind = cmd+digit4=text:\x01\x34
+keybind = cmd+digit5=text:\x01\x35
+keybind = cmd+digit6=text:\x01\x36
+keybind = cmd+digit7=text:\x01\x37
+keybind = cmd+digit8=text:\x01\x38
+keybind = cmd+digit9=text:\x01\x39
+
+keybind = cmd+c=text:\x01\x63
 
 keybind = super+f=text:\x01f
+
