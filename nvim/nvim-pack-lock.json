@@ -12,6 +12,10 @@
       "rev": "c9e7b7bfbd01f949164988ee1684035468e1995c",
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
+    "grapple.nvim": {
+      "rev": "b41ddfc1c39f87f3d1799b99c2f0f1daa524c5f7",
+      "src": "https://github.com/cbochs/grapple.nvim"
+    },
     "harpoon-core.nvim": {
       "rev": "1bb6da6ea0b1501458c89c4c3947d10c454e2ae4",
       "src": "https://github.com/MeanderingProgrammer/harpoon-core.nvim"
