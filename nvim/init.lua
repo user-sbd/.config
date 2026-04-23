@@ -11,7 +11,7 @@ vim.pack.add({
   { src = "https://github.com/nvim-telescope/telescope.nvim" },
 	{ src = "https://github.com/nvim-lua/plenary.nvim" },
 	{ src = "https://github.com/nvim-telescope/telescope-fzf-native.nvim" },
-	{ src = "https://github.com/cbochs/grapple.nvim" },
+	{ src = "https://github.com/ThePrimeagen/harpoon", version = "harpoon2", },
 })
 
 local opt = vim.opt
@@ -134,6 +134,7 @@ vim.cmd("hi StatusLineNC guifg=#FFFFFF guibg=none")
 -- vim.cmd("hi TabLineFill guibg=141415")
 vim.cmd("hi NormalFloat guibg=NONE ctermbg=NONE")
 vim.cmd("hi FloatBorder guibg=NONE")
+vim.cmd("hi MarkSignNumHL guibg=NONE")
 
 require("luasnip").setup({ enable_autosnippets = true })
 require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/snippets/" })
@@ -163,7 +164,6 @@ map({ "n" }, "<leader>o", builtin.oldfiles)
 map({ "n" }, "<leader>h", builtin.help_tags)
 map({ "n" }, "<leader>M", builtin.man_pages)
 map({ "n" }, "<leader>bi", builtin.builtin)
-map({ "n" }, "<leader>k", builtin.keymaps)
 
 vim.api.nvim_create_autocmd("TextYankPost", {
   callback = function()
@@ -173,10 +173,35 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 opt.guicursor = "n-v-c-i:block"
 
+local harpoon = require("harpoon")
 
--- Lua
-vim.keymap.set("n", "<leader>m", require("grapple").toggle)
-vim.keymap.set("n", "<leader>M", require("grapple").toggle_tags)
+harpoon:setup()
+harpoon:extend({
+  UI_CREATE = function(cx)
+    vim.keymap.set("n", "<C-v>", function()
+      harpoon.ui:select_menu_item({ vsplit = true })
+    end, { buffer = cx.bufnr })
 
--- User command
-vim.keymap.set("n", "<leader>1", "<cmd>Grapple select index=1<cr>")
+    vim.keymap.set("n", "<C-x>", function()
+      harpoon.ui:select_menu_item({ split = true })
+    end, { buffer = cx.bufnr })
+
+    vim.keymap.set("n", "<C-t>", function()
+      harpoon.ui:select_menu_item({ tabedit = true })
+    end, { buffer = cx.bufnr })
+  end,
+})
+
+map("n", "<leader>a", function() harpoon:list():add() end)
+map("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
+
+map("n", ",a", function() harpoon:list():select(1) end)
+map("n", ",s", function() harpoon:list():select(2) end)
+map("n", ",d", function() harpoon:list():select(3) end)
+map("n", ",f", function() harpoon:list():select(4) end)
+map("n", ",g", function() harpoon:list():select(4) end)
+map("n", ",h", function() harpoon:list():select(4) end)
+map("n", ",j", function() harpoon:list():select(4) end)
+map("n", ",k", function() harpoon:list():select(4) end)
+map("n", ",l", function() harpoon:list():select(4) end)
+

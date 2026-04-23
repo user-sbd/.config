@@ -15,6 +15,7 @@ keybind = cmd+digit8=text:\x01\x38
 keybind = cmd+digit9=text:\x01\x39
 
 keybind = cmd+c=text:\x01\x63
+keybind = cmd+c=text:\x01\x63
 
 keybind = super+f=text:\x01f
 

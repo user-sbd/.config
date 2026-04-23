@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+DEV_DIR="${HOME}/documents/projects"
+
+# Ensure dependencies exist
+command -v fzf  >/dev/null || { echo "fzf not found"; exit 1; }
+command -v tmux >/dev/null || { echo "tmux not found"; exit 1; }
+command -v nvim >/dev/null || { echo "nvim not found"; exit 1; }
+
+# Pick a project directory
+project_path="$(
+  find "$DEV_DIR" -mindepth 1 -maxdepth 1 -type d \
+  | sort \
+  | sk --color=bw \
+  --height=70% \
+  --margin=10%,20%,20%,20% --layout reverse \
+
+)"
+
+# User cancelled
+[ -n "${project_path:-}" ] || exit 0
+
+project_name="$(basename "$project_path")"
+# tmux-safe session name (replace dots/spaces)
+session_name="$(printf '%s' "$project_name" | tr ' .:' '___')"
+
+# If session exists: switch/attach
+if tmux has-session -t "$session_name" 2>/dev/null; then
+  if [ -n "${TMUX:-}" ]; then
+    exec tmux switch-client -t "$session_name"
+  else
+    exec tmux attach -t "$session_name"
+  fi
+fi
+
+# Create new session detached in project directory
+tmux new-session -d -s "$session_name" -c "$project_path" -n TODO
+
+# Window 1: nvim todo.md
+tmux send-keys -t "${session_name}:TODO" "nvim todo" C-m
+
+# Window 2: nvim .
+tmux new-window -t "$session_name" -n EDIT -c "$project_path"
+tmux send-keys -t "${session_name}:ROOT" "nvim ." C-m
+
+# Window 4: terminal
+tmux new-window -t "$session_name" -n TERM -c "$project_path"
+
+# Start on window 1
+tmux select-window -t "${session_name}:TODO"
+
+# Attach/switch
+if [ -n "${TMUX:-}" ]; then
+  exec tmux switch-client -t "$session_name"
+else
+  exec tmux attach -t "$session_name"
+fi
