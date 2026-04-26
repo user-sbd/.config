@@ -41,6 +41,10 @@
       "rev": "92f7366a9315cd386bc4fa4d716fde375dda210f",
       "src": "https://github.com/marko-cerovac/material.nvim"
     },
+    "miniharp.nvim": {
+      "rev": "5e32e29c23cb4ec41995482e567011538a175619",
+      "src": "https://github.com/vieitesss/miniharp.nvim"
+    },
     "nvim-lspconfig": {
       "rev": "16812abf0e8d8175155f26143a8504e8253e92b0",
       "src": "https://github.com/neovim/nvim-lspconfig"
