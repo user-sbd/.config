@@ -49,11 +49,11 @@ export PATH="$PATH:/Users/nitin/.local/share/bob/nightly/bin/"
 export PATH="$PATH:/Users/nitin/.cargo/bin/"
 
 export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
-  --color=fg:#d0d0d0,fg+:#d0d0d0,bg:#080808,bg+:#202227
+  --color=fg:#d0d0d0,fg+:#d0d0d0,bg:#1A1A1A,bg+:#202227
   --color=hl:#FFFFFF,hl+:#5fd7ff,info:#FFFFFF,marker:#87ff00
-  --color=prompt:#FFFFFF,spinner:#080808,pointer:#ffffff,header:#282828
-  --color=gutter:#080808,border:#202227,separator:#282828,scrollbar:#282828
-  --color=preview-scrollbar:#080808,label:#aeaeae,query:#d9d9d9
+  --color=prompt:#FFFFFF,spinner:#1A1A1A,pointer:#ffffff,header:#282828
+  --color=gutter:#1A1A1A,border:#202227,separator:#282828,scrollbar:#282828
+  --color=preview-scrollbar:#1A1A1A,label:#aeaeae,query:#d9d9d9
   --border="rounded" --border-label="" --preview-window="border-sharp" --prompt="> "
   --marker=" " --pointer="." --separator="─" --scrollbar="│"'
 
@@ -71,7 +71,7 @@ precmd_vcs_info() { vcs_info }
 precmd_functions+=( precmd_vcs_info )
 # zstyle ':vcs_info:git:*' formats ' .%b'
 # zstyle ':vcs_info:git:*' formats '%F{#ab4242} *%b%f'
-zstyle ':vcs_info:git:*' formats '%F{#4C4C4C} %b%c %f'
+zstyle ':vcs_info:git:*' formats ' %F{#4C4C4C}[%b%c]%f'
 zstyle ':vcs_info:git:*' check-for-changes true
 chpwd() { vcs_info }
 

@@ -7,7 +7,7 @@ vim.pack.add({
   { src = "https://github.com/L3MON4D3/LuaSnip" },
   { src = "https://github.com/chomosuke/typst-preview.nvim" },
   { src = "https://github.com/ej-shafran/compile-mode.nvim" },
-  { src = "https://github.com/bluz71/vim-moonfly-colors" },
+  { src = "https://github.com/ramojus/mellifluous.nvim" },
   { src = "https://github.com/nvim-telescope/telescope.nvim" },
 	{ src = "https://github.com/nvim-lua/plenary.nvim" },
 	{ src = "https://github.com/nvim-telescope/telescope-fzf-native.nvim" },
@@ -122,10 +122,18 @@ vim.lsp.enable({
 
 vim.cmd [[set completeopt+=menuone,noselect,popup]]
 
-vim.cmd("colorscheme moonfly")
--- vim.cmd("hi ModeMsg guifg=#cdcdcd")
+vim.cmd("colorscheme mellifluous")
 vim.cmd("hi StatusLine guifg=#FFFFFF guibg=none")
 vim.cmd("hi StatusLineNC guifg=#FFFFFF guibg=none")
+vim.cmd("hi LineNr guifg=#FFFFFF guibg=#1A1A1A")
+vim.cmd("hi LineNrAbove guifg=#A8A1BE")
+vim.cmd("hi LineNrBelow guifg=#A8A1BE")
+
+-- vim.cmd("colorscheme moonfly")
+-- vim.cmd("hi ModeMsg guifg=#cdcdcd")
+-- vim.cmd("hi StatusLine guifg=#FFFFFF guibg=none")
+-- vim.cmd("hi StatusLineNC guifg=#FFFFFF guibg=none")
+
 -- vim.cmd("hi TermStatusNC guibg=NONE")
 -- vim.cmd("hi TabLine guibg=none")
 -- vim.cmd("hi TabLineSel guibg=#82AAFF")
@@ -162,6 +170,7 @@ map({ "n" }, "<leader>o", builtin.oldfiles)
 map({ "n" }, "<leader>h", builtin.help_tags)
 map({ "n" }, "<leader>M", builtin.man_pages)
 map({ "n" }, "<leader>bi", builtin.builtin)
+map({ "n" }, "<leader>mf", builtin.marks)
 
 vim.api.nvim_create_autocmd("TextYankPost", {
   callback = function()
@@ -193,13 +202,16 @@ harpoon:extend({
 map("n", "<leader>a", function() harpoon:list():add() end)
 map("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
 
-map("n", ",a", function() harpoon:list():select(1) end)
-map("n", ",s", function() harpoon:list():select(2) end)
-map("n", ",d", function() harpoon:list():select(3) end)
-map("n", ",f", function() harpoon:list():select(4) end)
-map("n", ",g", function() harpoon:list():select(4) end)
-map("n", ",h", function() harpoon:list():select(4) end)
-map("n", ",j", function() harpoon:list():select(4) end)
-map("n", ",k", function() harpoon:list():select(4) end)
-map("n", ",l", function() harpoon:list():select(4) end)
+map("n", ",0", function() harpoon:list():select(1) end)
+map("n", ",1", function() harpoon:list():select(2) end)
+map("n", ",2", function() harpoon:list():select(3) end)
+map("n", ",3", function() harpoon:list():select(4) end)
+map("n", ",4", function() harpoon:list():select(4) end)
+map("n", ",5", function() harpoon:list():select(4) end)
+map("n", ",6", function() harpoon:list():select(4) end)
+map("n", ",7", function() harpoon:list():select(4) end)
+map("n", ",8", function() harpoon:list():select(4) end)
+
+map({ "n", "v" }, "k", "v:count == 0 ? 'gk' : 'k'", { expr = true })
+map({ "n", "v" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true })
 

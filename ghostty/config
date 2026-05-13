@@ -1,6 +1,7 @@
 macos-titlebar-style = hidden
-font-size = 21
-background = #080808
+font-size = 19
+# background = #080808
+background = #1A1A1A
 font-family = "ZedMono Nerd Font"
 
 # Cmd+number → Ctrl-a <number> (tmux window switching)
