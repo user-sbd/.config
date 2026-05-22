@@ -49,11 +49,11 @@ export PATH="$PATH:/Users/nitin/.local/share/bob/nightly/bin/"
 export PATH="$PATH:/Users/nitin/.cargo/bin/"
 
 export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
-  --color=fg:#d0d0d0,fg+:#d0d0d0,bg:#1A1A1A,bg+:#202227
+  --color=fg:#d0d0d0,fg+:#d0d0d0,bg:#141415,bg+:#202227
   --color=hl:#FFFFFF,hl+:#5fd7ff,info:#FFFFFF,marker:#87ff00
-  --color=prompt:#FFFFFF,spinner:#1A1A1A,pointer:#ffffff,header:#282828
-  --color=gutter:#1A1A1A,border:#202227,separator:#282828,scrollbar:#282828
-  --color=preview-scrollbar:#1A1A1A,label:#aeaeae,query:#d9d9d9
+  --color=prompt:#FFFFFF,spinner:#141415,pointer:#ffffff,header:#282828
+  --color=gutter:#141415,border:#202227,separator:#282828,scrollbar:#282828
+  --color=preview-scrollbar:#141415,label:#aeaeae,query:#d9d9d9
   --border="rounded" --border-label="" --preview-window="border-sharp" --prompt="> "
   --marker=" " --pointer="." --separator="─" --scrollbar="│"'
 

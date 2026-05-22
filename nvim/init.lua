@@ -7,7 +7,7 @@ vim.pack.add({
   { src = "https://github.com/L3MON4D3/LuaSnip" },
   { src = "https://github.com/chomosuke/typst-preview.nvim" },
   { src = "https://github.com/ej-shafran/compile-mode.nvim" },
-  { src = "https://github.com/ramojus/mellifluous.nvim" },
+  { src = "https://github.com/vague-theme/vague.nvim" },
   { src = "https://github.com/nvim-telescope/telescope.nvim" },
 	{ src = "https://github.com/nvim-lua/plenary.nvim" },
 	{ src = "https://github.com/nvim-telescope/telescope-fzf-native.nvim" },
@@ -23,8 +23,9 @@ opt.winborder = "rounded"
 opt.tabstop = 2
 opt.statusline = '[%n] %<%f %h%w%m%r%=%-14.(%l,%c%V%) %P'
 opt.expandtab = true
-opt.showtabline = 0
+opt.showtabline = 2
 opt.inccommand = "split"
+
 opt.shiftwidth = 2
 opt.cmdheight = 1
 opt.signcolumn = "yes:1"
@@ -122,7 +123,7 @@ vim.lsp.enable({
 
 vim.cmd [[set completeopt+=menuone,noselect,popup]]
 
-vim.cmd("colorscheme mellifluous")
+vim.cmd("colorscheme vague")
 vim.cmd("hi StatusLine guifg=#FFFFFF guibg=none")
 vim.cmd("hi StatusLineNC guifg=#FFFFFF guibg=none")
 vim.cmd("hi LineNr guifg=#FFFFFF guibg=#1A1A1A")
@@ -134,10 +135,10 @@ vim.cmd("hi LineNrBelow guifg=#A8A1BE")
 -- vim.cmd("hi StatusLine guifg=#FFFFFF guibg=none")
 -- vim.cmd("hi StatusLineNC guifg=#FFFFFF guibg=none")
 
--- vim.cmd("hi TermStatusNC guibg=NONE")
--- vim.cmd("hi TabLine guibg=none")
--- vim.cmd("hi TabLineSel guibg=#82AAFF")
--- vim.cmd("hi TabLineFill guibg=141415")
+vim.cmd("hi TermStatusNC guibg=NONE")
+vim.cmd("hi TabLine guibg=none")
+-- vim.cmd("hi TabLineSel guibg=#A8A1BE")
+vim.cmd("hi TabLineFill guibg=141415")
 vim.cmd("hi NormalFloat guibg=NONE ctermbg=NONE")
 vim.cmd("hi FloatBorder guibg=NONE")
 vim.cmd("hi MarkSignNumHL guibg=NONE")
@@ -172,6 +173,8 @@ map({ "n" }, "<leader>M", builtin.man_pages)
 map({ "n" }, "<leader>bi", builtin.builtin)
 map({ "n" }, "<leader>mf", builtin.marks)
 
+map({ "n" }, "<leader>S", ":tabnew | setlocal buftype=nofile bufhidden=hide noswapfile<CR>")
+
 vim.api.nvim_create_autocmd("TextYankPost", {
   callback = function()
     vim.highlight.on_yank()
@@ -202,16 +205,25 @@ harpoon:extend({
 map("n", "<leader>a", function() harpoon:list():add() end)
 map("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
 
-map("n", ",0", function() harpoon:list():select(1) end)
-map("n", ",1", function() harpoon:list():select(2) end)
-map("n", ",2", function() harpoon:list():select(3) end)
-map("n", ",3", function() harpoon:list():select(4) end)
+map("n", ",1", function() harpoon:list():select(1) end)
+map("n", ",2", function() harpoon:list():select(2) end)
+map("n", ",3", function() harpoon:list():select(3) end)
 map("n", ",4", function() harpoon:list():select(4) end)
 map("n", ",5", function() harpoon:list():select(4) end)
 map("n", ",6", function() harpoon:list():select(4) end)
 map("n", ",7", function() harpoon:list():select(4) end)
 map("n", ",8", function() harpoon:list():select(4) end)
+map("n", ",9", function() harpoon:list():select(4) end)
 
 map({ "n", "v" }, "k", "v:count == 0 ? 'gk' : 'k'", { expr = true })
 map({ "n", "v" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true })
 
+map({ "n", "t" }, "<Leader>x", "<Cmd>tabclose<CR>")
+map({ "n", "t" }, "<C-t>", "<Cmd>tabnew<CR>")
+for i = 1, 8 do
+	map({ "n", "t" }, "<Leader>" .. i, "<Cmd>tabnext " .. i .. "<CR>")
+end
+
+map("n", "<C-l>", "<CMD>tabnext<CR>")
+map("n", "<C-h>", "<CMD>tabprevious<CR>")
+map("n", "<C-x>", "<CMD>tabclose<CR>")
