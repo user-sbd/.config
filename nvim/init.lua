@@ -117,7 +117,7 @@ vim.lsp.enable({
   "intelephense", "tailwindcss", "ts_ls",
   "emmet-language-server", "zls",
   "marksman", "bashls", "lua_ls",
-  "cssls", "svelte", "tinymist",
+  "cssls", "svelte", "tinymist", "typstyle",
   "basedpyright", "vscode-css-language-server",
 })
 

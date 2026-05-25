@@ -1,0 +1,6 @@
+[font]
+normal = ["Hack Nerd Font", "Symbols Nerd Font"] # Fallback fonts can be listed
+size = 16.0
+
+frame = "buttonless"
+
