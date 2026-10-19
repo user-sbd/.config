@@ -1,69 +1,101 @@
-# https://github.com/FelixKratz/dotfiles
+#!/bin/bash
 
-source "$CONFIG_DIR/colors.sh"
-source "$CONFIG_DIR/icons.sh" # Loads all defined icons
-
-ITEM_DIR="$CONFIG_DIR/items"
 PLUGIN_DIR="$CONFIG_DIR/plugins"
+ITEM_DIR="$CONFIG_DIR/items"
 
-FONT="JetBrainsMono Nerd Font"
+# Source Colors
+if [ -f "$HOME/.cache/wal/sketchybar_colors.sh" ]; then
+    source "$HOME/.cache/wal/sketchybar_colors.sh"
+else
+    source "$CONFIG_DIR/colors.sh"
+fi
+
+# Source Layout Variables
+source "$CONFIG_DIR/variables.sh"
 
 ##### Bar Appearance #####
-# Configuring the general appearance of the bar.
-# These are only some of the options available. For all options see:
-# https://felixkratz.github.io/SketchyBar/config/bar
-# If you are looking for other colors, see the color picker:
-# https://felixkratz.github.io/SketchyBar/config/tricks#color-picker
+sketchybar --bar \
+    height=$BAR_HEIGHT                      \
+    y_offset=$BAR_Y_OFFSET                  \
+    blur_radius=$BAR_BLUR_RADIUS            \
+    position=$BAR_POSITION                  \
+    sticky=$BAR_STICKY                      \
+    padding_left=$BAR_PADDING_LEFT          \
+    padding_right=$BAR_PADDING_RIGHT        \
+    margin=$BAR_MARGIN                      \
+    corner_radius=$BAR_CORNER_RADIUS        \
+    border_width=$BAR_BORDER_WIDTH          \
+    color="$BAR_COLOR"                      \
+    border_color="$BAR_COLOR"
 
-sketchybar --bar position=top height=40 blur_radius=0 color="$TRANSPARENT"
+##### Item Defaults #####
+sketchybar --default \
+    updates=$ITEM_UPDATES                                  \
+    icon.font="$ICON_FONT"                                 \
+    icon.color="$ITEM_COLOR"                                   \
+    icon.highlight_color="$ACCENT_COLOR"                   \
+    icon.padding_left=$ICON_PADDING_LEFT                   \
+    icon.padding_right=$ICON_PADDING_RIGHT                 \
+    icon.drawing=$ICON_DRAWING                             \
+    label.font="$LABEL_FONT"                               \
+    label.color="$TEXT_COLOR"                                  \
+    label.highlight_color="$ACCENT_COLOR"                  \
+    label.padding_left=$LABEL_PADDING_LEFT                 \
+    label.padding_right=$LABEL_PADDING_RIGHT               \
+    label.drawing=$LABEL_DRAWING                           \
+    background.border_color="$DEFAULT_BORDER_COLOR"        \
+    background.color="$BAR_COLOR"                          \
+    background.corner_radius=$ITEM_BG_CORNER_RADIUS        \
+    background.height=$ITEM_BG_HEIGHT                      \
+    padding_left=$ITEM_PADDING_LEFT                        \
+    padding_right=$ITEM_PADDING_RIGHT                      \
+    popup.background.color=$ITEM_BG_COLOR                  \
+    popup.background.corner_radius=$POPUP_BG_CORNER_RADIUS \
+    popup.background.border_width=$POPUP_BG_BORDER_WIDTH   \
+    popup.background.border_color=$ACCENT_COLOR            \
+    popup.y_offset=$POPUP_Y_OFFSET
 
-##### Changing Defaults #####
-# We now change some default values, which are applied to all further items.
-# For a full list of all available item properties see:
-# https://felixkratz.github.io/SketchyBar/config/items
 
-default=(
-        padding_left=3
-        padding_right=3
-
-        background.color="$ITEM_BG_COLOR"
-        background.corner_radius=5
-        background.height=25
-
-        icon.font="$FONT:Regular:15.0"
-        label.font="$FONT:Regular:14.0"
-
-        icon.color=$WHITE
-        icon.y_offset=1
-
-        label.color=$WHITE
-        label.y_offset=1
-
-        icon.padding_left=10
-        icon.padding_right=4
-
-        label.padding_left=4
-        label.padding_right=10
-)
-sketchybar --default "${default[@]}"
 sketchybar --add event aerospace_workspace_change
 
-##### Left Items #####
-# source "$ITEM_DIR/space.sh"
-# adds layout background for workspaces
-sketchybar --add bracket workspaces space.1 space.2 space.3 space.4 space.8 space.9 space.B space.F space.M space.N space.T \
-           --set workspaces background.color="$PURE_BLACK" \
+##### Items #####
 
-source "$ITEM_DIR/front_app.sh"
+# Left
 
-##### Right Items #####
-source "$ITEM_DIR/clock.sh"
+# Hidden manager item: subscribes to workspace changes and dynamically
+# adds/removes/reorders/styles all space.* items. This is what makes the
+# bar react to workspaces that are created after startup.
+sketchybar --add item workspace_manager left \
+           --set workspace_manager \
+               drawing=off \
+               updates=on \
+               script="$CONFIG_DIR/plugins/workspace_manager.sh" \
+           --subscribe workspace_manager aerospace_workspace_change
 
-source "$ITEM_DIR/media_block.sh"
-          
-           
-sketchybar --hotload on
-##### Force all scripts to run the first time (never do this in a script) #####
+# Seed the bar with whatever workspaces already exist at startup.
+# workspace_manager will handle any that appear later.
+for WORKSPACE in $(aerospace list-workspaces --all); do
+    sketchybar --add item "space.$WORKSPACE" left \
+               --set "space.$WORKSPACE" \
+                   label="$WORKSPACE" \
+                   label.align=center \
+                   label.width=dynamic \
+                   background.drawing=off \
+                   click_script="aerospace workspace $WORKSPACE"
+    # No --subscribe here: workspace_manager handles all visual updates
+done
+
+# -- Center --
+source "$ITEM_DIR/calendar.sh"
+
+# -- Right --
+source "$ITEM_DIR/battery.sh"
+source "$ITEM_DIR/network.sh"
+source "$ITEM_DIR/memory.sh"
+source "$ITEM_DIR/cpu.sh"
+source "$ITEM_DIR/volume.sh"
+
+
+
+##### Finalize #####
 sketchybar --update
-
-echo "sketchybar configuation loaded.."

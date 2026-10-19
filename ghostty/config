@@ -3,7 +3,7 @@ font-size = 19
 # background = #080808
 # background = #1A1A1A
 background = #141415
-font-family = "ZedMono Nerd Font"
+font-family = "Iosevka Comfy Motion"
 
 # Cmd+number → Ctrl-a <number> (tmux window switching)
 keybind = cmd+digit1=text:\x01\x31

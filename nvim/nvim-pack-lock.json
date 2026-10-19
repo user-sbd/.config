@@ -21,6 +21,10 @@
       "src": "https://github.com/ThePrimeagen/harpoon",
       "version": "'harpoon2'"
     },
+    "image.nvim": {
+      "rev": "44e07129cd0ea0c60afa7a1991d35b5765b51a6b",
+      "src": "https://github.com/3rd/image.nvim"
+    },
     "mason.nvim": {
       "rev": "cb8445f8ce85d957416c106b780efd51c6298f89",
       "src": "https://github.com/mason-org/mason.nvim"
@@ -49,6 +53,10 @@
       "rev": "74b06c6c75e4eeb3108ec01852001636d85a932b",
       "src": "https://github.com/nvim-lua/plenary.nvim"
     },
+    "refer.nvim": {
+      "rev": "d12dd85202bcf7e275881b220cb40a81d7a4c2da",
+      "src": "https://github.com/juniorsundar/refer.nvim"
+    },
     "telescope-fzf-native.nvim": {
       "rev": "6fea601bd2b694c6f2ae08a6c6fab14930c60e2c",
       "src": "https://github.com/nvim-telescope/telescope-fzf-native.nvim"
@@ -76,6 +84,10 @@
     "vim-moonfly-colors": {
       "rev": "4ed07bc0c6083cdd547c63f5c245e02c068b0c45",
       "src": "https://github.com/bluz71/vim-moonfly-colors"
+    },
+    "vim-plist": {
+      "rev": "aa781a387c70a9ea30cbce8da988e19693f5aaec",
+      "src": "https://github.com/darfink/vim-plist"
     },
     "zenbones.nvim": {
       "rev": "321543e581cd73d0ee43327d8a7c02a420f640cf",

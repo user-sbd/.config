@@ -8,6 +8,7 @@ local t = ls.text_node
 
 return {
 	s("date", t(os.date("%Y-%m-%d"))),
-	s("mail", t("him.nitin@icloud.com")),
+	s("mail", t("whos.nitins@gmail.com")),
 	s("gh", t("github.com/user-sbd")),
 }
+

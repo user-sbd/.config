@@ -6,11 +6,12 @@ vim.pack.add({
   { src = "https://github.com/tpope/vim-fugitive" },
   { src = "https://github.com/L3MON4D3/LuaSnip" },
   { src = "https://github.com/chomosuke/typst-preview.nvim" },
+  { src = "https://github.com/nvim-telescope/telescope.nvim" },
+  { src = "https://github.com/nvim-telescope/telescope-fzf-native.nvim" },
   { src = "https://github.com/ej-shafran/compile-mode.nvim" },
   { src = "https://github.com/vague-theme/vague.nvim" },
-  { src = "https://github.com/nvim-telescope/telescope.nvim" },
 	{ src = "https://github.com/nvim-lua/plenary.nvim" },
-	{ src = "https://github.com/nvim-telescope/telescope-fzf-native.nvim" },
+	{ src = "https://github.com/darfink/vim-plist" },
 	{ src = "https://github.com/ThePrimeagen/harpoon", version = "harpoon2", },
 })
 
@@ -65,6 +66,7 @@ require('telescope').setup({
 	}
 })
 require('telescope').load_extension('fzf')
+
 
 require('typst-preview').setup {
   -- invert_colors = 'always', --
@@ -126,14 +128,13 @@ vim.cmd [[set completeopt+=menuone,noselect,popup]]
 vim.cmd("colorscheme vague")
 vim.cmd("hi StatusLine guifg=#FFFFFF guibg=none")
 vim.cmd("hi StatusLineNC guifg=#FFFFFF guibg=none")
-vim.cmd("hi LineNr guifg=#FFFFFF guibg=#1A1A1A")
+vim.cmd("hi LineNr guifg=#FFFFFF")
 vim.cmd("hi LineNrAbove guifg=#A8A1BE")
 vim.cmd("hi LineNrBelow guifg=#A8A1BE")
 
--- vim.cmd("colorscheme moonfly")
--- vim.cmd("hi ModeMsg guifg=#cdcdcd")
--- vim.cmd("hi StatusLine guifg=#FFFFFF guibg=none")
--- vim.cmd("hi StatusLineNC guifg=#FFFFFF guibg=none")
+vim.cmd("hi ModeMsg guifg=#cdcdcd")
+vim.cmd("hi StatusLine guifg=#FFFFFF guibg=none")
+vim.cmd("hi StatusLineNC guifg=#FFFFFF guibg=none")
 
 vim.cmd("hi TermStatusNC guibg=NONE")
 vim.cmd("hi TabLine guibg=none")
@@ -224,6 +225,7 @@ for i = 1, 8 do
 	map({ "n", "t" }, "<Leader>" .. i, "<Cmd>tabnext " .. i .. "<CR>")
 end
 
-map("n", "<C-l>", "<CMD>tabnext<CR>")
-map("n", "<C-h>", "<CMD>tabprevious<CR>")
-map("n", "<C-x>", "<CMD>tabclose<CR>")
+map({"n","i"}, "<C-l>", "<CMD>tabnext<CR>")
+map({"n","i"},"<C-h>", "<CMD>tabprevious<CR>")
+map({"n","i"}, "<C-x>", "<CMD>tabclose<CR>")
+

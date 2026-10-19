@@ -38,6 +38,7 @@ alias yt="yt-dlp -t mp4"
 alias rip='yt-dlp -x --audio-format mp3'
 alias fj="tmux new -s home"
 alias ff='fastfetch'
+alias sioyek='open -A "sioyek"'
 alias data='cd /Users/nitin/.local/share/nvim/site/pack/core/opt '
 alias update='brew update && brew upgrade && brew cleanup'
 alias gem="ollama run gemma3:latest"
@@ -87,3 +88,8 @@ bindkey '^f' finder
 alias z="cd"
 
 # PROMPT=' %F{blue}%1~ %F{white}$%f '
+
+export PATH=$PATH:/Users/nitin/.spicetify
+# Speedify CLI
+PATH="/Applications/Speedify.app/Contents/Resources:$PATH"
+export PATH

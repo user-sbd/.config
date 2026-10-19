@@ -1,0 +1,10 @@
+{
+  "trustedformulae": [
+    "gromgit/fuse/ntfs-3g-mac",
+    "qmk/qmk/hid_bootloader_cli",
+    "qmk/qmk/qmk"
+  ],
+  "trustedtaps": [
+    "qmk/qmk"
+  ]
+}

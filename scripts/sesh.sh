@@ -46,6 +46,8 @@ else
         {
             # projects: max-depth 1
             fd . "$HOME/documents/projects" --type=dir --max-depth=1 --full-path
+            # notes: max-depth 1
+            fd . "$HOME/documents/notes" --type=dir --max-depth=1 --full-path
             # documents (excluding projects to avoid duplicates)
             fd . "$HOME/documents" --type=dir --max-depth=1 --full-path --exclude projects
         } | sort -u | sed "s|^$HOME/||" \

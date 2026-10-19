@@ -73,7 +73,6 @@
             },
             "devices": [
                 {
-                    "disable_built_in_keyboard_if_exists": true,
                     "identifiers": {
                         "is_keyboard": true,
                         "product_id": 291,
@@ -103,6 +102,12 @@
                     ]
                 },
                 {
+                    "fn_function_keys": [
+                        {
+                            "from": { "key_code": "f6" },
+                            "to": [{ "key_code": "left_alt" }]
+                        }
+                    ],
                     "identifiers": { "is_keyboard": true },
                     "simple_modifications": [
                         {
@@ -112,8 +117,89 @@
                         {
                             "from": { "key_code": "left_control" },
                             "to": [{ "key_code": "caps_lock" }]
+                        },
+                        {
+                            "from": { "key_code": "right_option" },
+                            "to": [{ "pointing_button": "button3" }]
                         }
                     ]
+                },
+                {
+                    "identifiers": {
+                        "is_keyboard": true,
+                        "is_pointing_device": true,
+                        "product_id": 97,
+                        "vendor_id": 5426
+                    },
+                    "ignore": false,
+                    "simple_modifications": [
+                        {
+                            "from": { "pointing_button": "button4" },
+                            "to": [{ "key_code": "f16" }]
+                        },
+                        {
+                            "from": { "pointing_button": "button5" },
+                            "to": [{ "key_code": "f17" }]
+                        }
+                    ]
+                },
+                {
+                    "identifiers": {
+                        "is_keyboard": true,
+                        "product_id": 50475,
+                        "vendor_id": 1133
+                    },
+                    "simple_modifications": [
+                        {
+                            "from": { "key_code": "caps_lock" },
+                            "to": [{ "key_code": "left_control" }]
+                        },
+                        {
+                            "from": { "key_code": "left_alt" },
+                            "to": [{ "key_code": "left_command" }]
+                        },
+                        {
+                            "from": { "key_code": "left_control" },
+                            "to": [{ "key_code": "caps_lock" }]
+                        },
+                        {
+                            "from": { "key_code": "left_gui" },
+                            "to": [{ "key_code": "left_option" }]
+                        },
+                        {
+                            "from": { "key_code": "right_alt" },
+                            "to": [{ "key_code": "right_command" }]
+                        }
+                    ]
+                },
+                {
+                    "identifiers": {
+                        "is_game_pad": true,
+                        "is_keyboard": true,
+                        "is_pointing_device": true,
+                        "product_id": 3616,
+                        "vendor_id": 13364
+                    },
+                    "ignore": false
+                },
+                {
+                    "identifiers": {
+                        "is_keyboard": true,
+                        "product_id": 4626,
+                        "vendor_id": 65261
+                    },
+                    "simple_modifications": [
+                        {
+                            "from": { "key_code": "right_option" },
+                            "to": [{ "key_code": "left_option" }]
+                        }
+                    ]
+                }
+            ],
+            "fn_function_keys": [
+                {
+                    "from": { "key_code": "f5" },
+                    "to": [{ "key_code": "left_alt" }]
                 }
             ],
             "name": "Default",
