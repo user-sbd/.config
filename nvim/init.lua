@@ -9,9 +9,9 @@ vim.pack.add({
   { src = "https://github.com/nvim-telescope/telescope.nvim" },
   { src = "https://github.com/nvim-telescope/telescope-fzf-native.nvim" },
   { src = "https://github.com/ej-shafran/compile-mode.nvim" },
-  { src = "https://github.com/vague-theme/vague.nvim" },
 	{ src = "https://github.com/nvim-lua/plenary.nvim" },
 	{ src = "https://github.com/darfink/vim-plist" },
+	{ src = "https://github.com/bluz71/vim-moonfly-colors" },
 	{ src = "https://github.com/ThePrimeagen/harpoon", version = "harpoon2", },
 })
 
@@ -22,7 +22,7 @@ vim.cmd([[set mouse=]])
 vim.cmd([[set noswapfile]])
 opt.winborder = "rounded"
 opt.tabstop = 2
-opt.statusline = '[%n] %<%f %h%w%m%r%=%-14.(%l,%c%V%) %P'
+opt.statusline = ' λ [%n] %<%f %h%w%m%r%=%-14.(%l,%c%V%) %P'
 opt.expandtab = true
 opt.showtabline = 2
 opt.inccommand = "split"
@@ -125,16 +125,14 @@ vim.lsp.enable({
 
 vim.cmd [[set completeopt+=menuone,noselect,popup]]
 
-vim.cmd("colorscheme vague")
-vim.cmd("hi StatusLine guifg=#FFFFFF guibg=none")
-vim.cmd("hi StatusLineNC guifg=#FFFFFF guibg=none")
+vim.cmd("colorscheme retrobox")
 vim.cmd("hi LineNr guifg=#FFFFFF")
 vim.cmd("hi LineNrAbove guifg=#A8A1BE")
 vim.cmd("hi LineNrBelow guifg=#A8A1BE")
 
 vim.cmd("hi ModeMsg guifg=#cdcdcd")
-vim.cmd("hi StatusLine guifg=#FFFFFF guibg=none")
-vim.cmd("hi StatusLineNC guifg=#FFFFFF guibg=none")
+vim.cmd("hi StatusLine guibg=#FFFFFF guifg=#1C1C1C")
+vim.cmd("hi StatusLineNC guibg=#FFFFFF guifg=#1C1C1C")
 
 vim.cmd("hi TermStatusNC guibg=NONE")
 vim.cmd("hi TabLine guibg=none")
@@ -228,4 +226,5 @@ end
 map({"n","i"}, "<C-l>", "<CMD>tabnext<CR>")
 map({"n","i"},"<C-h>", "<CMD>tabprevious<CR>")
 map({"n","i"}, "<C-x>", "<CMD>tabclose<CR>")
+
 
